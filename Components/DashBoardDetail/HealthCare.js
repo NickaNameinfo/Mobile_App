@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { styles } from "../../assets/style/style";
 import { EvilIcons } from "@expo/vector-icons";
-import Footer from "../Footer";
+import Footer from "../Footer"; 
 
 function HealthCare({ navigation }) {
   return (
