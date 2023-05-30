@@ -28,6 +28,7 @@ import EmploymentLogin from "./Components/EmploymentLogin";
 import MenuBar from "./Components/MenuBar";
 import CanteenDetails from "./Components/DashBoardDetail/CanteenDetails";
 import DownloadPDF from "./Components/Download/DownloadPDF";
+import FundDetails from "./Components/DashBoardDetail/FundDetails";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -214,6 +215,19 @@ export default function App() {
           component={CanteenDetails}
           options={{
             title: "Welfare Canteen",
+            headerRight: () => (
+              <Image
+                source={require("./assets/logo.png")}
+                style={{ width: 40, height: 40 }}
+              />
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="FundDetails"
+          component={FundDetails}
+          options={{
+            title: "Tamil Nadu Police Benevolent fund",
             headerRight: () => (
               <Image
                 source={require("./assets/logo.png")}

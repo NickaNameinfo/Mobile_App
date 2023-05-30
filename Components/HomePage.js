@@ -73,7 +73,7 @@ function HomePage({ navigation }) {
                   />
                   <Text style={styles.textWhite}>
                     {" "}
-                    Tamil Nadu Police Welfare Canteen{" "}
+                    Tamil Nadu Police Welfare Canteen
                   </Text>
                 </View>
               </View>
@@ -108,28 +108,23 @@ function HomePage({ navigation }) {
                 <Text style={styles.textWhite}>Health Scheme</Text>
               </View>
             </View>
-            <View style={styles.serviceCard}>
-              <View style={{ justifyContent: "center", alignItems: "center" }}>
-                <Image
-                  source={require("../assets/services/fund.png")}
-                  style={styles.cardImage}
-                />
-                <Text style={styles.textWhite}>
-                  Tamil Nadu Police Benevolent Fund
-                </Text>
+            <TouchableWithoutFeedback
+              onPress={() => navigation.navigate("FundDetails")}
+            >
+              <View style={styles.serviceCard}>
+                <View
+                  style={{ justifyContent: "center", alignItems: "center" }}
+                >
+                  <Image
+                    source={require("../assets/services/fund.png")}
+                    style={styles.cardImage}
+                  />
+                  <Text style={styles.textWhite}>
+                    Tamil Nadu Police Benevolent Fund
+                  </Text>
+                </View>
               </View>
-            </View>
-            <View style={styles.serviceCard}>
-              <View style={{ justifyContent: "center", alignItems: "center" }}>
-                <Image
-                  source={require("../assets/services/fund.png")}
-                  style={styles.cardImage}
-                />
-                <Text style={styles.textWhite}>
-                  Tamil Nadu Police Benevolent Fund
-                </Text>
-              </View>
-            </View>
+            </TouchableWithoutFeedback>
           </View>
         </View>
       </ScrollView>
