@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "kavalarnalantn",
-    "slug": "kavalarnalantn",
-    "version": "1.0.0",
+    "name": "kavalarnalan",
+    "slug": "kavalarnalan",
+    "version": "1.0.5",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -22,14 +22,14 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.prithiv142.kavalarnalantn"
+      "package": "com.prithiv142.kavalarnalan"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "a503968c-7206-466a-ae07-4e341c0151a0"
+        "projectId": "7a2bb38b-b4e5-47fc-834a-c5c93b82b87e"
       }
     }
   }
