@@ -25,7 +25,7 @@ function DownloadPDF({ route }) {
     >
       <ScrollView style={{ marginBottom: 20 }}>
         <View style={styles.homeStyles}>
-          <View style={styles.HomeHeader}>
+          {/* <View style={styles.HomeHeader}>
             <View style={styles.homeTitle}>
               <Text
                 style={{ fontSize: 20, fontWeight: "bold", color: "#212761" }}
@@ -33,7 +33,7 @@ function DownloadPDF({ route }) {
                 Go To Official Site
               </Text>
             </View>
-          </View>
+          </View> */}
           <View>
             <View style={styles.pdfOptions}>
               {link.map((items) => {
