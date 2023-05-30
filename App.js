@@ -26,10 +26,11 @@ import { useState } from "react";
 import Footer from "./Components/Footer";
 import EmploymentLogin from "./Components/EmploymentLogin";
 import MenuBar from "./Components/MenuBar";
+import CanteenDetails from "./Components/DashBoardDetail/CanteenDetails";
+import DownloadPDF from "./Components/Download/DownloadPDF";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
-
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="HomePage">
@@ -199,7 +200,33 @@ export default function App() {
           name="EmploymentLogin"
           component={EmploymentLogin}
           options={{
-            title:"Employment Exchange",
+            title: "Employment Exchange",
+            headerRight: () => (
+              <Image
+                source={require("./assets/logo.png")}
+                style={{ width: 40, height: 40 }}
+              />
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="CanteenDetails"
+          component={CanteenDetails}
+          options={{
+            title: "Welfare Canteen",
+            headerRight: () => (
+              <Image
+                source={require("./assets/logo.png")}
+                style={{ width: 40, height: 40 }}
+              />
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="DownloadPDF"
+          component={DownloadPDF}
+          options={{
+            title: "Download",
             headerRight: () => (
               <Image
                 source={require("./assets/logo.png")}
