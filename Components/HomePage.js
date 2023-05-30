@@ -27,7 +27,7 @@ function HomePage({ navigation }) {
         alignContent: "center",
       }}
     >
-      <ScrollView contentContainerStyle={{paddingBottom: 100}}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
         <View style={styles.HomeHeader}>
           <View style={styles.homeTitle}>
             <Text
@@ -42,7 +42,7 @@ function HomePage({ navigation }) {
         <View style={styles.homeStyles}>
           <Image
             source={require("../assets/Banner.png")}
-            style={{ width: "100%", height: 200, borderRadius: 10,}}
+            style={{ width: "100%", height: 200, borderRadius: 10 }}
           />
           <View style={styles.homeOptions}>
             <TouchableWithoutFeedback
@@ -60,18 +60,24 @@ function HomePage({ navigation }) {
                 </View>
               </View>
             </TouchableWithoutFeedback>
-            <View style={styles.serviceCard}>
-              <View style={{ justifyContent: "center", alignItems: "center" }}>
-                <Image
-                  source={require("../assets/services/canteen.png")}
-                  style={styles.cardImage}
-                />
-                <Text style={styles.textWhite}>
-                  {" "}
-                  Tamil Nadu Police Welfare Canteen{" "}
-                </Text>
+            <TouchableWithoutFeedback
+              onPress={() => navigation.navigate("CanteenDetails")}
+            >
+              <View style={styles.serviceCard}>
+                <View
+                  style={{ justifyContent: "center", alignItems: "center" }}
+                >
+                  <Image
+                    source={require("../assets/services/canteen.png")}
+                    style={styles.cardImage}
+                  />
+                  <Text style={styles.textWhite}>
+                    {" "}
+                    Tamil Nadu Police Welfare Canteen{" "}
+                  </Text>
+                </View>
               </View>
-            </View>
+            </TouchableWithoutFeedback>
             <View style={styles.serviceCard}>
               <View style={{ justifyContent: "center", alignItems: "center" }}>
                 <Image

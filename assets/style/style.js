@@ -287,6 +287,11 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 20,
   },
+  pdfOptions: {
+    flexWrap: "wrap",
+    justifyContent: "center",
+    marginTop: 20,
+  },
   emploaymentExchange: {
     flex: 1,
     alignItems: "center",
