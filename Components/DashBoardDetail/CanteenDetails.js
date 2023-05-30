@@ -5,6 +5,8 @@ import {
   ScrollView,
   FlatList,
   TouchableWithoutFeedback,
+  TouchableOpacity,
+  Linking,
 } from "react-native";
 import { styles } from "../../assets/style/style";
 import { EvilIcons } from "@expo/vector-icons";
@@ -166,6 +168,24 @@ function CanteenDetails({ navigation }) {
             </View>
           </View>
         </TouchableWithoutFeedback>
+
+        <View style={styles.HomeHeader}>
+          <TouchableOpacity
+            onPress={() => Linking.openURL("https://www.tnpolicecanteen.com/")}
+          >
+            <View style={styles.homeTitle}>
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: "bold",
+                  color: "#212761",
+                }}
+              >
+                Go To Official Site
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
       <Footer />
     </View>
