@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { styles } from ".././assets/style/style";
 import DropDownPicker from "react-native-dropdown-picker";
+import axios from "axios";
 
 function Register({ navigation }) {
   const [open, setOpen] = useState({
@@ -217,6 +218,19 @@ function Register({ navigation }) {
       console.log("Error:", error);
     }
   };
+
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
+
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await axios.get('https://nodebackend.kavalarnalantn.in:5000/job_fair/getjobFair'); // Replace with your API endpoint
+  //     console.log(response.data, "dadadfaasdf"); // Process the response data
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <View style={styles.flex}>
