@@ -78,36 +78,53 @@ function HomePage({ navigation }) {
                 </View>
               </View>
             </TouchableWithoutFeedback>
-            <View style={styles.serviceCard}>
-              <View style={{ justifyContent: "center", alignItems: "center" }}>
-                <Image
-                  source={require("../assets/services/appointment.png")}
-                  style={styles.cardImage}
-                />
-                <Text style={styles.textWhite}>
-                  {" "}
-                  Compassinate Ground Appointment{" "}
-                </Text>
+            <TouchableWithoutFeedback
+              onPress={() => navigation.navigate("CompassinateGround")}
+            >
+              <View style={styles.serviceCard}>
+                <View
+                  style={{ justifyContent: "center", alignItems: "center" }}
+                >
+                  <Image
+                    source={require("../assets/services/appointment.png")}
+                    style={styles.cardImage}
+                  />
+                  <Text style={styles.textWhite}>
+                    {" "}
+                    Compassinate Ground Appointment{" "}
+                  </Text>
+                </View>
               </View>
-            </View>
-            <View style={styles.serviceCard}>
-              <View style={{ justifyContent: "center", alignItems: "center" }}>
-                <Image
-                  source={require("../assets/services/retirement.png")}
-                  style={styles.cardImage}
-                />
-                <Text style={styles.textWhite}> Pension CMPRF</Text>
+            </TouchableWithoutFeedback>
+
+            <TouchableWithoutFeedback
+              onPress={() => navigation.navigate("Pension")}
+            >
+              <View style={styles.serviceCard}>
+                <View
+                  style={{ justifyContent: "center", alignItems: "center" }}
+                >
+                  <Image
+                    source={require("../assets/services/retirement.png")}
+                    style={styles.cardImage}
+                  />
+                  <Text style={styles.textWhite}> Pension CMPRF</Text>
+                </View>
               </View>
-            </View>
-            <View style={styles.serviceCard}>
-              <View tyle={{ justifyContent: "center", alignItems: "center" }}>
-                <Image
-                  source={require("../assets/services/health-insurance.png")}
-                  style={styles.cardImage}
-                />
-                <Text style={styles.textWhite}>Health Scheme</Text>
+            </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback
+              onPress={() => navigation.navigate("HealthCare")}
+            >
+              <View style={styles.serviceCard}>
+                <View tyle={{ justifyContent: "center", alignItems: "center" }}>
+                  <Image
+                    source={require("../assets/services/health-insurance.png")}
+                    style={styles.cardImage}
+                  />
+                  <Text style={styles.textWhite}>Health Scheme</Text>
+                </View>
               </View>
-            </View>
+            </TouchableWithoutFeedback>
             <TouchableWithoutFeedback
               onPress={() => navigation.navigate("FundDetails")}
             >

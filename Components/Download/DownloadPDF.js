@@ -13,8 +13,17 @@ function DownloadPDF({ route }) {
   const { link } = route.params;
 
   return (
-    <View>
-      <ScrollView>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "row",
+        alignContent: "center",
+        backgroundColor: "#212761",
+      }}
+    >
+      <ScrollView style={{ marginBottom: 20 }}>
         <View style={styles.homeStyles}>
           <View style={styles.HomeHeader}>
             <View style={styles.homeTitle}>

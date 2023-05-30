@@ -28,7 +28,10 @@ import EmploymentLogin from "./Components/EmploymentLogin";
 import MenuBar from "./Components/MenuBar";
 import CanteenDetails from "./Components/DashBoardDetail/CanteenDetails";
 import DownloadPDF from "./Components/Download/DownloadPDF";
+import CompassinateGround from "./Components/DashBoardDetail/CompassinateGround";
+import Pension from "./Components/DashBoardDetail/Pension";
 import FundDetails from "./Components/DashBoardDetail/FundDetails";
+import HealthCare from "./Components/DashBoardDetail/HealthCare";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -241,6 +244,45 @@ export default function App() {
           component={DownloadPDF}
           options={{
             title: "Download",
+            headerRight: () => (
+              <Image
+                source={require("./assets/logo.png")}
+                style={{ width: 40, height: 40 }}
+              />
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="CompassinateGround"
+          component={CompassinateGround}
+          options={{
+            title: "Compassinate Ground Appoinment",
+            headerRight: () => (
+              <Image
+                source={require("./assets/logo.png")}
+                style={{ width: 40, height: 40 }}
+              />
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="Pension"
+          component={Pension}
+          options={{
+            title: "Pension CMPRF",
+            headerRight: () => (
+              <Image
+                source={require("./assets/logo.png")}
+                style={{ width: 40, height: 40 }}
+              />
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="HealthCare"
+          component={HealthCare}
+          options={{
+            title: "Health Care",
             headerRight: () => (
               <Image
                 source={require("./assets/logo.png")}
