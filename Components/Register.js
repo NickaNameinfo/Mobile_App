@@ -12,8 +12,11 @@ import {
 import { styles } from ".././assets/style/style";
 import DropDownPicker from "react-native-dropdown-picker";
 import axios from "axios";
+import SelectDropdown from "react-native-select-dropdown";
+import { AntDesign } from "@expo/vector-icons";
 
 function Register({ navigation }) {
+  const countries = ["Egypt", "Canada", "Australia", "Ireland"];
   const [open, setOpen] = useState({
     status: false,
     gender: false,
@@ -266,19 +269,18 @@ function Register({ navigation }) {
                 mode="outlined"
                 onChangeText={(value) => handleDropDownValue("empName", value)}
               />
-              <DropDownPicker
-                open={open.status}
-                value={formValue.status}
-                items={itemsStatus}
-                setOpen={(value) => handleDropDownOpen("status", value)}
-                onSelectItem={(value) =>
-                  handleDropDownValue("status", value.value)
-                }
-                setItems={setItemsStatus}
-                theme="LIGHT"
-                multiple={false}
-                style={styles.DropDownPicker}
-                placeholder="Select Status"
+              <SelectDropdown
+                data={countries}
+                onSelect={(selectedItem, index) => {
+                  handleDropDownValue("status", selectedItem);
+                }}
+                defaultButtonText="Select Employee Status"
+                buttonStyle={styles.DropDownPicker}
+                search={true}
+                renderDropdownIcon={() => (
+                  <AntDesign name="down" size={16} color="black" />
+                )}
+                buttonTextStyle={styles.dropDownText}
               />
               <TextInput
                 label="Enter GPF / CPS / PPO No"
@@ -288,34 +290,42 @@ function Register({ navigation }) {
                 mode="outlined"
                 onChangeText={(value) => handleDropDownValue("gpfcpsNo", value)}
               />
-              <DropDownPicker
-                open={open.department}
-                value={formValue.department}
-                items={itemsDepartment}
-                setOpen={(value) => handleDropDownOpen("department", value)}
-                onSelectItem={(value) =>
-                  handleDropDownValue("department", value.value)
-                }
-                setItems={setItemsDepartment}
-                theme="LIGHT"
-                multiple={false}
-                style={styles.DropDownPicker}
-                placeholder="Select Department"
-              />
-              <DropDownPicker
-                open={open.rank}
-                value={formValue.rank}
-                items={itemsRank}
-                setOpen={(value) => handleDropDownOpen("rank", value)}
-                onSelectItem={(value) =>
-                  handleDropDownValue("rank", value.value)
-                }
-                setItems={setItemsRank}
-                theme="LIGHT"
-                multiple={false}
-                style={styles.DropDownPicker}
-                placeholder="Select Rank"
-              />
+              <View style={styles.zIndex}>
+                <DropDownPicker
+                  open={open.department}
+                  value={formValue.department}
+                  items={itemsDepartment}
+                  setOpen={(value) => handleDropDownOpen("department", value)}
+                  onSelectItem={(value) =>
+                    handleDropDownValue("department", value.value)
+                  }
+                  setItems={setItemsDepartment}
+                  theme="LIGHT"
+                  multiple={false}
+                  style={styles.DropDownPicker}
+                  placeholder="Select Department"
+                  containerStyle={styles.zIndex1}
+                  dropDownContainerStyle={styles.dropDownContent}
+                />
+              </View>
+              <View style={styles.zIndex}>
+                <DropDownPicker
+                  open={open.rank}
+                  value={formValue.rank}
+                  items={itemsRank}
+                  setOpen={(value) => handleDropDownOpen("rank", value)}
+                  onSelectItem={(value) =>
+                    handleDropDownValue("rank", value.value)
+                  }
+                  setItems={setItemsRank}
+                  theme="LIGHT"
+                  style={styles.DropDownPicker}
+                  multiple={false}
+                  placeholder="Select Rank"
+                  containerStyle={styles.zIndex1}
+                  dropDownContainerStyle={styles.dropDownContent}
+                />
+              </View>
               <TextInput
                 label="Police Grade Number"
                 placeholder="Police Grade Number"

@@ -53,7 +53,14 @@ export const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderStyle: "solid",
-    zIndex: 99,
+    width: "100%",
+  },
+  dropDownText: {
+    textAlign: "left",
+    right: -5,
+    width: "100%",
+    fontSize: 16,
+    color: "#636363"
   },
   image: {
     width: 100,
@@ -162,11 +169,11 @@ export const styles = StyleSheet.create({
   },
   HomeHeader: {
     paddingHorizontal: 20,
-    backgroundColor : "white",
+    backgroundColor: "white",
     borderRadius: 10,
-    margin : 20,
-    alignContent : "center",
-    justifyContent : "center",
+    margin: 20,
+    alignContent: "center",
+    justifyContent: "center",
   },
   homeTitle: {
     justifyContent: "center",
