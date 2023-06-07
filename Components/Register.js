@@ -10,13 +10,11 @@ import {
   Pressable,
 } from "react-native";
 import { styles } from ".././assets/style/style";
-import DropDownPicker from "react-native-dropdown-picker";
 import axios from "axios";
 import SelectDropdown from "react-native-select-dropdown";
 import { AntDesign } from "@expo/vector-icons";
 
 function Register({ navigation }) {
-  const countries = ["Egypt", "Canada", "Australia", "Ireland"];
   const [open, setOpen] = useState({
     status: false,
     gender: false,
@@ -46,150 +44,113 @@ function Register({ navigation }) {
     confirmPassword: null,
   });
   console.log(formValue, "formValueformValue");
-  const [itemsStatus, setItemsStatus] = useState([
-    { label: "Serving", value: "Serving" },
-    { label: "Retired", value: "Retired" },
-    { label: "Deceased", value: "Deceased" },
-  ]);
+  const itemsStatus = ["Serving", "Retired", "Deceased"];
+  // const [itemsStatus, setItemsStatus] = useState([
+  //   { label: "Serving", value: "Serving" },
+  //   { label: "Retired", value: "Retired" },
+  //   { label: "Deceased", value: "Deceased" },
+  // ]);
 
-  const [itemsGender, setItemsGender] = useState([
-    { label: "Male", value: "Male" },
-    { label: "Female", value: "Female" },
-    { label: "Transgender", value: "Transgender" },
-  ]);
+  const itemsGender = ["Male", "Female", "Transgender"];
 
-  const [itemsWards, setItemsWards] = useState([
-    { label: "Police Personnel", value: "Police Personnel" },
-    { label: "Ministerial Staff", value: "Ministerial Staff" },
-    { label: "Fire & Rescue Services", value: "Fire & Rescue Services" },
-    {
-      label: "Prison & Correctional Services",
-      value: "Prison & Correctional Services",
-    },
-  ]);
+  const itemsWards = [
+    "Police Personnel",
+    "Ministerial Staff",
+    "Fire & Rescue Services",
+    "Prison & Correctional Services",
+  ];
 
-  const [itemsRelation, setItemsRelation] = useState([
-    { label: "Brother", value: "Brother" },
-    { label: "Sister", value: "Sister" },
-    { label: "Spouse", value: "Spouse" },
-    { label: "Son", value: "Son" },
-    { label: "Daughter", value: "Daughter" },
-  ]);
+  const itemsRelation = ["Brother", "Sister", "Spouse", "Son", "Daughter"];
 
-  const [itemsDepartment, setItemsDepartment] = useState([
-    { label: "Police Personnel", value: "Police Personnel" },
-    { label: "Ministerial Staff", value: "Ministerial Staff" },
-    {
-      label: "Fire &amp; Rescue Services",
-      value: "Fire &amp; Rescue Services",
-    },
-    {
-      label: "Prison &amp; Correctional Services",
-      value: "Prison &amp; Correctional Services",
-    },
-    { label: "Others", value: "Others" },
-  ]);
-  const [itemsRank, setItemsRank] = useState([
-    {
-      label: "Additional Director General of Police",
-      value: "Additional Director General of Police",
-    },
-    {
-      label: "Additional Superintendent of Police",
-      value: "Additional Superintendent of Police",
-    },
-    { label: "Administrative Officer", value: "Administrative Officer" },
-    { label: "Assistant", value: "Assistant" },
-    { label: "Assistant Commandant", value: "Assistant Commandant" },
-    { label: "Assistant Director", value: "Assistant Director" },
-    { label: "Assistant Manager", value: "Assistant Manager" },
-    { label: "Automobile Engineer", value: "Automobile Engineer" },
-    { label: "Band Master", value: "Band Master" },
-    { label: "Barber", value: "Barber" },
-    { label: "Batteryman", value: "Batteryman" },
-    { label: "Binder", value: "Binder" },
-    { label: "Blacksmith", value: "Blacksmith" },
-    { label: "Chargemen", value: "Chargemen" },
-    { label: "Chief Manager", value: "Chief Manager" },
-    { label: "Chief Reporter", value: "Chief Reporter" },
-    {
-      label: "Chief Administrative Officer",
-      value: "Chief Administrative Officer",
-    },
-    { label: "Cleaner", value: "Cleaner" },
-    { label: "Commandant", value: "Commandant" },
-    { label: "Cook", value: "Cook" },
-    { label: "Data Entry Assistant", value: "Data Entry Assistant" },
-    { label: "Data Entry Operator", value: "Deceased" },
-    { label: "Deputy Commandant", value: "Deputy Commandant" },
-    { label: "Deputy Director", value: "Deputy Director" },
-    { label: "Deputy Inspector General of Police", value: "Deceased" },
-    {
-      label: "Deputy Superintendent of Police",
-      value: "Deputy Superintendent of Police",
-    },
-    { label: "Dhoby", value: "Dhoby" },
-    {
-      label: "Director General of Police",
-      value: "Director General of Police",
-    },
-    { label: "Dog Boy", value: "Dog Boy" },
-    { label: "Duffadar", value: "Duffadar" },
-    { label: "Duffadar", value: "Duffadar" },
-    {
-      label: "Electrician / Fitter / Foreman / Hammerman / Helper",
-      value: "Electrician / Fitter / Foreman / Hammerman / Helper",
-    },
-    { label: "Gardener", value: "Gardener" },
-    { label: "Grade I PC", value: "Grade I PC" },
-    { label: "Grade II PC", value: "Grade II PC" },
-  ]);
-  const [itemsCity, setItemsCity] = useState([
-    { label: "Ariyalur", value: "Ariyalur" },
-    { label: "Avadi Commissionerate", value: "Avadi Commissionerate" },
-    { label: "Chengalpattu", value: "Chengalpattu" },
-    { label: "Chennai", value: "Chennai" },
-    { label: "Coimbatore", value: "Coimbatore" },
-    { label: "Coimbatore City", value: "Coimbatore City" },
-    { label: "Cuddalore", value: "Cuddalore" },
-    { label: "Dharmapuri", value: "Dharmapuri" },
-    { label: "Dindigul", value: "Dindigul" },
-    { label: "Erode", value: "Erode" },
-    { label: "Kallakurichi", value: "Kallakurichi" },
-    { label: "Kancheepuram", value: "Kancheepuram" },
-    { label: "Kanniyakumari", value: "Kanniyakumari" },
-    { label: "Karur", value: "Karur" },
-    { label: "Krishnagiri", value: "Krishnagiri" },
-    { label: "Madurai", value: "Madurai" },
-    { label: "Madurai City", value: "Madurai City" },
-    { label: "Mayiladuthurai", value: "Mayiladuthurai" },
-    { label: "Nagapattinam", value: "Nagapattinam" },
-    { label: "Namakkal", value: "Namakkal" },
-    { label: "The Nilgiris", value: "The Nilgiris" },
-    { label: "Perambalur", value: "Pudukkottai" },
-    { label: "Ramanathapuram", value: "Ramanathapuram" },
-    { label: "Ranipet", value: "Ranipet" },
-    { label: "Salem", value: "Salem" },
-    { label: "Salem city", value: "Salem city" },
-    { label: "Sivagangai", value: "Sivagangai" },
-    { label: "Tambaram comimissionerate", value: "Tambaram comimissionerate" },
-    { label: "Thanjavur", value: "Thanjavur" },
-    { label: "Theni", value: "Theni" },
-    { label: "Tirupattur", value: "Tirupattur" },
-    { label: "Thoothukudi", value: "Thoothukudi" },
-    { label: "Tirunelveli", value: "Tirunelveli" },
-    { label: "Tirunelveli City", value: "Tirunelveli City" },
-    { label: "Tiruppur", value: "Tiruppur" },
-    { label: "Tiruppur City", value: "Tiruppur City" },
-    { label: "Thiruvallur", value: "Thiruvallur" },
-    { label: "Tiruvannamalai", value: "Tiruvannamalai" },
-    { label: "Thiruvarur", value: "Thiruvarur" },
-    { label: "Tiruchirappalli", value: "Tiruchirappalli" },
-    { label: "Tiruchirappalli City", value: "Tiruchirappalli City" },
-    { label: "Vellore", value: "Vellore" },
-    { label: "Viluppuram", value: "Viluppuram" },
-    { label: "Virudhunagar", value: "Virudhunagar" },
-  ]);
+  const itemsDepartment = [
+    "Police Personnel",
+    "Ministerial Staff",
+    "Fire & Rescue Services",
+    "Prison & Correctional Services",
+    "Others",
+  ];
+  const itemsRank = [
+    "Additional Director General of Police",
+    "Additional Superintendent of Police",
+    "Administrative Officer",
+    "Assistant",
+    "Assistant Commandant",
+    "Assistant Director",
+    "Assistant Manager",
+    "Automobile Engineer",
+    "Band Master",
+    "Barber",
+    "Batteryman",
+    "Binder",
+    "Blacksmith",
+    "Chargemen",
+    "Chief Manager",
+    "Chief Reporter",
+    "Chief Administrative Officer",
+    "Cleaner",
+    "Commandant",
+    "Cook",
+    "Data Entry Assistant",
+    "Data Entry Operator",
+    "Deputy Commandant",
+    "Deputy Director",
+    "Deputy Inspector General of Police",
+    "Deputy Superintendent of Police",
+    "Dhoby",
+    "Director General of Police",
+    "Dog Boy",
+    "Duffadar",
+    "Electrician / Fitter / Foreman / Hammerman / Helper",
+    "Gardener",
+    "Grade I PC",
+    "Grade II PC",
+  ];
+  const itemsCity = [
+    "Ariyalur",
+    "Avadi Commissionerate",
+    "Chengalpattu",
+    "Chennai",
+    "Coimbatore",
+    "Coimbatore City",
+    "Cuddalore",
+    "Dharmapuri",
+    "Dindigul",
+    "Erode",
+    "Kallakurichi",
+    "Kancheepuram",
+    "Kanniyakumari",
+    "Karur",
+    "Krishnagiri",
+    "Madurai",
+    "Madurai City",
+    "Mayiladuthurai",
+    "Nagapattinam",
+    "Namakkal",
+    "The Nilgiris",
+    "Perambalur",
+    "Ramanathapuram",
+    "Ranipet",
+    "Salem",
+    "Salem city",
+    "Sivagangai",
+    "Tambaram comimissionerate",
+    "Thanjavur",
+    "Theni",
+    "Tirupattur",
+    "Thoothukudi",
+    "Tirunelveli",
+    "Tirunelveli City",
+    "Tiruppur",
+    "Tiruppur City",
+    "Thiruvallur",
+    "Tiruvannamalai",
+    "Thiruvarur",
+    "Tiruchirappalli",
+    "Tiruchirappalli City",
+    "Vellore",
+    "Viluppuram",
+    "Virudhunagar",
+  ];
 
   const handleDropDownOpen = (name, value) => {
     setOpen((prev) => ({
@@ -270,7 +231,7 @@ function Register({ navigation }) {
                 onChangeText={(value) => handleDropDownValue("empName", value)}
               />
               <SelectDropdown
-                data={countries}
+                data={itemsStatus}
                 onSelect={(selectedItem, index) => {
                   handleDropDownValue("status", selectedItem);
                 }}
@@ -290,42 +251,32 @@ function Register({ navigation }) {
                 mode="outlined"
                 onChangeText={(value) => handleDropDownValue("gpfcpsNo", value)}
               />
-              <View style={styles.zIndex}>
-                <DropDownPicker
-                  open={open.department}
-                  value={formValue.department}
-                  items={itemsDepartment}
-                  setOpen={(value) => handleDropDownOpen("department", value)}
-                  onSelectItem={(value) =>
-                    handleDropDownValue("department", value.value)
-                  }
-                  setItems={setItemsDepartment}
-                  theme="LIGHT"
-                  multiple={false}
-                  style={styles.DropDownPicker}
-                  placeholder="Select Department"
-                  containerStyle={styles.zIndex1}
-                  dropDownContainerStyle={styles.dropDownContent}
-                />
-              </View>
-              <View style={styles.zIndex}>
-                <DropDownPicker
-                  open={open.rank}
-                  value={formValue.rank}
-                  items={itemsRank}
-                  setOpen={(value) => handleDropDownOpen("rank", value)}
-                  onSelectItem={(value) =>
-                    handleDropDownValue("rank", value.value)
-                  }
-                  setItems={setItemsRank}
-                  theme="LIGHT"
-                  style={styles.DropDownPicker}
-                  multiple={false}
-                  placeholder="Select Rank"
-                  containerStyle={styles.zIndex1}
-                  dropDownContainerStyle={styles.dropDownContent}
-                />
-              </View>
+              <SelectDropdown
+                data={itemsDepartment}
+                onSelect={(selectedItem, index) => {
+                  handleDropDownValue("department", selectedItem);
+                }}
+                defaultButtonText="Select Department"
+                buttonStyle={styles.DropDownPicker}
+                search={true}
+                renderDropdownIcon={() => (
+                  <AntDesign name="down" size={16} color="black" />
+                )}
+                buttonTextStyle={styles.dropDownText}
+              />
+              <SelectDropdown
+                data={itemsRank}
+                onSelect={(selectedItem, index) => {
+                  handleDropDownValue("rank", selectedItem);
+                }}
+                defaultButtonText="Select Rank"
+                buttonStyle={styles.DropDownPicker}
+                search={true}
+                renderDropdownIcon={() => (
+                  <AntDesign name="down" size={16} color="black" />
+                )}
+                buttonTextStyle={styles.dropDownText}
+              />
               <TextInput
                 label="Police Grade Number"
                 placeholder="Police Grade Number"
@@ -344,20 +295,18 @@ function Register({ navigation }) {
                 mode="outlined"
                 onChangeText={(value) => handleDropDownValue("unitName", value)}
               />
-
-              <DropDownPicker
-                open={open.city}
-                value={formValue.city}
-                items={itemsCity}
-                setOpen={(value) => handleDropDownOpen("city", value)}
-                onSelectItem={(value) =>
-                  handleDropDownValue("city", value.value)
-                }
-                setItems={setItemsCity}
-                theme="LIGHT"
-                multiple={false}
-                style={styles.DropDownPicker}
-                placeholder="Select City / District"
+              <SelectDropdown
+                data={itemsCity}
+                onSelect={(selectedItem, index) => {
+                  handleDropDownValue("city", selectedItem);
+                }}
+                defaultButtonText="Select City / District"
+                buttonStyle={styles.DropDownPicker}
+                search={true}
+                renderDropdownIcon={() => (
+                  <AntDesign name="down" size={16} color="black" />
+                )}
+                buttonTextStyle={styles.dropDownText}
               />
               <TextInput
                 label="Date Of Birth"
@@ -375,21 +324,20 @@ function Register({ navigation }) {
                 mode="outlined"
                 onChangeText={(value) => handleDropDownValue("doe", value)}
               />
-              <DropDownPicker
-                open={open.gender}
-                value={formValue.gender}
-                items={itemsGender}
-                setOpen={(value) => handleDropDownOpen("gender", value)}
-                onSelectItem={(value) =>
-                  handleDropDownValue("gender", value.value)
-                }
-                setItems={setItemsGender}
-                theme="LIGHT"
-                multiple={false}
-                style={styles.DropDownPicker}
-                placeholder="SelectGender"
-              />
 
+              <SelectDropdown
+                data={itemsGender}
+                onSelect={(selectedItem, index) => {
+                  handleDropDownValue("gender", selectedItem);
+                }}
+                defaultButtonText="Select Gender"
+                buttonStyle={styles.DropDownPicker}
+                search={true}
+                renderDropdownIcon={() => (
+                  <AntDesign name="down" size={16} color="black" />
+                )}
+                buttonTextStyle={styles.dropDownText}
+              />
               <TextInput
                 label="Mobile No"
                 placeholder="Mobile No"
@@ -399,19 +347,18 @@ function Register({ navigation }) {
                 mode="outlined"
                 onChangeText={(value) => handleDropDownValue("mobileNo", value)}
               />
-              <DropDownPicker
-                open={open.wards}
-                value={formValue.wards}
-                items={itemsWards}
-                setOpen={(value) => handleDropDownOpen("wards", value)}
-                onSelectItem={(value) =>
-                  handleDropDownValue("wards", value.value)
-                }
-                setItems={setItemsWards}
-                theme="LIGHT"
-                multiple={false}
-                style={styles.DropDownPicker}
-                placeholder="Select Wards / Spouse of"
+              <SelectDropdown
+                data={itemsWards}
+                onSelect={(selectedItem, index) => {
+                  handleDropDownValue("wards", selectedItem);
+                }}
+                defaultButtonText="Select Wards / Spouse of"
+                buttonStyle={styles.DropDownPicker}
+                search={true}
+                renderDropdownIcon={() => (
+                  <AntDesign name="down" size={16} color="black" />
+                )}
+                buttonTextStyle={styles.dropDownText}
               />
               <TextInput
                 label="Name of the Family Member with Relation"
@@ -423,19 +370,18 @@ function Register({ navigation }) {
                   handleDropDownValue("realation", value)
                 }
               />
-              <DropDownPicker
-                open={open.relation}
-                value={formValue.relation}
-                items={itemsRelation}
-                setOpen={(value) => handleDropDownOpen("relation", value)}
-                onSelectItem={(value) =>
-                  handleDropDownValue("relation", value.value)
-                }
-                setItems={setItemsRelation}
-                theme="LIGHT"
-                multiple={false}
-                style={styles.DropDownPicker}
-                placeholder="Select Relation"
+              <SelectDropdown
+                data={itemsRelation}
+                onSelect={(selectedItem, index) => {
+                  handleDropDownValue("relation", selectedItem);
+                }}
+                defaultButtonText="Select Relation"
+                buttonStyle={styles.DropDownPicker}
+                search={true}
+                renderDropdownIcon={() => (
+                  <AntDesign name="down" size={16} color="black" />
+                )}
+                buttonTextStyle={styles.dropDownText}
               />
               <TextInput
                 label="User Name"
