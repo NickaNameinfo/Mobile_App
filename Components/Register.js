@@ -13,44 +13,39 @@ import { styles } from ".././assets/style/style";
 import axios from "axios";
 import SelectDropdown from "react-native-select-dropdown";
 import { AntDesign } from "@expo/vector-icons";
+import { useForm, Controller } from "react-hook-form";
 
 function Register({ navigation }) {
-  const [open, setOpen] = useState({
-    status: false,
-    gender: false,
-    wards: false,
-    department: false,
-    rank: false,
-    city: false,
-    relation: false,
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      empName: "",
+      empStatus: "",
+      gpfcpd: "",
+      ppocps: "",
+      rand: "",
+      department: "",
+      District: "",
+      dob: "",
+      doe: "",
+      dopr: "",
+      dod: "",
+      gender: "",
+      mobileNo: "",
+      gno: "",
+      policePersonnel: "",
+      familyMember: "",
+      unitName: "",
+      userName: "",
+      password: "",
+      conformpass: "",
+    },
   });
-  const [formValue, setFormValue] = useState({
-    status: null,
-    gender: null,
-    wards: null,
-    relation: null,
-    department: null,
-    rank: null,
-    city: null,
-    empName: null,
-    gpfcpsNo: null,
-    gradNumber: null,
-    unitName: null,
-    doe: null,
-    Enlistment: null,
-    mobileNo: null,
-    userName: null,
-    password: null,
-    confirmPassword: null,
-  });
-  console.log(formValue, "formValueformValue");
-  const itemsStatus = ["Serving", "Retired", "Deceased"];
-  // const [itemsStatus, setItemsStatus] = useState([
-  //   { label: "Serving", value: "Serving" },
-  //   { label: "Retired", value: "Retired" },
-  //   { label: "Deceased", value: "Deceased" },
-  // ]);
 
+  const itemsStatus = ["Serving", "Retired", "Deceased"];
   const itemsGender = ["Male", "Female", "Transgender"];
 
   const itemsWards = [
@@ -152,49 +147,20 @@ function Register({ navigation }) {
     "Virudhunagar",
   ];
 
-  const handleDropDownOpen = (name, value) => {
-    setOpen((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleDropDownValue = (name, value) => {
-    setFormValue((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async () => {
+  const onSubmit = async (data) => {
+    console.log(data, "resssssssssssresssssssssss");
     try {
-      const response = await fetch(
+      const response = await axios.post(
         "https://nodebackend.kavalarnalantn.in:5000/user_Register/register",
-        {
-          method: "POST",
-          data: formValue,
-        }
+        data
       );
-      const jsonData = await response.json();
+      const jsonData = response.data;
       console.log(JSON.stringify(jsonData.data), "resssssssssss");
       navigation.navigate("Login");
     } catch (error) {
       console.log("Error:", error);
     }
   };
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
-
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await axios.get('https://nodebackend.kavalarnalantn.in:5000/job_fair/getjobFair'); // Replace with your API endpoint
-  //     console.log(response.data, "dadadfaasdf"); // Process the response data
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
 
   return (
     <View style={styles.flex}>
@@ -222,197 +188,395 @@ function Register({ navigation }) {
                 borderRadius: 5,
               }}
             >
-              <TextInput
-                label="Name of the Employee"
-                placeholder="Name of the Employee"
-                style={styles.inputBox}
-                underlineColor="transparent"
-                mode="outlined"
-                onChangeText={(value) => handleDropDownValue("empName", value)}
-              />
-              <SelectDropdown
-                data={itemsStatus}
-                onSelect={(selectedItem, index) => {
-                  handleDropDownValue("status", selectedItem);
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
                 }}
-                defaultButtonText="Select Employee Status"
-                buttonStyle={styles.DropDownPicker}
-                search={true}
-                renderDropdownIcon={() => (
-                  <AntDesign name="down" size={16} color="black" />
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    label="Name of the Employee"
+                    placeholder="Name of the Employee"
+                    style={styles.inputBox}
+                    underlineColor="transparent"
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
                 )}
-                buttonTextStyle={styles.dropDownText}
+                name="empName"
               />
-              <TextInput
-                label="Enter GPF / CPS / PPO No"
-                placeholder="Enter GPF / CPS / PPO No"
-                style={styles.inputBox}
-                underlineColor="transparent"
-                mode="outlined"
-                onChangeText={(value) => handleDropDownValue("gpfcpsNo", value)}
-              />
-              <SelectDropdown
-                data={itemsDepartment}
-                onSelect={(selectedItem, index) => {
-                  handleDropDownValue("department", selectedItem);
-                }}
-                defaultButtonText="Select Department"
-                buttonStyle={styles.DropDownPicker}
-                search={true}
-                renderDropdownIcon={() => (
-                  <AntDesign name="down" size={16} color="black" />
-                )}
-                buttonTextStyle={styles.dropDownText}
-              />
-              <SelectDropdown
-                data={itemsRank}
-                onSelect={(selectedItem, index) => {
-                  handleDropDownValue("rank", selectedItem);
-                }}
-                defaultButtonText="Select Rank"
-                buttonStyle={styles.DropDownPicker}
-                search={true}
-                renderDropdownIcon={() => (
-                  <AntDesign name="down" size={16} color="black" />
-                )}
-                buttonTextStyle={styles.dropDownText}
-              />
-              <TextInput
-                label="Police Grade Number"
-                placeholder="Police Grade Number"
-                style={styles.inputBox}
-                underlineColor="transparent"
-                mode="outlined"
-                onChangeText={(value) =>
-                  handleDropDownValue("gradNumber", value)
-                }
-              />
-              <TextInput
-                label="Unit Name"
-                placeholder="Unit Name"
-                style={styles.inputBox}
-                underlineColor="transparent"
-                mode="outlined"
-                onChangeText={(value) => handleDropDownValue("unitName", value)}
-              />
-              <SelectDropdown
-                data={itemsCity}
-                onSelect={(selectedItem, index) => {
-                  handleDropDownValue("city", selectedItem);
-                }}
-                defaultButtonText="Select City / District"
-                buttonStyle={styles.DropDownPicker}
-                search={true}
-                renderDropdownIcon={() => (
-                  <AntDesign name="down" size={16} color="black" />
-                )}
-                buttonTextStyle={styles.dropDownText}
-              />
-              <TextInput
-                label="Date Of Birth"
-                placeholder="Date Of Birth"
-                style={styles.inputBox}
-                underlineColor="transparent"
-                mode="outlined"
-                onChangeText={(value) => handleDropDownValue("dob", value)}
-              />
-              <TextInput
-                label="Date Of Enlistment"
-                placeholder="Date Of Enlistment"
-                style={styles.inputBox}
-                underlineColor="transparent"
-                mode="outlined"
-                onChangeText={(value) => handleDropDownValue("doe", value)}
-              />
+              {errors.empName && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
 
-              <SelectDropdown
-                data={itemsGender}
-                onSelect={(selectedItem, index) => {
-                  handleDropDownValue("gender", selectedItem);
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
                 }}
-                defaultButtonText="Select Gender"
-                buttonStyle={styles.DropDownPicker}
-                search={true}
-                renderDropdownIcon={() => (
-                  <AntDesign name="down" size={16} color="black" />
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <SelectDropdown
+                    data={itemsStatus}
+                    onSelect={onChange}
+                    defaultButtonText="Select Employee Status"
+                    buttonStyle={styles.DropDownPicker}
+                    search={true}
+                    renderDropdownIcon={() => (
+                      <AntDesign name="down" size={16} color="black" />
+                    )}
+                    buttonTextStyle={styles.dropDownText}
+                    onBlur={onBlur}
+                    value={value}
+                  />
                 )}
-                buttonTextStyle={styles.dropDownText}
+                name="empStatus"
               />
-              <TextInput
-                label="Mobile No"
-                placeholder="Mobile No"
-                keyboardType="numeric"
-                style={styles.inputBox}
-                underlineColor="transparent"
-                mode="outlined"
-                onChangeText={(value) => handleDropDownValue("mobileNo", value)}
-              />
-              <SelectDropdown
-                data={itemsWards}
-                onSelect={(selectedItem, index) => {
-                  handleDropDownValue("wards", selectedItem);
+              {errors.status && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
                 }}
-                defaultButtonText="Select Wards / Spouse of"
-                buttonStyle={styles.DropDownPicker}
-                search={true}
-                renderDropdownIcon={() => (
-                  <AntDesign name="down" size={16} color="black" />
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    label="Enter GPF / CPS / PPO No"
+                    placeholder="Enter GPF / CPS / PPO No"
+                    style={styles.inputBox}
+                    underlineColor="transparent"
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
                 )}
-                buttonTextStyle={styles.dropDownText}
+                name="gpfcpd"
               />
-              <TextInput
-                label="Name of the Family Member with Relation"
-                placeholder="Name of the Family Member with Relation"
-                style={styles.inputBox}
-                underlineColor="transparent"
-                mode="outlined"
-                onChangeText={(value) =>
-                  handleDropDownValue("realation", value)
-                }
-              />
-              <SelectDropdown
-                data={itemsRelation}
-                onSelect={(selectedItem, index) => {
-                  handleDropDownValue("relation", selectedItem);
+              {errors.gpfcpsNo && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
                 }}
-                defaultButtonText="Select Relation"
-                buttonStyle={styles.DropDownPicker}
-                search={true}
-                renderDropdownIcon={() => (
-                  <AntDesign name="down" size={16} color="black" />
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <SelectDropdown
+                    data={itemsDepartment}
+                    onSelect={onChange}
+                    defaultButtonText="Select Department"
+                    buttonStyle={styles.DropDownPicker}
+                    search={true}
+                    renderDropdownIcon={() => (
+                      <AntDesign name="down" size={16} color="black" />
+                    )}
+                    buttonTextStyle={styles.dropDownText}
+                    onBlur={onBlur}
+                    value={value}
+                  />
                 )}
-                buttonTextStyle={styles.dropDownText}
+                name="policePersonnel"
               />
-              <TextInput
-                label="User Name"
-                placeholder="User Name"
-                style={styles.inputBox}
-                underlineColor="transparent"
-                mode="outlined"
-                onChangeText={(value) => handleDropDownValue("userName", value)}
+              {errors.policePersonnel && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <SelectDropdown
+                    data={itemsRank}
+                    onSelect={onChange}
+                    defaultButtonText="Select Rank"
+                    buttonStyle={styles.DropDownPicker}
+                    search={true}
+                    renderDropdownIcon={() => (
+                      <AntDesign name="down" size={16} color="black" />
+                    )}
+                    buttonTextStyle={styles.dropDownText}
+                    onBlur={onBlur}
+                    value={value}
+                  />
+                )}
+                name="rand"
               />
-              <TextInput
-                label="Password"
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                underlineColor="transparent"
-                mode="outlined"
-                onChangeText={(value) => handleDropDownValue("password", value)}
+              {errors.rand && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    label="Police Grade Number"
+                    placeholder="Police Grade Number"
+                    style={styles.inputBox}
+                    underlineColor="transparent"
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="gno"
               />
-              <TextInput
-                label="Confirm Password"
-                placeholder="Confirm Password"
-                secureTextEntry
-                style={styles.inputBox}
-                underlineColor="transparent"
-                mode="outlined"
-                onChangeText={(value) =>
-                  handleDropDownValue("confirmPassword", value)
-                }
+              {errors.gno && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    label="Unit Name"
+                    placeholder="Unit Name"
+                    style={styles.inputBox}
+                    underlineColor="transparent"
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="unitName"
               />
+              {errors.unitName && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <SelectDropdown
+                    data={itemsCity}
+                    onSelect={onChange}
+                    defaultButtonText="Select City / District"
+                    buttonStyle={styles.DropDownPicker}
+                    search={true}
+                    renderDropdownIcon={() => (
+                      <AntDesign name="down" size={16} color="black" />
+                    )}
+                    buttonTextStyle={styles.dropDownText}
+                    onBlur={onBlur}
+                    value={value}
+                  />
+                )}
+                name="District"
+              />
+              {errors.District && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    label="Date Of Birth"
+                    placeholder="Date Of Birth"
+                    style={styles.inputBox}
+                    underlineColor="transparent"
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="dob"
+              />
+              {errors.dob && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    label="Date Of Enlistment"
+                    placeholder="Date Of Enlistment"
+                    style={styles.inputBox}
+                    underlineColor="transparent"
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="doe"
+              />
+              {errors.doe && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <SelectDropdown
+                    data={itemsGender}
+                    onSelect={onChange}
+                    defaultButtonText="Select Gender"
+                    buttonStyle={styles.DropDownPicker}
+                    search={true}
+                    renderDropdownIcon={() => (
+                      <AntDesign name="down" size={16} color="black" />
+                    )}
+                    buttonTextStyle={styles.dropDownText}
+                  />
+                )}
+                name="gender"
+              />
+              {errors.gender && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    label="Mobile No"
+                    placeholder="Mobile No"
+                    keyboardType="numeric"
+                    style={styles.inputBox}
+                    underlineColor="transparent"
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="mobileNo"
+              />
+              {errors.mobileNo && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    label="Name of the Family Member with Relation"
+                    placeholder="Name of the Family Member with Relation"
+                    style={styles.inputBox}
+                    underlineColor="transparent"
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="familyMember"
+              />
+              {errors.realation && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    label="User Name"
+                    placeholder="User Name"
+                    style={styles.inputBox}
+                    underlineColor="transparent"
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="userName"
+              />
+              {errors.userName && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    label="Password"
+                    placeholder="Password"
+                    secureTextEntry
+                    style={styles.inputBox}
+                    underlineColor="transparent"
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="password"
+              />
+              {errors.password && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    label="Confirm Password"
+                    placeholder="Confirm Password"
+                    secureTextEntry
+                    style={styles.inputBox}
+                    underlineColor="transparent"
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="conformpass"
+              />
+              {errors.conformpass && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
               <View style={styles.center}>
-                <Pressable style={styles.button} onPress={() => handleSubmit()}>
+                <Pressable
+                  style={styles.button}
+                  onPress={handleSubmit(onSubmit)}
+                >
                   <Text style={styles.buttonText}>Submit</Text>
                 </Pressable>
                 <Text

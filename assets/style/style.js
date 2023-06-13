@@ -307,4 +307,8 @@ export const styles = StyleSheet.create({
     backgroundColor: "#212761",
     // width: "100%"
   },
+  errorMessage : { 
+    color: "red",
+    marginTop : -20,
+  }
 });
