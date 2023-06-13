@@ -10,8 +10,28 @@ import {
   Pressable,
 } from "react-native";
 import { styles } from ".././assets/style/style";
+import { useForm, Controller } from "react-hook-form";
 
 function CandidateRegister({ navigation }) {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      fullName: "",
+      canNameInit: "",
+      mobileNo: "",
+      emailId: "",
+      aadhaarNo: "",
+      userName: "",
+      password: "",
+      conPassword: "",
+      CandidateName: "",
+    },
+  });
+
+  const onSubmit = (data) => console.log(data, "fdgsdgfsdfg");
   return (
     <View
       style={{
@@ -35,69 +55,215 @@ function CandidateRegister({ navigation }) {
                 />
                 <Text style={styles.titleText}>Candidate Registration</Text>
               </View>
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    label="Enter Name"
+                    placeholder="Enter Name"
+                    style={styles.inputBox}
+                    underlineColor="transparent"
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="fullName"
+              />
+              {errors.fullName && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
 
-              <TextInput
-                label="Enter Name"
-                placeholder="Enter Name"
-                style={styles.inputBox}
-                underlineColor="transparent"
-                mode="outlined"
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    label="Enter Initail"
+                    placeholder="Enter Initail"
+                    style={styles.inputBox}
+                    underlineColor="transparent"
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="companyName"
               />
-              <TextInput
-                label="Enter Initail"
-                placeholder="Enter Initail"
-                style={styles.inputBox}
-                underlineColor="transparent"
-                mode="outlined"
+              {errors.companyName && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    label="Enter Initial"
+                    placeholder="Enter Initial"
+                    style={styles.inputBox}
+                    underlineColor="transparent"
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="canNameInit"
               />
-              <TextInput
-                label="Enter Mobile Number"
-                placeholder="Enter Mobile Number"
-                style={styles.inputBox}
-                underlineColor="transparent"
-                mode="outlined"
+              {errors.canNameInit && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    label="Enter mobile No"
+                    placeholder="Enter mobile No"
+                    style={styles.inputBox}
+                    underlineColor="transparent"
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="mobileNo"
               />
-              <TextInput
-                placeholder="Enter Email-Id"
-                label="Enter Email-Id"
-                style={styles.inputBox}
-                underlineColor="transparent"
-                mode="outlined"
+              {errors.mobileNo && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    label="Enter E-mail id"
+                    placeholder="Enter E-mail id"
+                    style={styles.inputBox}
+                    underlineColor="transparent"
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="emailId"
               />
-              <TextInput
-                label="Enter Aadhar number"
-                placeholder="Enter Aadhar number"
-                style={styles.inputBox}
-                underlineColor="transparent"
-                mode="outlined"
+              {errors.emailId && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    label="Enter Aadhaar No"
+                    placeholder="Enter Aadhaar No"
+                    style={styles.inputBox}
+                    underlineColor="transparent"
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="aadhaarNo"
               />
-              <TextInput
-                label="UserName"
-                placeholder="UserName"
-                style={styles.inputBox}
-                underlineColor="transparent"
-                mode="outlined"
+              {errors.aadhaarNo && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    label="Enter User Name"
+                    placeholder="Enter User Name"
+                    style={styles.inputBox}
+                    underlineColor="transparent"
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="userName"
               />
-              <TextInput
-                label="Password"
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                underlineColor="transparent"
-                mode="outlined"
+              {errors.userName && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    label="Enter Password"
+                    placeholder="Enter Password"
+                    style={styles.inputBox}
+                    underlineColor="transparent"
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="password"
               />
-              <TextInput
-                label="Confirm Password"
-                placeholder="Confirm Password"
-                secureTextEntry
-                style={styles.inputBox}
-                underlineColor="transparent"
-                mode="outlined"
+              {errors.password && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    label="Confirm Password."
+                    placeholder="Confirm Password."
+                    style={styles.inputBox}
+                    underlineColor="transparent"
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="conPassword"
               />
+              {errors.conPassword && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
               <View style={styles.center}>
                 <Pressable
                   style={styles.button}
-                  onPress={() => navigation.navigate("Dashboard")}
+                  onPress={handleSubmit(onSubmit)}
                 >
                   <Text style={styles.buttonText}>Submit</Text>
                 </Pressable>

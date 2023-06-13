@@ -11,10 +11,110 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { formStyles } from ".././assets/style/fromStyle";
 import { styles } from ".././assets/style/style";
+import { useForm, Controller } from "react-hook-form";
 
 function ApplyJob({ navigation }) {
   const [currentStep, setCurrentStep] = useState(0);
   const [steps, setSteps] = useState(["", "", "", ""]);
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: '',
+      empName: '',
+      empNameInit: '',
+      relEmp: '',
+      empStatus: '',
+      policePersonnel: '', //missing
+      ...(!itemsId && {
+        spouseCertificate: '',
+      }),
+      dob: '',
+      ranks: '', //missing
+      gpfcpsNumber: '',
+      // ploliceGradeNnumber: ploliceGradeNnumber,
+      stationUnit: '',
+      workingDistrict: '',
+      lastDistrict: '',
+      policeMobilePhone: '',
+      CandidateNname: '',
+      CandidateNnameInit: '',
+      gender: '',
+      dobDate: '',
+      email1: '',
+      phone1: '',
+      address1: '',
+      address2: '',
+      address3: '',
+      CityDistrict: '',
+      state1: '',
+      pincode: '',
+      aadharNumber: '',
+      myCheckboxes: '',
+      perference1: '',
+      preference2: preference2,
+      preference3: preference3,
+      otherPreferred: otherPreferred,
+      workPreference1: workPreference1,
+      workPreference2: workPreference2,
+      workPreference3: workPreference3,
+      skills: skills,
+      ...(!itemsId && {
+        candPhoto: file2,
+      }),
+      ...(!itemsId && {
+        resume: file3,
+      }),
+      Qualification: Qualification,
+      studied: studied,
+      Board: Board,
+      pass10: `${thmon10}/${thyear10}`,
+      Percentage: Percentage,
+      Board12: Board12,
+      Passing: `${thmon12}/${thyear12}`,
+      Percentage12: Percentage12,
+      course: course,
+      Passingiti: `${itimon}/${itiyear}`,
+      Percentageiti: Percentageiti,
+      courseDip: courseDip,
+      PassingDip: `${dipmon}/${dipyear}`,
+      PercentageDip: PercentageDip,
+      GraduationDg: GraduationDg,
+      Institute: Institute,
+      Subject: Subject,
+      Passinghigi: `${undmon}/${undyear}`,
+      Percentagehigi: Percentagehigi,
+      Degreename: Degreename,
+      University: University,
+      MajorSubject: MajorSubject,
+      Percentageunder: Percentageunder,
+      passedYear: `${pgmon}/${pgyear}`,
+      Universityphd: Universityphd,
+      Subjectphd: Subjectphd,
+      Passingphd: `${phdmon}/${phdyear}`,
+      Percentagephd: Percentagephd,
+      BoardBelow: BoardBelow,
+      below10thpass: `${belowmon}/${belowyear}`,
+      belowPercentage: belowPercentage,
+      Pursuing: Pursuing,
+      UniversityOther: UniversityOther,
+      SubjectOther: SubjectOther,
+      detailsdeg: detailsdeg,
+      Employment: Employment,
+      experience: experience,
+      CompanyName: CompanyName,
+      Designation: Designation,
+      Workingplz: Workingplz,
+      fromDate: fromDate,
+      toDate: toDate,
+      companyDet: companyDet,
+      userName: SonName,
+    },
+  });
+
+  const onSubmit = (data) => console.log(data, "fdgsdgfsdfg");
   return (
     <View
       style={{
