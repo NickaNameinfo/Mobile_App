@@ -14,6 +14,7 @@ import axios from "axios";
 import SelectDropdown from "react-native-select-dropdown";
 import { AntDesign } from "@expo/vector-icons";
 import { useForm, Controller } from "react-hook-form";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 function Register({ navigation }) {
   const {
@@ -44,7 +45,17 @@ function Register({ navigation }) {
       conformpass: "",
     },
   });
+  const [isPickerShow, setIsPickerShow] = useState(false);
+  const [date, setDate] = useState(new Date(Date.now()));
 
+  const showPicker = () => {
+    setIsPickerShow(true);
+  };
+
+  const onChange = (event, value) => {
+    setDate(value);
+    setIsPickerShow(false);
+  };
   const itemsStatus = ["Serving", "Retired", "Deceased"];
   const itemsGender = ["Male", "Female", "Transgender"];
 
@@ -403,6 +414,24 @@ function Register({ navigation }) {
                 )}
                 name="dob"
               />
+              <View>
+                {/* Display the selected date */}
+                <View>
+                  <Text onPress={showPicker} style={styles.inputBox}>
+                    {date.toUTCString()}
+                  </Text>
+                </View>
+
+                {/* The date picker */}
+                {isPickerShow && (
+                  <DateTimePicker
+                    value={date}
+                    mode={"date"}
+                    is24Hour={true}
+                    onChange={onChange}
+                  />
+                )}
+              </View>
               {errors.dob && (
                 <Text style={styles.errorMessage}>This is required.</Text>
               )}
