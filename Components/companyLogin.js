@@ -27,17 +27,14 @@ function CompanyLogin({ navigation }) {
 
   const onSubmit = (data) => console.log(data);
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        backgroundColor: "#212761",
-      }}
-    >
+    <View style={styles.flex}>
       <ImageBackground
-        // source={{ uri: "https://kavalarnalantn.in/images/Banner.png" }}
         resizeMode="repeat"
-        style={styles.backImage}
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          backgroundColor: "#212761",
+        }}
       >
         <View style={styles.card}>
           <View>
@@ -46,76 +43,100 @@ function CompanyLogin({ navigation }) {
                 style={styles.image}
                 source={require("../assets/logo.png")}
               />
-              <Text style={styles.titleText}>Employee Login</Text>
+              <Text style={styles.titleText}>Company Login</Text>
             </View>
-
-            <Controller
-              control={control}
-              rules={{
-                required: true,
+            <View
+              style={{
+                backgroundColor: "#ffffff3b",
+                padding: 10,
+                borderRadius: 5,
               }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  label="Email Id"
-                  style={styles.inputBox}
-                  underlineColor="transparent"
-                  placeholder="Enter your Username"
-                  mode="outlined"
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                />
+            >
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    label="Email Id"
+                    style={styles.inputBox}
+                    underlineColor="transparent"
+                    placeholder="Enter your Username"
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="emailId"
+              />
+              {errors.emailId && (
+                <Text style={styles.errorMessage}>This is required.</Text>
               )}
-              name="emailId"
-            />
-            {errors.emailId && (
-              <Text style={styles.errorMessage}>This is required.</Text>
-            )}
 
-            <Controller
-              control={control}
-              rules={{
-                required: true,
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  label="Password"
-                  secureTextEntry
-                  style={styles.inputBox}
-                  underlineColor="transparent"
-                  placeholder="Enter your Password"
-                  mode="outlined"
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                />
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    label="Password"
+                    secureTextEntry
+                    style={styles.inputBox}
+                    underlineColor="transparent"
+                    placeholder="Enter your Password"
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="password"
+              />
+              {errors.password && (
+                <Text style={styles.errorMessage}>This is required.</Text>
               )}
-              name="password"
-            />
-            {errors.password && (
-              <Text style={styles.errorMessage}>This is required.</Text>
-            )}
 
-            <View style={formStyles.flexRow}>
-              <Text
-                variant="titleSmall"
-                style={styles.forgetText}
-                onPress={() => navigation.navigate("ForgetUsername")}
-              >
-                Forget UserName?
-              </Text>
-              <Text
-                variant="titleSmall"
-                style={styles.forgetText}
-                onPress={() => navigation.navigate("ForgetPassword")}
-              >
-                Forget Password?
-              </Text>
+              <View style={formStyles.flexRow}>
+                <Text
+                  variant="titleSmall"
+                  style={styles.forgetText}
+                  onPress={() => navigation.navigate("ForgetUsername")}
+                >
+                  Forget UserName?
+                </Text>
+                <Text
+                  variant="titleSmall"
+                  style={styles.forgetText}
+                  onPress={() => navigation.navigate("ForgetPassword")}
+                >
+                  Forget Password?
+                </Text>
+              </View>
             </View>
             <View style={styles.center}>
               <Pressable style={styles.button} onPress={handleSubmit(onSubmit)}>
                 <Text style={styles.buttonText}>Submit</Text>
               </Pressable>
+            </View>
+            <View>
+              <Text variant="titleSmall" style={styles.signup}>
+                Don't have an account?
+              </Text>
+              <Text
+                style={{
+                  color: "white",
+                  fontWeight: "700",
+                  fontSize: 14,
+                  marginLeft: 10,
+                  textAlign: "center",
+                }}
+                onPress={() => navigation.navigate("CompanyRegister")}
+              >
+                Register
+              </Text>
             </View>
           </View>
         </View>

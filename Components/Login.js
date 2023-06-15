@@ -11,6 +11,7 @@ import {
 import { formStyles } from ".././assets/style/fromStyle";
 import { styles } from ".././assets/style/style";
 import { useForm, Controller } from "react-hook-form";
+import axios from "axios";
 
 function Login({ navigation }) {
   const {
@@ -19,13 +20,25 @@ function Login({ navigation }) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      emailId: "",
+      userName: "",
       password: "",
     },
   });
 
-  const onSubmit = (data) => console.log(data);
-
+  const onSubmit = async (data) => {
+    console.log(data, "resssssssssssresssssssssss");
+    try {
+      const response = await axios.post(
+        "https://nodebackend.kavalarnalantn.in:5000/user_Register/authenticate",
+        data
+      );
+      const jsonData = response.data;
+      console.log(JSON.stringify(jsonData.data), "resssssssssss");
+      navigation.navigate("CandidateRegister");
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
   return (
     <View
       style={{
@@ -61,9 +74,9 @@ function Login({ navigation }) {
                 value={value}
               />
             )}
-            name="emailId"
+            name="userName"
           />
-          {errors.emailId && (
+          {errors.userName && (
             <Text style={styles.errorMessage}>This is required.</Text>
           )}
 

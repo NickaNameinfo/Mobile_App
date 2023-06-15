@@ -69,18 +69,6 @@ export default function App() {
           }}
         />
         <Stack.Screen
-          name="Dashboard"
-          component={Dashboard}
-          options={{
-            headerRight: () => (
-              <Image
-                source={require("./assets/logo.png")}
-                style={{ width: 40, height: 40 }}
-              />
-            ),
-          }}
-        />
-        <Stack.Screen
           name="ForgetPassword"
           component={ForgetPassword}
           options={{
