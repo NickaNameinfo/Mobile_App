@@ -15,12 +15,15 @@ import SelectDropdown from "react-native-select-dropdown";
 import { AntDesign } from "@expo/vector-icons";
 import { useForm, Controller } from "react-hook-form";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import DatePicker from "./DatePicker";
 
 function Register({ navigation }) {
   const {
     control,
     handleSubmit,
     formState: { errors },
+    setValue,
+    watch,
   } = useForm({
     defaultValues: {
       empName: "",
@@ -45,26 +48,38 @@ function Register({ navigation }) {
       conformpass: "",
     },
   });
-  const [isPickerShow, setIsPickerShow] = useState(false);
-  const [date, setDate] = useState(new Date(Date.now()));
+  const [isPickerShow, setIsPickerShow] = useState(null);
 
-  const showPicker = () => {
-    setIsPickerShow(true);
+  console.log(isPickerShow, "isPickerShowisPickerShow");
+
+  const dob = watch("dob");
+  const doe = watch("doe");
+  const dopr = watch("dopr");
+  const dod = watch("dod");
+  const password = watch("password");
+
+  useEffect(() => {
+    setIsPickerShow(null);
+  }, [dob, doe, dopr, dod]);
+
+  const getCurrentDate = (value) => {
+    const currentDate = value;
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+    const day = String(currentDate.getDate()).padStart(2, "0");
+    const formattedDate = `${year}-${month}-${day}`;
+    return formattedDate;
   };
 
-  const onChange = (event, value) => {
-    setDate(value);
-    setIsPickerShow(false);
+  const showPicker = (name, value) => {
+    setIsPickerShow((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
+
   const itemsStatus = ["Serving", "Retired", "Deceased"];
   const itemsGender = ["Male", "Female", "Transgender"];
-
-  const itemsWards = [
-    "Police Personnel",
-    "Ministerial Staff",
-    "Fire & Rescue Services",
-    "Prison & Correctional Services",
-  ];
 
   const itemsRelation = ["Brother", "Sister", "Spouse", "Son", "Daughter"];
 
@@ -395,67 +410,80 @@ function Register({ navigation }) {
                 <Text style={styles.errorMessage}>This is required.</Text>
               )}
 
-              <Controller
-                control={control}
-                rules={{
-                  required: true,
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <TextInput
-                    label="Date Of Birth"
-                    placeholder="Date Of Birth"
-                    style={styles.inputBox}
-                    underlineColor="transparent"
-                    mode="outlined"
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                  />
-                )}
-                name="dob"
-              />
               <View>
                 {/* Display the selected date */}
                 <View>
-                  <Text onPress={showPicker} style={styles.inputBox}>
-                    {date.toUTCString()}
+                  <Text
+                    onPress={() => showPicker("dob", true)}
+                    style={styles.inputBox}
+                  >
+                    {dob !== "" ? getCurrentDate(dob) : "Date of Birth"}
                   </Text>
                 </View>
 
-                {/* The date picker */}
-                {isPickerShow && (
-                  <DateTimePicker
-                    value={date}
-                    mode={"date"}
-                    is24Hour={true}
-                    onChange={onChange}
-                  />
-                )}
+                <DatePicker
+                  onGetDateValue={(value) => setValue("dob", value)}
+                  onOpenDatePicker={isPickerShow?.dob}
+                />
               </View>
               {errors.dob && (
                 <Text style={styles.errorMessage}>This is required.</Text>
               )}
 
-              <Controller
-                control={control}
-                rules={{
-                  required: true,
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <TextInput
-                    label="Date Of Enlistment"
-                    placeholder="Date Of Enlistment"
+              <View>
+                {/* Display the selected date */}
+                <View>
+                  <Text
+                    onPress={() => showPicker("doe", true)}
                     style={styles.inputBox}
-                    underlineColor="transparent"
-                    mode="outlined"
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                  />
-                )}
-                name="doe"
-              />
+                  >
+                    {doe !== "" ? getCurrentDate(doe) : "Date of Enlistment"}
+                  </Text>
+                </View>
+                <DatePicker
+                  onGetDateValue={(value) => setValue("doe", value)}
+                  onOpenDatePicker={isPickerShow?.doe}
+                />
+              </View>
               {errors.doe && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <View>
+                {/* Display the selected date */}
+                <View>
+                  <Text
+                    onPress={() => showPicker("dopr", true)}
+                    style={styles.inputBox}
+                  >
+                    {dopr !== "" ? getCurrentDate(dopr) : "Date of Retirement"}
+                  </Text>
+                </View>
+                <DatePicker
+                  onGetDateValue={(value) => setValue("dopr", value)}
+                  onOpenDatePicker={isPickerShow?.dopr}
+                />
+              </View>
+
+              {errors.dopr && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+              <View>
+                {/* Display the selected date */}
+                <View>
+                  <Text
+                    onPress={() => showPicker("dod", true)}
+                    style={styles.inputBox}
+                  >
+                    {dod !== "" ? getCurrentDate(dod) : "Date of Enlistment"}
+                  </Text>
+                </View>
+                <DatePicker
+                  onGetDateValue={(value) => setValue("dod", value)}
+                  onOpenDatePicker={isPickerShow?.dod}
+                />
+              </View>
+              {errors.dod && (
                 <Text style={styles.errorMessage}>This is required.</Text>
               )}
 
@@ -557,6 +585,7 @@ function Register({ navigation }) {
                 control={control}
                 rules={{
                   required: true,
+                  pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
@@ -574,13 +603,14 @@ function Register({ navigation }) {
                 name="password"
               />
               {errors.password && (
-                <Text style={styles.errorMessage}>This is required.</Text>
+                <Text style={styles.errorMessage}>Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character, and must be at least 8 characters long.</Text>
               )}
 
               <Controller
                 control={control}
                 rules={{
                   required: true,
+                  validate: (value) => value === password || 'Passwords do not match.'
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
@@ -598,7 +628,7 @@ function Register({ navigation }) {
                 name="conformpass"
               />
               {errors.conformpass && (
-                <Text style={styles.errorMessage}>This is required.</Text>
+                <Text style={styles.errorMessage}>Passwords do not match.</Text>
               )}
 
               <View style={styles.center}>
