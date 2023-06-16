@@ -12,6 +12,7 @@ import {
 import { styles } from ".././assets/style/style";
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
+import { FileUpload } from "./FileUpload";
 
 function CompanyRegister({ navigation }) {
   const {
@@ -206,6 +207,7 @@ function CompanyRegister({ navigation }) {
                   )}
                   name="gstDoc"
                 />
+                <FileUpload />
                 {errors.gstDoc && (
                   <Text style={styles.errorMessage}>This is required.</Text>
                 )}
