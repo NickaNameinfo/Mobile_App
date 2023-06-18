@@ -14,7 +14,6 @@ import axios from "axios";
 import SelectDropdown from "react-native-select-dropdown";
 import { AntDesign } from "@expo/vector-icons";
 import { useForm, Controller } from "react-hook-form";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import DatePicker from "./DatePicker";
 
 function Register({ navigation }) {
@@ -80,8 +79,6 @@ function Register({ navigation }) {
 
   const itemsStatus = ["Serving", "Retired", "Deceased"];
   const itemsGender = ["Male", "Female", "Transgender"];
-
-  const itemsRelation = ["Brother", "Sister", "Spouse", "Son", "Daughter"];
 
   const itemsDepartment = [
     "Police Personnel",
@@ -174,14 +171,11 @@ function Register({ navigation }) {
   ];
 
   const onSubmit = async (data) => {
-    console.log(data, "resssssssssssresssssssssss");
     try {
       const response = await axios.post(
         "https://nodebackend.kavalarnalantn.in:5000/user_Register/register",
         data
       );
-      const jsonData = response.data;
-      console.log(JSON.stringify(jsonData.data), "resssssssssss");
       navigation.navigate("Login");
     } catch (error) {
       console.log("Error:", error);

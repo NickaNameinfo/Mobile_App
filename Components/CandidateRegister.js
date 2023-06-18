@@ -13,11 +13,13 @@ import { styles } from ".././assets/style/style";
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 
-function CandidateRegister({ navigation }) {
+function CandidateRegister({ navigation, route }) {
+  const { apiData } = route.params;
   const {
     control,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm({
     defaultValues: {
       fullName: "",
@@ -28,19 +30,16 @@ function CandidateRegister({ navigation }) {
       userName: "",
       password: "",
       conPassword: "",
-      CandidateName: "Mobile",
+      CandidateName: apiData?.data?.userName,
     },
   });
-
+  const password = watch("password");
   const onSubmit = async (data) => {
-    console.log(data, "resssssssssssresssssssssss");
     try {
       const response = await axios.post(
         "https://nodebackend.kavalarnalantn.in:5000/son_Register/register",
         data
       );
-      const jsonData = response.data;
-      console.log(JSON.stringify(jsonData.data), "resssssssssss");
       navigation.navigate("HomePage");
     } catch (error) {
       console.log("Error:", error);
@@ -122,6 +121,7 @@ function CandidateRegister({ navigation }) {
                   control={control}
                   rules={{
                     required: true,
+                    pattern: /^\d{0,10}$/
                   }}
                   render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
@@ -133,18 +133,20 @@ function CandidateRegister({ navigation }) {
                       onBlur={onBlur}
                       onChangeText={onChange}
                       value={value}
+                      keyboardType="numeric"
                     />
                   )}
                   name="mobileNo"
                 />
                 {errors.mobileNo && (
-                  <Text style={styles.errorMessage}>This is required.</Text>
+                  <Text style={styles.errorMessage}>Maximum of 10 digits</Text>
                 )}
 
                 <Controller
                   control={control}
                   rules={{
                     required: true,
+                    pattern: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/
                   }}
                   render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
@@ -161,7 +163,7 @@ function CandidateRegister({ navigation }) {
                   name="emailId"
                 />
                 {errors.emailId && (
-                  <Text style={styles.errorMessage}>This is required.</Text>
+                  <Text style={styles.errorMessage}>Please check your email id</Text>
                 )}
 
                 <Controller
@@ -179,6 +181,7 @@ function CandidateRegister({ navigation }) {
                       onBlur={onBlur}
                       onChangeText={onChange}
                       value={value}
+                      keyboardType="numeric"
                     />
                   )}
                   name="aadhaarNo"
@@ -214,6 +217,7 @@ function CandidateRegister({ navigation }) {
                   control={control}
                   rules={{
                     required: true,
+                    pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/
                   }}
                   render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
@@ -230,13 +234,14 @@ function CandidateRegister({ navigation }) {
                   name="password"
                 />
                 {errors.password && (
-                  <Text style={styles.errorMessage}>This is required.</Text>
+                <Text style={styles.errorMessage}>Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character, and must be at least 8 characters long.</Text>
                 )}
 
                 <Controller
                   control={control}
                   rules={{
                     required: true,
+                    validate: (value) => value === password || 'Passwords do not match.'
                   }}
                   render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
@@ -253,7 +258,7 @@ function CandidateRegister({ navigation }) {
                   name="conPassword"
                 />
                 {errors.conPassword && (
-                  <Text style={styles.errorMessage}>This is required.</Text>
+                  <Text style={styles.errorMessage}>Passwords do not match.</Text>
                 )}
               </View>
               <View style={styles.center}>
