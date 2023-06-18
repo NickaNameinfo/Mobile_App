@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -8,113 +8,529 @@ import {
   TextInput,
   Image,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { formStyles } from ".././assets/style/fromStyle";
 import { styles } from ".././assets/style/style";
 import { useForm, Controller } from "react-hook-form";
-
+import SelectDropdown from "react-native-select-dropdown";
+import DatePicker from "./DatePicker";
 function ApplyJob({ navigation }) {
   const [currentStep, setCurrentStep] = useState(0);
   const [steps, setSteps] = useState(["", "", "", ""]);
+  const [itemsId, setitemsId] = useState(null);
   const {
     control,
     handleSubmit,
     formState: { errors },
+    setValue,
+    watch,
   } = useForm({
     defaultValues: {
-      email: '',
-      empName: '',
-      empNameInit: '',
-      relEmp: '',
-      empStatus: '',
-      policePersonnel: '', //missing
+      email: "",
+      empName: "",
+      empNameInit: "",
+      relEmp: "",
+      empStatus: "",
+      policePersonnel: "", //missing
       ...(!itemsId && {
-        spouseCertificate: '',
+        spouseCertificate: "",
       }),
-      dob: '',
-      ranks: '', //missing
-      gpfcpsNumber: '',
+      dob: "",
+      ranks: "", //missing
+      gpfcpsNumber: "",
       // ploliceGradeNnumber: ploliceGradeNnumber,
-      stationUnit: '',
-      workingDistrict: '',
-      lastDistrict: '',
-      policeMobilePhone: '',
-      CandidateNname: '',
-      CandidateNnameInit: '',
-      gender: '',
-      dobDate: '',
-      email1: '',
-      phone1: '',
-      address1: '',
-      address2: '',
-      address3: '',
-      CityDistrict: '',
-      state1: '',
-      pincode: '',
-      aadharNumber: '',
-      myCheckboxes: '',
-      perference1: '',
-      preference2: preference2,
-      preference3: preference3,
-      otherPreferred: otherPreferred,
-      workPreference1: workPreference1,
-      workPreference2: workPreference2,
-      workPreference3: workPreference3,
-      skills: skills,
+      stationUnit: "",
+      workingDistrict: "",
+      lastDistrict: "",
+      policeMobilePhone: "",
+      CandidateNname: "",
+      CandidateNnameInit: "",
+      gender: "",
+      dobDate: "",
+      email1: "",
+      phone1: "",
+      address1: "",
+      address2: "",
+      address3: "",
+      CityDistrict: "",
+      state1: "",
+      pincode: "",
+      aadharNumber: "",
+      myCheckboxes: "",
+      perference1: "",
+      preference2: "",
+      preference3: "",
+      otherPreferred: "",
+      workPreference1: "",
+      workPreference2: "",
+      workPreference3: "",
+      skills: "",
       ...(!itemsId && {
-        candPhoto: file2,
+        candPhoto: "",
       }),
       ...(!itemsId && {
-        resume: file3,
+        resume: "",
       }),
-      Qualification: Qualification,
-      studied: studied,
-      Board: Board,
-      pass10: `${thmon10}/${thyear10}`,
-      Percentage: Percentage,
-      Board12: Board12,
-      Passing: `${thmon12}/${thyear12}`,
-      Percentage12: Percentage12,
-      course: course,
-      Passingiti: `${itimon}/${itiyear}`,
-      Percentageiti: Percentageiti,
-      courseDip: courseDip,
-      PassingDip: `${dipmon}/${dipyear}`,
-      PercentageDip: PercentageDip,
-      GraduationDg: GraduationDg,
-      Institute: Institute,
-      Subject: Subject,
-      Passinghigi: `${undmon}/${undyear}`,
-      Percentagehigi: Percentagehigi,
-      Degreename: Degreename,
-      University: University,
-      MajorSubject: MajorSubject,
-      Percentageunder: Percentageunder,
-      passedYear: `${pgmon}/${pgyear}`,
-      Universityphd: Universityphd,
-      Subjectphd: Subjectphd,
-      Passingphd: `${phdmon}/${phdyear}`,
-      Percentagephd: Percentagephd,
-      BoardBelow: BoardBelow,
-      below10thpass: `${belowmon}/${belowyear}`,
-      belowPercentage: belowPercentage,
-      Pursuing: Pursuing,
-      UniversityOther: UniversityOther,
-      SubjectOther: SubjectOther,
-      detailsdeg: detailsdeg,
-      Employment: Employment,
-      experience: experience,
-      CompanyName: CompanyName,
-      Designation: Designation,
-      Workingplz: Workingplz,
-      fromDate: fromDate,
-      toDate: toDate,
-      companyDet: companyDet,
-      userName: SonName,
+      Qualification: "",
+      studied: "",
+      Board: "",
+      pass10: "",
+      Percentage: "",
+      Board12: "",
+      Passing: ``,
+      Percentage12: "",
+      course: "",
+      Passingiti: "",
+      Percentageiti: "",
+      courseDip: "",
+      PassingDip: "",
+      PercentageDip: "",
+      GraduationDg: "",
+      Institute: "",
+      Subject: "",
+      Passinghigi: "",
+      Percentagehigi: "",
+      Degreename: "",
+      University: "",
+      MajorSubject: "",
+      Percentageunder: "",
+      passedYear: "",
+      Universityphd: "",
+      Subjectphd: "",
+      Passingphd: "",
+      Percentagephd: "",
+      BoardBelow: "",
+      below10thpass: "",
+      belowPercentage: "",
+      Pursuing: "",
+      UniversityOther: "",
+      SubjectOther: "",
+      detailsdeg: "",
+      Employment: "",
+      experience: "",
+      CompanyName: "",
+      Designation: "",
+      Workingplz: "",
+      fromDate: "",
+      toDate: "",
+      companyDet: "",
+      userName: "",
     },
   });
 
-  const onSubmit = (data) => console.log(data, "fdgsdgfsdfg");
+  const [isPickerShow, setIsPickerShow] = useState(null);
+
+  const dob = watch("dob");
+  const dobDate = watch("dobDate");
+  const pass10 = watch("pass10");
+  const Passing = watch("Passing");
+  const Passingiti = watch("Passingiti");
+  const PassingDip = watch("PassingDip");
+  const Passinghigi = watch("Passinghigi");
+  const passedYear = watch("passedYear");
+  const Passingphd = watch("Passingphd");
+  const below10thpass = watch("below10thpass");
+  const fromDate = watch("fromDate");
+  const toDate = watch("toDate");
+
+  useEffect(() => {
+    setIsPickerShow(null);
+  }, [dob, dobDate]);
+
+  const getCurrentDate = (value) => {
+    const currentDate = value;
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+    const day = String(currentDate.getDate()).padStart(2, "0");
+    const formattedDate = `${year}-${month}-${day}`;
+    return formattedDate;
+  };
+
+  const showPicker = (name, value) => {
+    setIsPickerShow((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  console.log(
+    errors,
+    "datadatadatadatadatadata",
+    Object.entries(errors).length
+  );
+
+  const onSubmit = async (data, name) => {
+    console.log(errors, data, "datadatadatadatadatadata", name);
+    if (name === "next") {
+      if (
+        currentStep + 1 < steps.length &&
+        Object.entries(errors).length === 0
+      ) {
+        setCurrentStep(currentStep + 1);
+      }
+    }
+
+    try {
+      const response = await axios.post(
+        "https://nodebackend.kavalarnalantn.in:5000/user_Register/register",
+        data
+      );
+      navigation.navigate("Login");
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+
+  const itemsRelation = ["Brother", "Sister", "Spouse", "Son", "Daughter"];
+  const itemsStatus = ["Serving", "Retired", "Deceased"];
+  const itemsGender = ["Male", "Female", "Transgender"];
+  const Employment = ["Fresher", "Working", "Unemployed"];
+  let perferenceDataLocation = [
+    "Choose",
+    "Ariyalur",
+    "Chengalpattu",
+    "Chennai",
+    "Coimbatore",
+    "Cuddalore",
+    "Dharmapuri",
+    "Dindigul",
+    "Erode",
+    "Kallakurichi",
+    "Kancheepuram",
+    "Kanniyakumari",
+    "Karur",
+    "Krishnagiri",
+    "Madurai",
+    "Mayiladuthurai",
+    "Nagapattinam",
+    "Namakkal",
+    "Nilgiris",
+    "Perambalur",
+    "Pudukkottai",
+    "Ramanathapuram",
+    "Ranipet",
+    "Salem",
+    "Sivagangai",
+    "Tenkasi",
+    "Thanjavur",
+    "Theni",
+    "Tirupattur",
+    "Thoothukudi",
+    "Tirunelveli",
+    "Tiruppur",
+    "Thiruvallur",
+    "Tiruvannamalai",
+    "Thiruvarur",
+    "Tiruchirappalli",
+    "Vellore",
+    "Viluppuram",
+    "Virudhunagar",
+    "ANY WHERE",
+    "Others",
+  ];
+  let perferenceData = [
+    "Choose",
+    "Information Technology",
+    "Automobile",
+    "Architecture",
+    "Accounts & Finance",
+    "Agriculture",
+    "Animation",
+    "Civil",
+    "Electrical & Electronics",
+    "Legal",
+    "Mass Communication",
+    "Mechanical Engineering",
+    "Medical",
+    "Media",
+    "Pharmaceutical",
+    "Sales & Marketing",
+    "Teaching",
+    "Veterinary",
+  ];
+
+  const Board10 = [
+    "Stateborad",
+    "Matriculation",
+    "CBSE",
+    "ICSE",
+    "OSLC",
+    "IGCSE",
+    "Others",
+  ];
+
+  const itemsQualification = [
+    "Below 10th",
+    "10th Standard (SSLC)",
+    "12th Standard (HSC)",
+    "ITI",
+    "Diploma",
+    "Under Graduation(UG)",
+    "Post Graduation(PG)",
+    "PhD(Doctorate)",
+  ];
+
+  const itemsGraduationDg = [
+    "A.M.B.S",
+    "B.A.",
+    "B.A. L.L.B",
+    "B.A.(Hons)",
+    "B.A.M.S.",
+    "B.Agri",
+    "B.Arch",
+    "B.ASLP",
+    "B.B.A",
+    "B.B.A. L.L.B",
+    "B.C.A.",
+    "B.Com",
+    "B.Com.L.L.B",
+    "B.Com(Hons)",
+    "B.D.S.",
+    "B.Des",
+    "B.Des M.Des",
+    "B.Des MBA",
+    "B.E /B.Tech",
+    "B.Ed.",
+    "B.Ed. Spl.Ed",
+    "B.El.Ed.",
+    "B.F.A.",
+    "B.F.L.",
+    "B.F.Sc.",
+    "B.H.Ed",
+    "B.H.M.",
+    "B.H.M.C.T.",
+    "B.H.M.S.",
+    "B.I.D.",
+    "B.Ind.",
+    "B.J.",
+    "B.Lib.I.Sc.",
+    "B.Lib.Sc.",
+    "B.M.B.S.",
+    "B.M.M.",
+    "B.M.S",
+    "B.N.Y.S.",
+    "B.Nurs",
+    "B.O.T.",
+    "B.Optom",
+    "B.Optom MBA",
+    "B.P.A.",
+    "B.P.Ed.",
+    "B.P.O.",
+    "B.P.T.",
+    "B.Pharma",
+    "B.Pharma MBA",
+    "B.Plan",
+    "B.R.S.",
+    "B.R.Sc.",
+    "B.S.M.S.",
+    "B.S.Sc.",
+    "B.S.W.",
+    "B.Sc B.Ed",
+    "B.Sc M.Sc",
+    "B.Sc MBA",
+    "B.Sc.",
+    "B.Sc. L.L.B",
+    "B.Sc.(Hons)",
+    "B.Stat",
+    "B.T.",
+    "B.T.T.M.",
+    "B.Tech M.Tech",
+    "B.Tech MBA",
+    "B.Text",
+    "B.U.M.S.",
+    "B.V.A.",
+    "B.V.Sc.",
+    "B.Voc.",
+    "BA B.Ed",
+    "BA MBA",
+    "BAD",
+    "BAG",
+    "BAS",
+    "BCA MCA",
+    "BCJ",
+    "BE",
+    "BEM",
+    "BFD",
+    "BFIA",
+    "BGD",
+    "BHCT",
+    "BLM",
+    "BPR",
+    "BPT MBA",
+    "BS",
+    "BTM",
+    "CA",
+    "CPL",
+    "CS",
+    "D.V.Sc.&A.H.",
+    "ICWA",
+    "L.L.B",
+  ];
+
+  const Degreename = [
+    "--",
+    "Executive MBA",
+    "FPM",
+    "L.L.M",
+    "M.A",
+    "M.Arch",
+    "M.ASLP",
+    "M.C.A",
+    "M.C.M",
+    "M.Com",
+    "M.Com (Hons)",
+    "M.D",
+    "M.D.S",
+    "M.Des",
+    "M.E /M.Tech",
+    "M.Ed",
+    "M.Ed. Spl.Ed",
+    "M.F.A",
+    "M.F.Sc",
+    "M.H.A",
+    "M.H.M",
+    "M.H.M.C.T",
+    "M.I.D",
+    "M.J",
+    "M.Lib.I.Sc",
+    "M.Lib.Sc",
+    "M.M.S",
+    "M.O",
+    "M.Optom",
+    "M.P.A",
+    "M.P.Ed",
+    "M.P.H",
+    "M.P.O",
+    "M.P.T",
+    "M.Pharma",
+    "M.Phil",
+    "M.Plan",
+    "M.R.S",
+    "M.R.Sc",
+    "M.S",
+    "M.S.A.M",
+    "M.S.W",
+    "M.Sc",
+    "M.Stat",
+    "M.T.T.M",
+    "M.Text",
+    "M.V.A",
+    "M.V.Sc",
+    "M.Voc",
+    "MBA",
+    "MCJ",
+    "MFM",
+    "MFS",
+    "MHCT",
+    "MHoM",
+    "MLM",
+    "MOT",
+    "MPS",
+    "MTM",
+    "P.G.D",
+    "P.G.D.C.A",
+    "P.G.D.M",
+    "P.G.P",
+    "PGC",
+    "PGD in Engineering",
+    "PGDA&M",
+    "PGDFD",
+    "PGDID",
+    "PGPA&T",
+  ];
+
+  const policePersonnel = [
+    "Police Personnel",
+    "Ministerial Staff ",
+    "Fire & Rescue Services",
+    "Prison & Correctional Services",
+    "Others",
+  ];
+
+  const itemsRank = [
+    "Additional Director General of Police",
+    "Additional Superintendent of Police",
+    "Administrative Officer",
+    "Assistant",
+    "Assistant Commandant",
+    "Assistant Director",
+    "Assistant Manager",
+    "Automobile Engineer",
+    "Band Master",
+    "Barber",
+    "Batteryman",
+    "Binder",
+    "Blacksmith",
+    "Chargemen",
+    "Chief Manager",
+    "Chief Reporter",
+    "Chief Administrative Officer",
+    "Cleaner",
+    "Commandant",
+    "Cook",
+    "Data Entry Assistant",
+    "Data Entry Operator",
+    "Deputy Commandant",
+    "Deputy Director",
+    "Deputy Inspector General of Police",
+    "Deputy Superintendent of Police",
+    "Dhoby",
+    "Director General of Police",
+    "Dog Boy",
+    "Duffadar",
+    "Electrician / Fitter / Foreman / Hammerman / Helper",
+    "Gardener",
+    "Grade I PC",
+    "Grade II PC",
+  ];
+
+  const itemsCity = [
+    "Ariyalur",
+    "Avadi Commissionerate",
+    "Chengalpattu",
+    "Chennai",
+    "Coimbatore",
+    "Coimbatore City",
+    "Cuddalore",
+    "Dharmapuri",
+    "Dindigul",
+    "Erode",
+    "Kallakurichi",
+    "Kancheepuram",
+    "Kanniyakumari",
+    "Karur",
+    "Krishnagiri",
+    "Madurai",
+    "Madurai City",
+    "Mayiladuthurai",
+    "Nagapattinam",
+    "Namakkal",
+    "The Nilgiris",
+    "Perambalur",
+    "Ramanathapuram",
+    "Ranipet",
+    "Salem",
+    "Salem city",
+    "Sivagangai",
+    "Tambaram comimissionerate",
+    "Thanjavur",
+    "Theni",
+    "Tirupattur",
+    "Thoothukudi",
+    "Tirunelveli",
+    "Tirunelveli City",
+    "Tiruppur",
+    "Tiruppur City",
+    "Thiruvallur",
+    "Tiruvannamalai",
+    "Thiruvarur",
+    "Tiruchirappalli",
+    "Tiruchirappalli City",
+    "Vellore",
+    "Viluppuram",
+    "Virudhunagar",
+  ];
+
   return (
     <View
       style={{
@@ -166,568 +582,1696 @@ function ApplyJob({ navigation }) {
             <View>
               <Text style={styles.cardHeader}>Personal Details</Text>
 
-              <TextInput
-                placeholder="Employee Name"
-                style={styles.inputBox}
-                mode="outlined"
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="Employee Name"
+                    style={styles.inputBox}
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="empName"
               />
-              <TextInput
-                placeholder="Relationship to the Employee"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
+              {errors.empName && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="Employee Initial"
+                    style={styles.inputBox}
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="empNameInit"
               />
-              <TextInput
-                placeholder="Status of Employee "
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
+              {errors.empNameInit && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <SelectDropdown
+                    data={itemsRelation}
+                    onSelect={onChange}
+                    defaultButtonText="Select Relationship "
+                    buttonStyle={styles.DropDownPicker}
+                    search={true}
+                    renderDropdownIcon={() => (
+                      <AntDesign name="down" size={16} color="black" />
+                    )}
+                    buttonTextStyle={styles.dropDownText}
+                  />
+                )}
+                name="relEmp"
               />
-              <TextInput
-                placeholder="Wards / Spouse of "
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
+              {errors.relEmp && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <SelectDropdown
+                    data={itemsStatus}
+                    onSelect={onChange}
+                    defaultButtonText="Select Status of Employee"
+                    buttonStyle={styles.DropDownPicker}
+                    search={true}
+                    renderDropdownIcon={() => (
+                      <AntDesign name="down" size={16} color="black" />
+                    )}
+                    buttonTextStyle={styles.dropDownText}
+                  />
+                )}
+                name="empStatus"
               />
-              <TextInput
-                placeholder="Wards/Spouse Certificate"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
+              {errors.empStatus && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <SelectDropdown
+                    data={policePersonnel}
+                    onSelect={onChange}
+                    defaultButtonText="Wards / Spouse of"
+                    buttonStyle={styles.DropDownPicker}
+                    search={true}
+                    renderDropdownIcon={() => (
+                      <AntDesign name="down" size={16} color="black" />
+                    )}
+                    buttonTextStyle={styles.dropDownText}
+                  />
+                )}
+                name="policePersonnel"
               />
-              <TextInput
-                placeholder="Date Of Birth "
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
+              {errors.policePersonnel && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="Wards/Spouse Certificate"
+                    style={styles.inputBox}
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="empNameInit"
               />
-              <TextInput
-                placeholder="Rank "
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
+              {errors.empNameInit && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <View>
+                {/* Display the selected date */}
+                <View>
+                  <Text
+                    onPress={() => showPicker("dob", true)}
+                    style={styles.inputBox}
+                  >
+                    {dob !== "" ? getCurrentDate(dob) : "Date of Birth"}
+                  </Text>
+                </View>
+
+                <DatePicker
+                  onGetDateValue={(value) => setValue("dob", value)}
+                  onOpenDatePicker={isPickerShow?.dob}
+                />
+              </View>
+              {errors.dob && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <SelectDropdown
+                    data={itemsRank}
+                    onSelect={onChange}
+                    defaultButtonText="Rank "
+                    buttonStyle={styles.DropDownPicker}
+                    search={true}
+                    renderDropdownIcon={() => (
+                      <AntDesign name="down" size={16} color="black" />
+                    )}
+                    buttonTextStyle={styles.dropDownText}
+                  />
+                )}
+                name="ranks"
               />
-              <TextInput
-                placeholder="GPF/CPS/PPO Number *
-                "
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
+              {errors.ranks && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="GPF/CPS/PPO Number"
+                    style={styles.inputBox}
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="gpfcpsNumber"
               />
-              <TextInput
-                placeholder="Police Station / Unit *
-                "
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
+              {errors.gpfcpsNumber && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="Police Station / Unit"
+                    style={styles.inputBox}
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="stationUnit"
               />
-              <TextInput
-                placeholder="Mobile Number *
-                "
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
+              {errors.stationUnit && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <SelectDropdown
+                    data={itemsCity}
+                    onSelect={onChange}
+                    defaultButtonText="Last Served District  "
+                    buttonStyle={styles.DropDownPicker}
+                    search={true}
+                    renderDropdownIcon={() => (
+                      <AntDesign name="down" size={16} color="black" />
+                    )}
+                    buttonTextStyle={styles.dropDownText}
+                  />
+                )}
+                name="lastDistrict"
               />
-              <TextInput
-                placeholder="Candidate's Name (Initial at end) *
-                "
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
+              {errors.lastDistrict && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="Mobile Number"
+                    style={styles.inputBox}
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="policeMobilePhone"
               />
-              <TextInput
-                placeholder="Gender "
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
+              {errors.policeMobilePhone && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+              <Text style={styles.cardHeader}>
+                Candidate's Personal Information
+              </Text>
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="Candidate's Name"
+                    style={styles.inputBox}
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="CandidateNname"
               />
-              <TextInput
-                placeholder="Date Of Birth *
-                "
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
+              {errors.CandidateNname && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="Candidate's Initial "
+                    style={styles.inputBox}
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="CandidateNnameInit"
               />
-              <TextInput
-                placeholder="Email"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
+              {errors.CandidateNnameInit && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <SelectDropdown
+                    data={itemsGender}
+                    onSelect={onChange}
+                    defaultButtonText="gender"
+                    buttonStyle={styles.DropDownPicker}
+                    search={true}
+                    renderDropdownIcon={() => (
+                      <AntDesign name="down" size={16} color="black" />
+                    )}
+                    buttonTextStyle={styles.dropDownText}
+                  />
+                )}
+                name="gender"
               />
-              <TextInput
-                placeholder="Mobile Number *"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
+              {errors.gender && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+              <View>
+                {/* Display the selected date */}
+                <View>
+                  <Text
+                    onPress={() => showPicker("dobDate", true)}
+                    style={styles.inputBox}
+                  >
+                    {dobDate !== "" ? getCurrentDate(dobDate) : "Date of Birth"}
+                  </Text>
+                </View>
+
+                <DatePicker
+                  onGetDateValue={(value) => setValue("dobDate", value)}
+                  onOpenDatePicker={isPickerShow?.dobDate}
+                />
+              </View>
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="Email"
+                    style={styles.inputBox}
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="email1"
               />
-              <TextInput
-                placeholder="Mobile Number *"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
+              {errors.email1 && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="Mobile Number"
+                    style={styles.inputBox}
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="phone1"
               />
-              <TextInput
-                placeholder="Address Line 2 *
-                "
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
+              {errors.phone1 && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="Address Line 1"
+                    style={styles.inputBox}
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="address1"
               />
-              <TextInput
-                placeholder="Address Line 3 *
-                "
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
+              {errors.address1 && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="Address Line 2"
+                    style={styles.inputBox}
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="address2"
               />
-              <TextInput
-                placeholder="City/District *
-                "
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
+              {errors.address2 && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="Address Line 3"
+                    style={styles.inputBox}
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="address3"
               />
-              <TextInput
-                placeholder="State "
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
+              {errors.address3 && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <SelectDropdown
+                    data={itemsCity}
+                    onSelect={onChange}
+                    defaultButtonText="City / District"
+                    buttonStyle={styles.DropDownPicker}
+                    search={true}
+                    renderDropdownIcon={() => (
+                      <AntDesign name="down" size={16} color="black" />
+                    )}
+                    buttonTextStyle={styles.dropDownText}
+                  />
+                )}
+                name="CityDistrict"
               />
-              <TextInput
-                placeholder="Pincode "
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
+              {errors.CityDistrict && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="State"
+                    style={styles.inputBox}
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="state1"
               />
-              <TextInput
-                placeholder="Aadhar Number *
-                "
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
+              {errors.state1 && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="Pincode"
+                    style={styles.inputBox}
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="pincode"
               />
+              {errors.pincode && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="Aadhar Number"
+                    style={styles.inputBox}
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="aadharNumber"
+              />
+              {errors.aadharNumber && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="Languages Known"
+                    style={styles.inputBox}
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="myCheckboxes"
+              />
+              {errors.myCheckboxes && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
             </View>
           )}
           {currentStep == 1 && (
             <View>
               <Text style={styles.cardHeader}>Qualification Details</Text>
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <SelectDropdown
+                    data={itemsQualification}
+                    onSelect={onChange}
+                    defaultButtonText="Highest Qualification"
+                    buttonStyle={styles.DropDownPicker}
+                    search={true}
+                    renderDropdownIcon={() => (
+                      <AntDesign name="down" size={16} color="black" />
+                    )}
+                    buttonTextStyle={styles.dropDownText}
+                  />
+                )}
+                name="Qualification"
+              />
+              {errors.Qualification && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="Qualification"
+                    style={styles.inputBox}
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="studied"
+              />
+              {errors.studied && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+              <View>
+                <Text style={styles.cardHeader}>10th (SSLC)</Text>
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <SelectDropdown
+                      data={Board10}
+                      onSelect={onChange}
+                      defaultButtonText="Board"
+                      buttonStyle={styles.DropDownPicker}
+                      search={true}
+                      renderDropdownIcon={() => (
+                        <AntDesign name="down" size={16} color="black" />
+                      )}
+                      buttonTextStyle={styles.dropDownText}
+                    />
+                  )}
+                  name="Board"
+                />
+                {errors.Board && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
 
-              <TextInput
-                placeholder="Frist Name"
-                style={styles.inputBox}
-                mode="outlined"
+                <View>
+                  {/* Display the selected date */}
+                  <View>
+                    <Text
+                      onPress={() => showPicker("pass10", true)}
+                      style={styles.inputBox}
+                    >
+                      {pass10 !== ""
+                        ? getCurrentDate(pass10)
+                        : "Month & Year of Passing"}
+                    </Text>
+                  </View>
+
+                  <DatePicker
+                    onGetDateValue={(value) => setValue("pass10", value)}
+                    onOpenDatePicker={isPickerShow?.pass10}
+                  />
+                </View>
+                {errors.pass10 && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      placeholder="Percentage"
+                      style={styles.inputBox}
+                      mode="outlined"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                    />
+                  )}
+                  name="Percentage"
+                />
+                {errors.Percentage && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+              </View>
+              <View>
+                <Text style={styles.cardHeader}>12th (HSC)</Text>
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <SelectDropdown
+                      data={Board10}
+                      onSelect={onChange}
+                      defaultButtonText="Board "
+                      buttonStyle={styles.DropDownPicker}
+                      search={true}
+                      renderDropdownIcon={() => (
+                        <AntDesign name="down" size={16} color="black" />
+                      )}
+                      buttonTextStyle={styles.dropDownText}
+                    />
+                  )}
+                  name="Board12"
+                />
+                {errors.Board12 && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+
+                <View>
+                  {/* Display the selected date */}
+                  <View>
+                    <Text
+                      onPress={() => showPicker("Passing", true)}
+                      style={styles.inputBox}
+                    >
+                      {Passing !== ""
+                        ? getCurrentDate(Passing)
+                        : "Month & Year of Passing"}
+                    </Text>
+                  </View>
+
+                  <DatePicker
+                    onGetDateValue={(value) => setValue("Passing", value)}
+                    onOpenDatePicker={isPickerShow?.Passing}
+                  />
+                </View>
+                {errors.Passing && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      placeholder="Percentage"
+                      style={styles.inputBox}
+                      mode="outlined"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                    />
+                  )}
+                  name="Percentage12"
+                />
+                {errors.Percentage12 && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+              </View>
+              <View>
+                <Text style={styles.cardHeader}>ITI</Text>
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      placeholder="Name of the course"
+                      style={styles.inputBox}
+                      mode="outlined"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                    />
+                  )}
+                  name="course"
+                />
+                {errors.course && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+
+                <View>
+                  {/* Display the selected date */}
+                  <View>
+                    <Text
+                      onPress={() => showPicker("Passingiti", true)}
+                      style={styles.inputBox}
+                    >
+                      {Passingiti !== ""
+                        ? getCurrentDate(Passingiti)
+                        : "Month & Year of Passing"}
+                    </Text>
+                  </View>
+
+                  <DatePicker
+                    onGetDateValue={(value) => setValue("Passingiti", value)}
+                    onOpenDatePicker={isPickerShow?.Passingiti}
+                  />
+                </View>
+                {errors.Passingiti && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      placeholder="Percentageiti"
+                      style={styles.inputBox}
+                      mode="outlined"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                    />
+                  )}
+                  name="Percentageiti"
+                />
+                {errors.Percentageiti && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+              </View>
+
+              <View>
+                <Text style={styles.cardHeader}>Diploma</Text>
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      placeholder="Name of the course"
+                      style={styles.inputBox}
+                      mode="outlined"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                    />
+                  )}
+                  name="courseDip"
+                />
+                {errors.courseDip && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+
+                <View>
+                  {/* Display the selected date */}
+                  <View>
+                    <Text
+                      onPress={() => showPicker("PassingDip", true)}
+                      style={styles.inputBox}
+                    >
+                      {PassingDip !== ""
+                        ? getCurrentDate(PassingDip)
+                        : "Month & Year of Passing"}
+                    </Text>
+                  </View>
+
+                  <DatePicker
+                    onGetDateValue={(value) => setValue("PassingDip", value)}
+                    onOpenDatePicker={isPickerShow?.PassingDip}
+                  />
+                </View>
+                {errors.PassingDip && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      placeholder="PercentageDip"
+                      style={styles.inputBox}
+                      mode="outlined"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                    />
+                  )}
+                  name="PercentageDip"
+                />
+                {errors.PercentageDip && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+              </View>
+
+              <View>
+                <Text style={styles.cardHeader}>Under Graduation Degree</Text>
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <SelectDropdown
+                      data={itemsGraduationDg}
+                      onSelect={onChange}
+                      defaultButtonText="GraduationDg"
+                      buttonStyle={styles.DropDownPicker}
+                      search={true}
+                      renderDropdownIcon={() => (
+                        <AntDesign name="down" size={16} color="black" />
+                      )}
+                      buttonTextStyle={styles.dropDownText}
+                    />
+                  )}
+                  name="GraduationDg"
+                />
+                {errors.GraduationDg && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      placeholder="Name of the Major Subject"
+                      style={styles.inputBox}
+                      mode="outlined"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                    />
+                  )}
+                  name="Subject"
+                />
+                {errors.Subject && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      placeholder="Name of the Institute / University"
+                      style={styles.inputBox}
+                      mode="outlined"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                    />
+                  )}
+                  name="Institute"
+                />
+                {errors.Institute && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+                <View>
+                  {/* Display the selected date */}
+                  <View>
+                    <Text
+                      onPress={() => showPicker("Passinghigi", true)}
+                      style={styles.inputBox}
+                    >
+                      {Passinghigi !== ""
+                        ? getCurrentDate(Passinghigi)
+                        : "Month & Year of Passing"}
+                    </Text>
+                  </View>
+
+                  <DatePicker
+                    onGetDateValue={(value) => setValue("Passinghigi", value)}
+                    onOpenDatePicker={isPickerShow?.Passinghigi}
+                  />
+                </View>
+                {errors.Passinghigi && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      placeholder="Percentage"
+                      style={styles.inputBox}
+                      mode="outlined"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                    />
+                  )}
+                  name="Percentagehigi"
+                />
+                {errors.Percentagehigi && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+              </View>
+
+              <View>
+                <Text style={styles.cardHeader}>Post Graduation Degree</Text>
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <SelectDropdown
+                      data={Degreename}
+                      onSelect={onChange}
+                      defaultButtonText="Name of the Degree"
+                      buttonStyle={styles.DropDownPicker}
+                      search={true}
+                      renderDropdownIcon={() => (
+                        <AntDesign name="down" size={16} color="black" />
+                      )}
+                      buttonTextStyle={styles.dropDownText}
+                    />
+                  )}
+                  name="Degreename"
+                />
+                {errors.Degreename && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      placeholder="Name of the Major Subject"
+                      style={styles.inputBox}
+                      mode="outlined"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                    />
+                  )}
+                  name="MajorSubject"
+                />
+                {errors.MajorSubject && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      placeholder="Name of the Institute / University"
+                      style={styles.inputBox}
+                      mode="outlined"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                    />
+                  )}
+                  name="University"
+                />
+                {errors.University && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+                <View>
+                  {/* Display the selected date */}
+                  <View>
+                    <Text
+                      onPress={() => showPicker("passedYear", true)}
+                      style={styles.inputBox}
+                    >
+                      {passedYear !== ""
+                        ? getCurrentDate(passedYear)
+                        : "Month & Year of Passing"}
+                    </Text>
+                  </View>
+
+                  <DatePicker
+                    onGetDateValue={(value) => setValue("passedYear", value)}
+                    onOpenDatePicker={isPickerShow?.passedYear}
+                  />
+                </View>
+                {errors.passedYear && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      placeholder="Percentage"
+                      style={styles.inputBox}
+                      mode="outlined"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                    />
+                  )}
+                  name="Percentageunder"
+                />
+                {errors.Percentageunder && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+              </View>
+
+              <View>
+                <Text style={styles.cardHeader}>PhD</Text>
+
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      placeholder="Name of the Major Subject"
+                      style={styles.inputBox}
+                      mode="outlined"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                    />
+                  )}
+                  name="Subjectphd"
+                />
+                {errors.Subjectphd && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+                <View>
+                  {/* Display the selected date */}
+                  <View>
+                    <Text
+                      onPress={() => showPicker("Passingphd", true)}
+                      style={styles.inputBox}
+                    >
+                      {Passingphd !== ""
+                        ? getCurrentDate(Passingphd)
+                        : "Month & Year of Passing"}
+                    </Text>
+                  </View>
+
+                  <DatePicker
+                    onGetDateValue={(value) => setValue("Passingphd", value)}
+                    onOpenDatePicker={isPickerShow?.Passingphd}
+                  />
+                </View>
+                {errors.Passingphd && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      placeholder="Percentage"
+                      style={styles.inputBox}
+                      mode="outlined"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                    />
+                  )}
+                  name="Percentagephd"
+                />
+                {errors.Percentagephd && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+              </View>
+
+              <View>
+                <Text style={styles.cardHeader}>Educational Qualification</Text>
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <SelectDropdown
+                      data={Board10}
+                      onSelect={onChange}
+                      defaultButtonText="Board"
+                      buttonStyle={styles.DropDownPicker}
+                      search={true}
+                      renderDropdownIcon={() => (
+                        <AntDesign name="down" size={16} color="black" />
+                      )}
+                      buttonTextStyle={styles.dropDownText}
+                    />
+                  )}
+                  name="BoardBelow"
+                />
+                {errors.BoardBelow && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+                <View>
+                  {/* Display the selected date */}
+                  <View>
+                    <Text
+                      onPress={() => showPicker("below10thpass", true)}
+                      style={styles.inputBox}
+                    >
+                      {below10thpass !== ""
+                        ? getCurrentDate(below10thpass)
+                        : "Month & Year of Passing"}
+                    </Text>
+                  </View>
+
+                  <DatePicker
+                    onGetDateValue={(value) => setValue("below10thpass", value)}
+                    onOpenDatePicker={isPickerShow?.below10thpass}
+                  />
+                </View>
+                {errors.below10thpass && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      placeholder="Percentage"
+                      style={styles.inputBox}
+                      mode="outlined"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                    />
+                  )}
+                  name="belowPercentage"
+                />
+                {errors.belowPercentage && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+              </View>
+
+              <Controller
+                control={control}
+                rules={{
+                  required: false,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="Pursuing Any Degree"
+                    style={styles.inputBox}
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="Pursuing"
               />
-              <TextInput
-                placeholder="Last Name"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Email Id"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Phone Number"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
+
+              <View>
+                <Text style={styles.cardHeader}>Other Qualification</Text>
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      placeholder="University Other"
+                      style={styles.inputBox}
+                      mode="outlined"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                    />
+                  )}
+                  name="UniversityOther"
+                />
+                {errors.UniversityOther && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      placeholder="Subject Other"
+                      style={styles.inputBox}
+                      mode="outlined"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                    />
+                  )}
+                  name="SubjectOther"
+                />
+                {errors.SubjectOther && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+              </View>
             </View>
           )}
           {currentStep == 2 && (
             <View>
               <Text style={styles.cardHeader}>Preference Details</Text>
+              <View>
+                <Text style={styles.cardHeader}>Preferred Industry</Text>
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <SelectDropdown
+                      data={perferenceData}
+                      onSelect={onChange}
+                      defaultButtonText="Preference 1"
+                      buttonStyle={styles.DropDownPicker}
+                      search={true}
+                      renderDropdownIcon={() => (
+                        <AntDesign name="down" size={16} color="black" />
+                      )}
+                      buttonTextStyle={styles.dropDownText}
+                    />
+                  )}
+                  name="perference1"
+                />
+                {errors.perference1 && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
 
-              <TextInput
-                placeholder="Frist Name"
-                style={styles.inputBox}
-                mode="outlined"
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <SelectDropdown
+                      data={perferenceData}
+                      onSelect={onChange}
+                      defaultButtonText="Preference 2"
+                      buttonStyle={styles.DropDownPicker}
+                      search={true}
+                      renderDropdownIcon={() => (
+                        <AntDesign name="down" size={16} color="black" />
+                      )}
+                      buttonTextStyle={styles.dropDownText}
+                    />
+                  )}
+                  name="preference2"
+                />
+                {errors.preference2 && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <SelectDropdown
+                      data={perferenceData}
+                      onSelect={onChange}
+                      defaultButtonText="Preference 3"
+                      buttonStyle={styles.DropDownPicker}
+                      search={true}
+                      renderDropdownIcon={() => (
+                        <AntDesign name="down" size={16} color="black" />
+                      )}
+                      buttonTextStyle={styles.dropDownText}
+                    />
+                  )}
+                  name="preference3"
+                />
+                {errors.preference3 && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+              </View>
+
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <SelectDropdown
+                    data={perferenceData}
+                    onSelect={onChange}
+                    defaultButtonText="Other Preferred Industry"
+                    buttonStyle={styles.DropDownPicker}
+                    search={true}
+                    renderDropdownIcon={() => (
+                      <AntDesign name="down" size={16} color="black" />
+                    )}
+                    buttonTextStyle={styles.dropDownText}
+                  />
+                )}
+                name="otherPreferred"
               />
-              <TextInput
-                placeholder="Last Name"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
+              {errors.otherPreferred && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <View>
+                <Text style={styles.cardHeader}>Preferred Work Location</Text>
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <SelectDropdown
+                      data={perferenceDataLocation}
+                      onSelect={onChange}
+                      defaultButtonText="Preference 1"
+                      buttonStyle={styles.DropDownPicker}
+                      search={true}
+                      renderDropdownIcon={() => (
+                        <AntDesign name="down" size={16} color="black" />
+                      )}
+                      buttonTextStyle={styles.dropDownText}
+                    />
+                  )}
+                  name="workPreference1"
+                />
+                {errors.workPreference1 && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <SelectDropdown
+                      data={perferenceDataLocation}
+                      onSelect={onChange}
+                      defaultButtonText="Preference 2"
+                      buttonStyle={styles.DropDownPicker}
+                      search={true}
+                      renderDropdownIcon={() => (
+                        <AntDesign name="down" size={16} color="black" />
+                      )}
+                      buttonTextStyle={styles.dropDownText}
+                    />
+                  )}
+                  name="workPreference2"
+                />
+                {errors.workPreference2 && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <SelectDropdown
+                      data={perferenceDataLocation}
+                      onSelect={onChange}
+                      defaultButtonText="Preference 3"
+                      buttonStyle={styles.DropDownPicker}
+                      search={true}
+                      renderDropdownIcon={() => (
+                        <AntDesign name="down" size={16} color="black" />
+                      )}
+                      buttonTextStyle={styles.dropDownText}
+                    />
+                  )}
+                  name="workPreference3"
+                />
+                {errors.workPreference3 && (
+                  <Text style={styles.errorMessage}>This is required.</Text>
+                )}
+              </View>
+
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="Skills"
+                    style={styles.inputBox}
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="skills"
               />
-              <TextInput
-                placeholder="Email Id"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
+              {errors.skills && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="Candidate's Photo (Upto 1 MB)"
+                    style={styles.inputBox}
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="skills"
               />
-              <TextInput
-                placeholder="Phone Number"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
+              {errors.skills && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="Your Resume [ PDF ] (Upto 1 MB)"
+                    style={styles.inputBox}
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="skills"
               />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
+              {errors.skills && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
             </View>
           )}
           {currentStep == 3 && (
             <View>
               <Text style={styles.cardHeader}>Professional Experience</Text>
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <SelectDropdown
+                    data={Employment}
+                    onSelect={onChange}
+                    defaultButtonText="Employment Status"
+                    buttonStyle={styles.DropDownPicker}
+                    search={true}
+                    renderDropdownIcon={() => (
+                      <AntDesign name="down" size={16} color="black" />
+                    )}
+                    buttonTextStyle={styles.dropDownText}
+                  />
+                )}
+                name="Employment"
+              />
+              {errors.Employment && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="Year of experience"
+                    style={styles.inputBox}
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="experience"
+              />
+              {errors.experience && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="Name of the Company"
+                    style={styles.inputBox}
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="CompanyName"
+              />
+              {errors.CompanyName && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
 
-              <TextInput
-                placeholder="Frist Name"
-                style={styles.inputBox}
-                mode="outlined"
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="Job Designation"
+                    style={styles.inputBox}
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="Designation"
               />
-              <TextInput
-                placeholder="Last Name"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
+              {errors.Designation && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="Place of Working"
+                    style={styles.inputBox}
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="Workingplz"
               />
-              <TextInput
-                placeholder="Email Id"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
+              {errors.Workingplz && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <View>
+                {/* Display the selected date */}
+                <View>
+                  <Text
+                    onPress={() => showPicker("fromDate", true)}
+                    style={styles.inputBox}
+                  >
+                    {fromDate !== "" ? getCurrentDate(fromDate) : "From Date"}
+                  </Text>
+                </View>
+
+                <DatePicker
+                  onGetDateValue={(value) => setValue("fromDate", value)}
+                  onOpenDatePicker={isPickerShow?.fromDate}
+                />
+              </View>
+              {errors.fromDate && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <View>
+                {/* Display the selected date */}
+                <View>
+                  <Text
+                    onPress={() => showPicker("toDate", true)}
+                    style={styles.inputBox}
+                  >
+                    {toDate !== "" ? getCurrentDate(toDate) : "From Date"}
+                  </Text>
+                </View>
+
+                <DatePicker
+                  onGetDateValue={(value) => setValue("toDate", value)}
+                  onOpenDatePicker={isPickerShow?.toDate}
+                />
+              </View>
+              {errors.toDate && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
+
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    placeholder="Other Company"
+                    style={styles.inputBox}
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="companyDet"
               />
-              <TextInput
-                placeholder="Phone Number"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
-              <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={styles.inputBox}
-                mode="outlined"
-              />
+              {errors.companyDet && (
+                <Text style={styles.errorMessage}>This is required.</Text>
+              )}
             </View>
           )}
           <View style={formStyles.flexRow}>
             {currentStep > 0 ? (
               <TouchableOpacity
                 style={formStyles.prevStep}
+                // onPress={handleSubmit((data) => onSubmit(data, "back"))}
                 onPress={() => {
                   if (currentStep > 0) {
                     setCurrentStep(currentStep - 1);
                   }
                 }}
               >
-                <Text style={formStyles.buttonText}>Back #</Text>
+                <Text style={formStyles.buttonText}>Back</Text>
               </TouchableOpacity>
             ) : null}
             <TouchableOpacity
               style={formStyles.signOut}
               onPress={() => navigation.navigate("HomePage")}
             >
-              <Text style={formStyles.buttonText}>SingOut #</Text>
+              <Text style={formStyles.buttonText}>SingOut</Text>
             </TouchableOpacity>
             {currentStep + 1 < steps.length /* add other conditions here */ && (
               <TouchableOpacity
                 style={formStyles.nextStep}
-                onPress={() => {
-                  if (currentStep + 1 < steps.length) {
-                    setCurrentStep(currentStep + 1);
-                  }
-                }}
+                onPress={handleSubmit((data) => onSubmit(data, "next"))}
+                // onPress={() => {
+                //   if (currentStep + 1 < steps.length) {
+                //     setCurrentStep(currentStep + 1);
+                //   }
+                // }}
               >
                 <Text style={formStyles.buttonText}>Next</Text>
               </TouchableOpacity>
@@ -736,9 +2280,9 @@ function ApplyJob({ navigation }) {
               steps.length /* add other conditions here */ && (
               <TouchableOpacity
                 style={formStyles.nextStep}
-                onPress={() => navigation.navigate("ViewJob")}
+                onPress={handleSubmit(onSubmit)}
               >
-                <Text style={formStyles.buttonText}>Finish #</Text>
+                <Text style={formStyles.buttonText}>Submit</Text>
               </TouchableOpacity>
             )}
           </View>

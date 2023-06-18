@@ -12,6 +12,7 @@ import {
 import { formStyles } from ".././assets/style/fromStyle";
 import { styles } from ".././assets/style/style";
 import { useForm, Controller } from "react-hook-form";
+import axios from "axios";
 
 function CandidateLogin({ navigation }) {
   const {
@@ -20,12 +21,26 @@ function CandidateLogin({ navigation }) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      emailId: "",
+      userName: "",
       password: "",
     },
   });
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post(
+        "https://nodebackend.kavalarnalantn.in:5000/son_Register/authenticate",
+        data
+      );
+      const params = {
+        Details: data,
+        apiData: response, // or any other data from the API response
+      };
+      navigation.navigate("ApplyJob", params);
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
 
   return (
     <View
@@ -42,7 +57,7 @@ function CandidateLogin({ navigation }) {
               style={styles.image}
               source={require("../assets/logo.png")}
             />
-            <Text style={styles.titleText}>Employee Login</Text>
+            <Text style={styles.titleText}>Candidate Login</Text>
           </View>
 
           <Controller
@@ -62,7 +77,7 @@ function CandidateLogin({ navigation }) {
                 value={value}
               />
             )}
-            name="emailId"
+            name="userName"
           />
           {errors.emailId && (
             <Text style={styles.errorMessage}>This is required.</Text>

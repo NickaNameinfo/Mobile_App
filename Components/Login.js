@@ -32,9 +32,12 @@ function Login({ navigation }) {
         "https://nodebackend.kavalarnalantn.in:5000/user_Register/authenticate",
         data
       );
-      const jsonData = response.data;
-      console.log(JSON.stringify(jsonData.data), "resssssssssss");
-      navigation.navigate("CandidateRegister");
+      const params = {
+        Details: data,
+        apiData: response, // or any other data from the API response
+      };
+
+      navigation.navigate("CandidateRegister", params);
     } catch (error) {
       console.log("Error:", error);
     }
