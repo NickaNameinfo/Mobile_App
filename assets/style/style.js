@@ -10,6 +10,9 @@ export const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "center",
   },
+  spinnerTextStyle: {
+    color: "#FFF",
+  },
   titleText: {
     fontSize: 24,
     fontWeight: "bold",
@@ -60,7 +63,7 @@ export const styles = StyleSheet.create({
     right: -5,
     width: "100%",
     fontSize: 16,
-    color: "#636363"
+    color: "#636363",
   },
   image: {
     width: 100,
@@ -77,6 +80,11 @@ export const styles = StyleSheet.create({
   center: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  right: {
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    right: 25,
   },
   backImage: {
     flex: 1,
@@ -307,8 +315,17 @@ export const styles = StyleSheet.create({
     backgroundColor: "#212761",
     // width: "100%"
   },
-  errorMessage : { 
+  errorMessage: {
     color: "red",
-    marginTop : -20,
-  }
+    marginTop: -20,
+  },
+  inputContainer: {
+    backgroundColor: "white",
+    width: "100%",
+    borderRadius: 8,
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 4,
+    borderColor: "#d7d7d7",
+  },
 });

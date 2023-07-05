@@ -32,7 +32,7 @@ const DatePicker = ({ onGetDateValue, onOpenDatePicker }) => {
 
   return (
     <View style={styles.container}>
-      {showPicker && (
+      {showPicker && onOpenDatePicker && (
         <DateTimePicker
           value={selectedDate}
           mode="date"

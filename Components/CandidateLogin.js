@@ -7,6 +7,7 @@ import {
   TextInput,
   Button,
   Pressable,
+  Alert,
 } from "react-native";
 
 import { formStyles } from ".././assets/style/fromStyle";
@@ -36,8 +37,9 @@ function CandidateLogin({ navigation }) {
         Details: data,
         apiData: response, // or any other data from the API response
       };
-      navigation.navigate("ApplyJob", params);
+      navigation.navigate("CandidateDetails", params);
     } catch (error) {
+      Alert.alert("Username or Password is incorrect");
       console.log("Error:", error);
     }
   };
@@ -79,7 +81,7 @@ function CandidateLogin({ navigation }) {
             )}
             name="userName"
           />
-          {errors.emailId && (
+          {errors.userName && (
             <Text style={styles.errorMessage}>This is required.</Text>
           )}
 

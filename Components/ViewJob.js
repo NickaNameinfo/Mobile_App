@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -6,14 +6,118 @@ import {
   ImageBackground,
   ScrollView,
   Image,
+  Pressable,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { formStyles } from ".././assets/style/fromStyle";
 import { styles } from ".././assets/style/style";
+import axios from "axios";
 
-const ViewJob = ({ navigation }) => {
+const ViewJob = ({ navigation, route }) => {
+  const { Details } = route.params;
+
   const [currentStep, setCurrentStep] = useState(0);
   const [steps, setSteps] = useState(["", "", "", ""]);
+  const [apiData, setApiData] = useState(null);
+
+  console.log(apiData, "apiDataapiData")
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const url = `https://nodebackend.kavalarnalantn.in:5000/job_fair/${Details.userName}`;
+      const response = await axios.get(url);
+      setApiData(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  let keys = {
+    empName: "Employee Name",
+    empNameInit: "Initial",
+    email:"Email Id",
+    relEmp: "Relationship to the Employee",
+    empStatus: "Status of Employee",
+    policePersonnel: "Wards / Spouse of",
+    spouseCertificate: "Wards/Spouse Certificate",
+    dob: "Date Of Birth",
+    ranks: "Rank",
+    gpfcpsNumber: "GPF/CPS/PPO Number",
+    stationUnit: "Police Station / Unit ",
+    workingDistrict: "Kanniyakumari",
+    lastDistrict: "Last Served District",
+    policeMobilePhone: "Mobile Number",
+    CandidateNname: "Candidate's Name",
+    CandidateNnameInit: "Initial",
+    gender: "Gender",
+    dobDate: "Date Of Birth",
+    email1: "Email",
+    phone1: "Mobile Number",
+    address1: "Address Line 1 ",
+    address2: "Address Line 2",
+    address3: "Address Line 3",
+    CityDistrict: "City/District",
+    state1: "State",
+    pincode: "Pincode",
+    aadharNumber: "Aadhar Number ",
+    myCheckboxes: "Languages Known",
+    perference1: "Preference 1",
+    preference2: "Preference 2",
+    preference3: "Preference 3",
+    otherPreferred: "Other Preferred",
+    workPreference1: "Work Preference 1",
+    workPreference2: "Work Preference 2",
+    workPreference3: "Work Preference 3",
+    skills: "Skills",
+    candPhoto: "Candidate's Photo",
+    resume: "Your Resume ",
+    Qualification: "Highest Qualification",
+    studied: "Qualification",
+    Board: "10th Board",
+    pass10: "10th Month & Year of Passing",
+    Percentage: "10th Percentage",
+    Board12: "12th Board",
+    Passing: "12th Month & Year of Passing",
+    Percentage12: "12th Percentage",
+    course: "ITI Name of the course",
+    Passingiti: "ITI Month & Year of Passing",
+    Percentageiti: "ITI Percentage",
+    courseDip: "Diploma Name of the course",
+    PassingDip: "Diploma Month & Year of Passing",
+    PercentageDip: "Diploma Percentage",
+    GraduationDg: "Under Graduation Name of the Degree",
+    Institute: "Under Graduation Name of the Institute / University",
+    Subject: "Under Graduation Name of the Major Subject",
+    Passinghigi: "Under Graduation Month & Year of Passing",
+    Percentagehigi: "Under Graduation Percentage",
+    Degreename: "Post Graduation Name of the Degree",
+    University: "Post Graduation Name of the Institute / University",
+    MajorSubject: "Post Graduation Name of the Major Subject",
+    passedYear: "Post Graduation Month & Year of Passing",
+    Percentageunder: "Post Graduation Percentage",
+    Universityphd: "phd Name of the Institute / University",
+    Subjectphd: "PhD Name of the Major Subject",
+    Passingphd: "PHD Month & Year of Passing",
+    Percentagephd: "PHP Percentage",
+    BoardBelow: "Board",
+    below10thpass: "Month & Year of Passing",
+    belowPercentage: "Percentage",
+    Pursuing: "Pursuing Any Degree",
+    UniversityOther: "Name of the Institute / University",
+    SubjectOther: "Name of the Major Subject",
+    Employment: "Employment Status",
+    experience: "Year of experience",
+    CompanyName: "Name of the Company",
+    Designation: "Job Designation",
+    Workingplz: "Place of Working",
+    fromDate: "From Date",
+    toDate: "To Date",
+  };
+
   return (
     <View
       style={{
@@ -23,217 +127,36 @@ const ViewJob = ({ navigation }) => {
       }}
     >
       <View style={styles.center}>
-        <Image
-          style={styles.image}
-          source={require("../assets/logo.png")}
-        />
+        <Image style={styles.image} source={require("../assets/logo.png")} />
         <Text style={styles.titleText}>Applied Job</Text>
       </View>
-      <View style={formStyles.alignItemCenter}>
-        <View style={formStyles.steperWidth}>
-          <View style={formStyles.alignItemCenter}>
-            <View style={formStyles.steperBorder} />
-          </View>
-          <View style={formStyles.steperCountList}>
-            {steps.map((label, i) => (
-              <View key={i} style={formStyles.steperlistWidth}>
-                {i > currentStep && i != currentStep /* Not selected */ && (
-                  <View style={formStyles.steperunChecked}>
-                    <Text style={{ fontSize: 15, color: "#ee5e30" }}>
-                      {i + 1}
-                    </Text>
-                  </View>
-                )}
-                {i < currentStep /* Checked */ && (
-                  <View style={formStyles.stepeChecked}>
-                    <Ionicons name="md-checkmark" size={20} color="#fff" />
-                  </View>
-                )}
-                {i == currentStep /* Selected */ && (
-                  <View style={formStyles.stepSelected}>
-                    <Text style={{ fontSize: 13, color: "#ffffff" }}>
-                      {i + 1}
-                    </Text>
-                  </View>
-                )}
-                <Text style={{ fontSize: 12 }}>{label}</Text>
-              </View>
-            ))}
-          </View>
-        </View>
+      <View style={styles.right}>
+        <Pressable style={styles.button} onPress={() => navigation.navigate("ApplyJob", route.params)}>
+          <Text style={styles.buttonText}>Edit</Text>
+        </Pressable>
       </View>
       <ScrollView>
         <View style={styles.card}>
-          {currentStep == 0 && (
-            <View>
-              <Text style={styles.cardHeader}>Personal Details</Text>
-
-              <Text style={styles.Details}>Employee Name (Initial at end)</Text>
-              <Text style={styles.DetailsData}>test</Text>
-
-              <Text style={styles.Details}>Relationship to the Employee</Text>
-              <Text style={styles.DetailsData}>Brother</Text>
-
-              <Text style={styles.Details}>Wards / Spouse of</Text>
-              <Text style={styles.DetailsData}>test</Text>
-
-              <Text style={styles.Details}>Wards/Spouse Certificate</Text>
-              <Text style={styles.DetailsData}>test</Text>
-
-              <Text style={styles.Details}>Date Of Birth</Text>
-              <Text style={styles.DetailsData}>test</Text>
-
-              <Text style={styles.Details}>Rank</Text>
-              <Text style={styles.DetailsData}>test</Text>
-
-              <Text style={styles.Details}>GPF/CPS/PPO Number</Text>
-              <Text style={styles.DetailsData}>test</Text>
-
-              <Text style={styles.Details}>GPF/CPS/PPO Number</Text>
-              <Text style={styles.DetailsData}>test</Text>
-
-              <Text style={styles.Details}>Mobile Number</Text>
-              <Text style={styles.DetailsData}>test</Text>
-            </View>
+          {apiData?.length > 0 ? (
+            Object.entries(apiData[0]).map((res, index) =>
+              res[1] !== "undefined" &&
+              res[1] !== "/" &&
+              res[1] !== "--" &&
+              res[1] !== "Choose" &&
+              res[1] !== "/--" &&
+              res[0] !== "updatedAt" &&
+              res[0] !== "createdAt" &&
+              res[0] !== "userName" &&
+              res[0] !== "id" ? (
+                <View key={index}>
+                  <Text style={styles.Details}>{keys[res[0]]}</Text>
+                  <Text style={styles.DetailsData}>{res[1]}</Text>
+                </View>
+              ) : null
+            )
+          ) : (
+            <Text style={styles.titleText}>No Data</Text>
           )}
-          {currentStep == 1 && (
-            <View>
-              <Text style={styles.cardHeader}>Qualification Details</Text>
-              <Text style={styles.Details}>placeholder</Text>
-              <Text style={styles.DetailsData}>Data</Text>
-
-              <Text style={styles.Details}>placeholder</Text>
-              <Text style={styles.DetailsData}>Data</Text>
-
-              <Text style={styles.Details}>placeholder</Text>
-              <Text style={styles.DetailsData}>Data</Text>
-
-              <Text style={styles.Details}>placeholder</Text>
-              <Text style={styles.DetailsData}>Data</Text>
-
-              <Text style={styles.Details}>placeholder</Text>
-              <Text style={styles.DetailsData}>Data</Text>
-
-              <Text style={styles.Details}>placeholder</Text>
-              <Text style={styles.DetailsData}>Data</Text>
-
-              <Text style={styles.Details}>placeholder</Text>
-              <Text style={styles.DetailsData}>Data</Text>
-
-              <Text style={styles.Details}>placeholder</Text>
-              <Text style={styles.DetailsData}>Data</Text>
-
-              <Text style={styles.Details}>placeholder</Text>
-              <Text style={styles.DetailsData}>Data</Text>
-            </View>
-          )}
-          {currentStep == 2 && (
-            <View>
-              <Text style={styles.cardHeader}>Preference Details</Text>
-              <Text style={styles.Details}>placeholder</Text>
-              <Text style={styles.DetailsData}>Data</Text>
-
-              <Text style={styles.Details}>placeholder</Text>
-              <Text style={styles.DetailsData}>Data</Text>
-
-              <Text style={styles.Details}>placeholder</Text>
-              <Text style={styles.DetailsData}>Data</Text>
-
-              <Text style={styles.Details}>placeholder</Text>
-              <Text style={styles.DetailsData}>Data</Text>
-
-              <Text style={styles.Details}>placeholder</Text>
-              <Text style={styles.DetailsData}>Data</Text>
-
-              <Text style={styles.Details}>placeholder</Text>
-              <Text style={styles.DetailsData}>Data</Text>
-
-              <Text style={styles.Details}>placeholder</Text>
-              <Text style={styles.DetailsData}>Data</Text>
-
-              <Text style={styles.Details}>placeholder</Text>
-              <Text style={styles.DetailsData}>Data</Text>
-
-              <Text style={styles.Details}>placeholder</Text>
-              <Text style={styles.DetailsData}>Data</Text>
-            </View>
-          )}
-          {currentStep == 3 && (
-            <View>
-              <Text style={styles.cardHeader}>
-                Employee Name (Initial at end)
-              </Text>
-              <Text style={styles.Details}>Relationship to the Employee</Text>
-              <Text style={styles.DetailsData}>Data</Text>
-
-              <Text style={styles.Details}>Relationship to the Employee</Text>
-              <Text style={styles.DetailsData}>Data</Text>
-
-              <Text style={styles.Details}>Wards / Spouse of</Text>
-              <Text style={styles.DetailsData}>Data</Text>
-
-              <Text style={styles.Details}>Wards/Spouse Certificate</Text>
-              <Text style={styles.DetailsData}>Data</Text>
-
-              <Text style={styles.Details}>Date Of Birth</Text>
-              <Text style={styles.DetailsData}>Data</Text>
-
-              <Text style={styles.Details}>Rank</Text>
-              <Text style={styles.DetailsData}>Data</Text>
-
-              <Text style={styles.Details}>GPF/CPS/PPO Number</Text>
-              <Text style={styles.DetailsData}>Data</Text>
-
-              <Text style={styles.Details}>GPF/CPS/PPO Number</Text>
-              <Text style={styles.DetailsData}>Data</Text>
-
-              <Text style={styles.Details}>Mobile Number</Text>
-              <Text style={styles.DetailsData}>Data</Text>
-            </View>
-          )}
-          <View style={formStyles.flexRow}>
-            {currentStep > 0 ? (
-              <TouchableOpacity
-                style={formStyles.prevStep}
-                onPress={() => {
-                  if (currentStep > 0) {
-                    setCurrentStep(currentStep - 1);
-                  }
-                }}
-              >
-                <Text style={formStyles.buttonText}>Back #</Text>
-              </TouchableOpacity>
-            ) : null}
-
-            <TouchableOpacity
-              style={formStyles.nextStep}
-              onPress={() => navigation.navigate("HomePage")}
-            >
-              <Text style={formStyles.buttonText}>SingOut #</Text>
-            </TouchableOpacity>
-
-            {currentStep + 1 < steps.length /* add other conditions here */ && (
-              <TouchableOpacity
-                style={formStyles.nextStep}
-                onPress={() => {
-                  if (currentStep + 1 < steps.length) {
-                    setCurrentStep(currentStep + 1);
-                  }
-                }}
-              >
-                <Text style={formStyles.buttonText}>Next</Text>
-              </TouchableOpacity>
-            )}
-            {currentStep + 1 ==
-              steps.length /* add other conditions here */ && (
-              <TouchableOpacity
-                style={formStyles.nextStep}
-                onPress={() => navigation.navigate("ApplyJob")}
-              >
-                <Text style={formStyles.buttonText}>Edit #</Text>
-              </TouchableOpacity>
-            )}
-          </View>
         </View>
       </ScrollView>
     </View>

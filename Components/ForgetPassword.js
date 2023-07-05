@@ -20,20 +20,15 @@ function ForgetPassword({ navigation }) {
         backgroundColor: "#212761",
       }}
     >
-      <ImageBackground
-        // source={require(".././assets/background.png")}
-        resizeMode="cover"
-        style={styles.backImage}
-      >
-        <View style={styles.card}>
-          <View>
-            <View style={styles.center}>
-              <Image
-                style={styles.image}
-                source={require("../assets/logo.png")}
-              />
-              <Text style={styles.titleText}>Forget Password</Text>
-            </View>
+      <View style={styles.card}>
+        <View>
+          <View style={styles.logoStyle}>
+            <Image
+              style={styles.image}
+              source={require("../assets/logo.png")}
+            />
+            <Text style={styles.titleText}>Employee Login</Text>
+          </View>
 
             <TextInput
               label="Mobile Number"
@@ -55,7 +50,7 @@ function ForgetPassword({ navigation }) {
               <Text variant="titleSmall" style={styles.signup}>
                 <Text
                   style={{ color: "white", fontWeight: "700" }}
-                  onPress={() => navigation.navigate("Register")}
+                  onPress={() => navigation.navigate("Login")}
                 >
                   Back
                 </Text>
@@ -63,7 +58,6 @@ function ForgetPassword({ navigation }) {
             </View>
           </View>
         </View>
-      </ImageBackground>
     </View>
   );
 }

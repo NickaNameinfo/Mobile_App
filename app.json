@@ -2,7 +2,7 @@
   "expo": {
     "name": "kavalarnalan",
     "slug": "kavalarnalan",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -21,9 +21,24 @@
       ]
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "config": {
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true
+        }
+      }
     },
     "android": {
+      "config": {
+        "cleartext": {
+          "configurations": {
+            "devDebug": true,
+            "devRelease": true,
+            "prodDebug": false,
+            "prodRelease": false
+          }
+        }
+      },
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
