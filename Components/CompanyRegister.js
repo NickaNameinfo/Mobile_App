@@ -11,6 +11,9 @@ import {
 } from "react-native";
 import { styles } from ".././assets/style/style";
 import { useForm, Controller } from "react-hook-form";
+import * as DocumentPicker from "expo-document-picker";
+import * as FileSystem from "expo-file-system";
+
 import axios from "axios";
 import { FileUpload } from "./FileUpload";
 
@@ -19,6 +22,7 @@ function CompanyRegister({ navigation }) {
     control,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm({
     defaultValues: {
       companyName: "",
@@ -26,26 +30,29 @@ function CompanyRegister({ navigation }) {
       phoneNo: "",
       EmailId: "",
       panNo: "",
-      // gstDoc: "",
+      gstDoc: "",
       userName: "",
       password: "",
     },
   });
 
+  const pickDocument = async () => {
+    const file = await DocumentPicker.getDocumentAsync();
+    setValue("gstDoc", file);
+  };
+
   const onSubmit = async (data) => {
-    console.log(data, "resssssssssssresssssssssss");
     try {
       const response = await axios.post(
         "https://nodebackend.kavalarnalantn.in:5000/company_User/register",
         data
       );
-      const jsonData = response.data;
-      console.log(JSON.stringify(jsonData.data), "resssssssssss");
-      navigation.navigate("CompanyLogin");
+      navigation.navigate("CandidateLogin");
     } catch (error) {
       console.log("Error:", error);
     }
   };
+  
   return (
     <View style={styles.flex}>
       <ImageBackground
@@ -182,35 +189,12 @@ function CompanyRegister({ navigation }) {
                       value={value}
                     />
                   )}
-                  name="panNopanNo"
+                  name="panNo"
                 />
                 {errors.panNo && (
                   <Text style={styles.errorMessage}>This is required.</Text>
                 )}
 
-                <Controller
-                  control={control}
-                  rules={{
-                    required: true,
-                  }}
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <TextInput
-                      label="Upload GST Document"
-                      placeholder="Upload GST Document"
-                      style={styles.inputBox}
-                      underlineColor="transparent"
-                      mode="outlined"
-                      onBlur={onBlur}
-                      onChangeText={onChange}
-                      value={value}
-                    />
-                  )}
-                  name="gstDoc"
-                />
-                <FileUpload />
-                {errors.gstDoc && (
-                  <Text style={styles.errorMessage}>This is required.</Text>
-                )}
 
                 <Controller
                   control={control}

@@ -8,6 +8,7 @@ import {
   TextInput,
   Button,
   Pressable,
+  Alert,
 } from "react-native";
 import { styles } from ".././assets/style/style";
 import axios from "axios";
@@ -15,8 +16,12 @@ import SelectDropdown from "react-native-select-dropdown";
 import { AntDesign } from "@expo/vector-icons";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker from "./DatePicker";
+import Modal from "react-native-modal";
 
 function Register({ navigation }) {
+  const [otpModal, setOtpModal] = useState(null);
+  const [otp, setOtp] = useState(null);
+  const [sentOtp, setSentOtp] = useState(null);
   const {
     control,
     handleSubmit,
@@ -48,8 +53,7 @@ function Register({ navigation }) {
     },
   });
   const [isPickerShow, setIsPickerShow] = useState(null);
-
-  console.log(isPickerShow, "isPickerShowisPickerShow");
+  const watchedFields = watch();
 
   const dob = watch("dob");
   const doe = watch("doe");
@@ -170,20 +174,65 @@ function Register({ navigation }) {
     "Virudhunagar",
   ];
 
-  const onSubmit = async (data) => {
+  const onSubmit = async () => {
     try {
-      const response = await axios.post(
-        "https://nodebackend.kavalarnalantn.in:5000/user_Register/register",
+      let data = {
+        number: watchedFields.mobileNo,
+      };
+      const response = await axios.get(
+        "https://nodebackend.kavalarnalantn.in:5000/user_Register/generateOtp",
         data
       );
-      navigation.navigate("Login");
+      setSentOtp(response.data);
+      console.log(response, "responseresponse");
+      setOtpModal(true);
     } catch (error) {
       console.log("Error:", error);
     }
   };
 
+  const submitOtp = async (data) => {
+    console.log(sentOtp, "opsssssss", otp)
+    if (sentOtp === Number(otp)) {
+      try {
+        const response = await axios.post(
+          "https://nodebackend.kavalarnalantn.in:5000/user_Register/register",
+          data
+        );
+        navigation.navigate("Login");
+        setOtpModal(null);
+      } catch (error) {
+        console.log("Error:", error);
+      }
+    } else {
+      Alert.alert("Entered Worng Otp");
+    }
+  };
+
   return (
     <View style={styles.flex}>
+      <Modal isVisible={otpModal}>
+        <View style={{ backgroundColor: "white", padding: 10 }}>
+          <TextInput
+            label="Enter Otp"
+            placeholder="Enter Otp"
+            style={styles.inputBox}
+            underlineColor="transparent"
+            mode="outlined"
+            value={otp}
+            onChangeText={(value) => setOtp(value)}
+            keyboardType="numeric"
+          />
+          <View>
+            <Pressable style={styles.button} onPress={handleSubmit(submitOtp)}>
+              <Text style={styles.buttonText}>Submit</Text>
+            </Pressable>
+            <Pressable style={styles.button} onPress={() => setOtpModal(null)}>
+              <Text style={styles.buttonText}>Close</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
       <ImageBackground
         resizeMode="repeat"
         style={{
@@ -257,27 +306,32 @@ function Register({ navigation }) {
                 <Text style={styles.errorMessage}>This is required.</Text>
               )}
 
-              <Controller
-                control={control}
-                rules={{
-                  required: true,
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <TextInput
-                    label="Enter GPF / CPS / PPO No"
-                    placeholder="Enter GPF / CPS / PPO No"
-                    style={styles.inputBox}
-                    underlineColor="transparent"
-                    mode="outlined"
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
+              {watchedFields?.empStatus === "Serving" && (
+                <>
+                  <Controller
+                    control={control}
+                    rules={{
+                      required: true,
+                    }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                      <TextInput
+                        label="Enter GPF / CPS / PPO No"
+                        placeholder="Enter GPF / CPS / PPO No"
+                        style={styles.inputBox}
+                        underlineColor="transparent"
+                        mode="outlined"
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        value={value}
+                        keyboardType="numeric"
+                      />
+                    )}
+                    name="gpfcpd"
                   />
-                )}
-                name="gpfcpd"
-              />
-              {errors.gpfcpsNo && (
-                <Text style={styles.errorMessage}>This is required.</Text>
+                  {errors.gpfcpsNo && (
+                    <Text style={styles.errorMessage}>This is required.</Text>
+                  )}
+                </>
               )}
 
               <Controller
@@ -347,6 +401,7 @@ function Register({ navigation }) {
                     onBlur={onBlur}
                     onChangeText={onChange}
                     value={value}
+                    keyboardType="numeric"
                   />
                 )}
                 name="gno"
@@ -407,6 +462,9 @@ function Register({ navigation }) {
               <View>
                 {/* Display the selected date */}
                 <View>
+                  <Text style={{ color: "white", marginBottom: 5 }}>
+                    Date of Birth
+                  </Text>
                   <Text
                     onPress={() => showPicker("dob", true)}
                     style={styles.inputBox}
@@ -427,6 +485,9 @@ function Register({ navigation }) {
               <View>
                 {/* Display the selected date */}
                 <View>
+                  <Text style={{ color: "white", marginBottom: 5 }}>
+                    Date of Enlistment
+                  </Text>
                   <Text
                     onPress={() => showPicker("doe", true)}
                     style={styles.inputBox}
@@ -442,43 +503,54 @@ function Register({ navigation }) {
               {errors.doe && (
                 <Text style={styles.errorMessage}>This is required.</Text>
               )}
-
-              <View>
-                {/* Display the selected date */}
+              {watchedFields?.empStatus === "Retired" && (
                 <View>
-                  <Text
-                    onPress={() => showPicker("dopr", true)}
-                    style={styles.inputBox}
-                  >
-                    {dopr !== "" ? getCurrentDate(dopr) : "Date of Retirement"}
-                  </Text>
+                  <View>
+                    <Text style={{ color: "white", marginBottom: 5 }}>
+                      Date of Retirement
+                    </Text>
+                    <Text
+                      onPress={() => showPicker("dopr", true)}
+                      style={styles.inputBox}
+                    >
+                      {dopr !== ""
+                        ? getCurrentDate(dopr)
+                        : "Date of Retirement"}
+                    </Text>
+                  </View>
+                  <DatePicker
+                    onGetDateValue={(value) => setValue("dopr", value)}
+                    onOpenDatePicker={isPickerShow?.dopr}
+                  />
+                  {errors.dopr && (
+                    <Text style={styles.errorMessage}>This is required.</Text>
+                  )}
                 </View>
-                <DatePicker
-                  onGetDateValue={(value) => setValue("dopr", value)}
-                  onOpenDatePicker={isPickerShow?.dopr}
-                />
-              </View>
-
-              {errors.dopr && (
-                <Text style={styles.errorMessage}>This is required.</Text>
               )}
-              <View>
-                {/* Display the selected date */}
+              {watchedFields?.empStatus === "Deceased" && (
                 <View>
-                  <Text
-                    onPress={() => showPicker("dod", true)}
-                    style={styles.inputBox}
-                  >
-                    {dod !== "" ? getCurrentDate(dod) : "Date of Enlistment"}
-                  </Text>
+                  {/* Display the selected date */}
+                  <View>
+                    <Text style={{ color: "white", marginBottom: 5 }}>
+                      Date of Death
+                    </Text>
+                    <Text
+                      onPress={() => showPicker("dod", true)}
+                      style={styles.inputBox}
+                    >
+                      {dod !== ""
+                        ? getCurrentDate(dod)
+                        : "Date of Date of Death"}
+                    </Text>
+                  </View>
+                  <DatePicker
+                    onGetDateValue={(value) => setValue("dod", value)}
+                    onOpenDatePicker={isPickerShow?.dod}
+                  />
+                  {errors.dod && (
+                    <Text style={styles.errorMessage}>This is required.</Text>
+                  )}
                 </View>
-                <DatePicker
-                  onGetDateValue={(value) => setValue("dod", value)}
-                  onOpenDatePicker={isPickerShow?.dod}
-                />
-              </View>
-              {errors.dod && (
-                <Text style={styles.errorMessage}>This is required.</Text>
               )}
 
               <Controller
@@ -509,6 +581,7 @@ function Register({ navigation }) {
                 control={control}
                 rules={{
                   required: true,
+                  pattern: /^\d{0,10}$/,
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
@@ -526,7 +599,9 @@ function Register({ navigation }) {
                 name="mobileNo"
               />
               {errors.mobileNo && (
-                <Text style={styles.errorMessage}>This is required.</Text>
+                <Text style={styles.errorMessage}>
+                  Maximum 10 Number allowed
+                </Text>
               )}
 
               <Controller
@@ -579,32 +654,39 @@ function Register({ navigation }) {
                 control={control}
                 rules={{
                   required: true,
-                  pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/
+                  pattern:
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/,
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
                     label="Password"
                     placeholder="Password"
-                    secureTextEntry
                     style={styles.inputBox}
                     underlineColor="transparent"
                     mode="outlined"
                     onBlur={onBlur}
                     onChangeText={onChange}
+                    secureTextEntry={false}
+                    enablesReturnKeyAutomatically
                     value={value}
                   />
                 )}
                 name="password"
               />
               {errors.password && (
-                <Text style={styles.errorMessage}>Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character, and must be at least 8 characters long.</Text>
+                <Text style={styles.errorMessage}>
+                  Password must contain at least one uppercase letter, one
+                  lowercase letter, one number, and one special character, and
+                  must be at least 8 characters long.
+                </Text>
               )}
 
               <Controller
                 control={control}
                 rules={{
                   required: true,
-                  validate: (value) => value === password || 'Passwords do not match.'
+                  validate: (value) =>
+                    value === password || "Passwords do not match.",
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput

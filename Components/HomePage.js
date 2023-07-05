@@ -2,18 +2,11 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  ImageBackground,
   Image,
-  TouchableOpacity,
   ScrollView,
   TouchableWithoutFeedback,
-  TextInput,
-  Pressable,
 } from "react-native";
-import { grid } from ".././assets/style/gridStyle";
 import { styles } from ".././assets/style/style";
-import { Col, Row } from ".././assets/style/rowAndColumn";
-import { formStyles } from "../assets/style/fromStyle";
 import Footer from "./Footer";
 
 function HomePage({ navigation }) {

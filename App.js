@@ -32,6 +32,7 @@ import CompassinateGround from "./Components/DashBoardDetail/CompassinateGround"
 import Pension from "./Components/DashBoardDetail/Pension";
 import FundDetails from "./Components/DashBoardDetail/FundDetails";
 import HealthCare from "./Components/DashBoardDetail/HealthCare";
+import CandidateDetails from "./Components/CandidateDetails";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -271,6 +272,19 @@ export default function App() {
           component={HealthCare}
           options={{
             title: "Health Care",
+            headerRight: () => (
+              <Image
+                source={require("./assets/logo.png")}
+                style={{ width: 40, height: 40 }}
+              />
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="CandidateDetails"
+          component={CandidateDetails}
+          options={{
+            title: "Details",
             headerRight: () => (
               <Image
                 source={require("./assets/logo.png")}

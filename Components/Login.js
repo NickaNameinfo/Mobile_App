@@ -7,6 +7,7 @@ import {
   TextInput,
   Button,
   Pressable,
+  Alert
 } from "react-native";
 import { formStyles } from ".././assets/style/fromStyle";
 import { styles } from ".././assets/style/style";
@@ -39,6 +40,7 @@ function Login({ navigation }) {
 
       navigation.navigate("CandidateRegister", params);
     } catch (error) {
+      Alert.alert("Username or Password is incorrect")
       console.log("Error:", error);
     }
   };
