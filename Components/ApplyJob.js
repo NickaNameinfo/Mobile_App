@@ -19,6 +19,7 @@ import SelectDropdown from "react-native-select-dropdown";
 import DatePicker from "./DatePicker";
 import axios from "axios";
 import * as DocumentPicker from "expo-document-picker";
+import * as ImagePicker from "expo-image-picker";
 
 function ApplyJob({ navigation, route }) {
   const { apiData, Details } = route.params;
@@ -27,6 +28,7 @@ function ApplyJob({ navigation, route }) {
   const [apiDatas, setApiDatas] = useState(null);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const handleButtonPress = () => {
     // Set isLoading to true to indicate loading
@@ -156,7 +158,7 @@ function ApplyJob({ navigation, route }) {
   useEffect(() => {
     getInitData();
     fetchData();
-    handleButtonPress()
+    handleButtonPress();
   }, []);
 
   useEffect(() => {
@@ -718,6 +720,22 @@ function ApplyJob({ navigation, route }) {
     }
   };
 
+  const openImagePickerAsync = async () => {
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (permissionResult.granted === false) {
+      alert("Permission to access the camera roll is required!");
+      return;
+    }
+
+    const pickerResult = await ImagePicker.launchImageLibraryAsync();
+    if (pickerResult.cancelled === true) {
+      return;
+    }
+    console.log(pickerResult, "pickerResult");
+    setSelectedImage(pickerResult.uri);
+  };
+
   return (
     <View
       style={{
@@ -726,6 +744,15 @@ function ApplyJob({ navigation, route }) {
         backgroundColor: "#212761",
       }}
     >
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <Button title="Upload a image" onPress={openImagePickerAsync} />
+        {selectedImage && (
+          <Image
+            source={{ uri: selectedImage }}
+            style={{ width: 300, height: 300, marginTop: 20 }}
+          />
+        )}
+      </View>
       {isLoading ? (
         <ActivityIndicator size="large" color="blue" />
       ) : (
