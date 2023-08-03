@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -12,12 +12,10 @@ import {
 import { styles } from ".././assets/style/style";
 import { useForm, Controller } from "react-hook-form";
 import * as DocumentPicker from "expo-document-picker";
-import * as FileSystem from "expo-file-system";
-
-import axios from "axios";
-import { FileUpload } from "./FileUpload";
 
 function CompanyRegister({ navigation }) {
+  const [selectedImage, setSelectedImage] = useState(null);
+  console.log(selectedImage, "imgessssss");
   const {
     control,
     handleSubmit,
@@ -30,29 +28,57 @@ function CompanyRegister({ navigation }) {
       phoneNo: "",
       EmailId: "",
       panNo: "",
-      gstDoc: "",
+      gstDoc: selectedImage,
       userName: "",
       password: "",
     },
   });
 
   const pickDocument = async () => {
-    const file = await DocumentPicker.getDocumentAsync();
-    setValue("gstDoc", file);
+    try {
+      const result = await DocumentPicker.getDocumentAsync({
+        type: "application/pdf", // Specify the file type you want to pick (PDF in this case)
+      });
+
+      if (result.type === "success") {
+        // Handle the selected file (result.uri contains the file URI)
+        console.log("Selected file URI:", result.uri);
+        setValue("gstDoc", result);
+      }
+    } catch (error) {
+      console.log("Error picking document:", error);
+    }
   };
 
   const onSubmit = async (data) => {
+    console.log(data, "3247192873498data");
+    const formData = new FormData();
+    formData.append("file", {
+      uri: data.gstDoc.uri,
+      name: data.gstDoc.name,
+      type: "application/pdf",
+    });
+    
+    for (const field in data) {
+      if (field !== "gstDoc" && data.hasOwnProperty(field)) {
+        formData.append(field, data[field]);
+      }
+    }
+
     try {
-      const response = await axios.post(
+      const response = await fetch(
         "https://nodebackend.kavalarnalantn.in:5000/company_User/register",
-        data
+        {
+          method: "POST",
+          body: formData,
+        }
       );
-      navigation.navigate("CandidateLogin");
+      navigation.navigate("CompanyLogin");
     } catch (error) {
-      console.log("Error:", error);
+      console.log("Error uploading file:", error);
     }
   };
-  
+
   return (
     <View style={styles.flex}>
       <ImageBackground
@@ -130,6 +156,7 @@ function CompanyRegister({ navigation }) {
                   control={control}
                   rules={{
                     required: true,
+                    pattern: /^\d{0,10}$/,
                   }}
                   render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
@@ -141,6 +168,7 @@ function CompanyRegister({ navigation }) {
                       onBlur={onBlur}
                       onChangeText={onChange}
                       value={value}
+                      keyboardType="numeric"
                     />
                   )}
                   name="phoneNo"
@@ -153,6 +181,7 @@ function CompanyRegister({ navigation }) {
                   control={control}
                   rules={{
                     required: true,
+                    pattern: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
                   }}
                   render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
@@ -195,6 +224,9 @@ function CompanyRegister({ navigation }) {
                   <Text style={styles.errorMessage}>This is required.</Text>
                 )}
 
+                <Pressable style={styles.button} onPress={pickDocument}>
+                  <Text style={styles.buttonText}>Upload GST Document</Text>
+                </Pressable>
 
                 <Controller
                   control={control}
@@ -223,6 +255,8 @@ function CompanyRegister({ navigation }) {
                   control={control}
                   rules={{
                     required: true,
+                    pattern:
+                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/,
                   }}
                   render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput

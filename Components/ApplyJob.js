@@ -19,7 +19,6 @@ import SelectDropdown from "react-native-select-dropdown";
 import DatePicker from "./DatePicker";
 import axios from "axios";
 import * as DocumentPicker from "expo-document-picker";
-import * as ImagePicker from "expo-image-picker";
 
 function ApplyJob({ navigation, route }) {
   const { apiData, Details } = route.params;
@@ -28,8 +27,6 @@ function ApplyJob({ navigation, route }) {
   const [apiDatas, setApiDatas] = useState(null);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
-
   const handleButtonPress = () => {
     // Set isLoading to true to indicate loading
     setIsLoading(true);
@@ -159,14 +156,14 @@ function ApplyJob({ navigation, route }) {
     getInitData();
     fetchData();
     handleButtonPress();
-  }, []);
+  }, [apiData]);
 
   useEffect(() => {
     if (apiDatas) {
       let initObj = {
-        email: apiDatas[0]?.empName,
+        email: apiDatas[0]?.email,
         empName: apiDatas[0]?.empName,
-        empNameInit: apiDatas[0]?.empName,
+        empNameInit: apiDatas[0]?.empNameInit,
         relEmp: apiDatas[0]?.relEmp,
         empStatus: apiDatas[0]?.empStatus,
         policePersonnel: apiDatas[0]?.policePersonnel, //missing
@@ -319,6 +316,28 @@ function ApplyJob({ navigation, route }) {
     }));
   };
 
+  const pickDocument = async (name) => {
+    try {
+      const result = await DocumentPicker.getDocumentAsync({
+        type: "application/pdf", // Specify the file type you want to pick (PDF in this case)
+      });
+
+      if (result.type === "success") {
+        // Handle the selected file (result.uri contains the file URI)
+        console.log("Selected file URI:", result.uri);
+        if (name === "certificate") {
+          setValue("spouseCertificate", result);
+        } else if (name === "profile") {
+          setValue("candPhoto", result);
+        } else {
+          setValue("resume", result);
+        }
+      }
+    } catch (error) {
+      console.log("Error picking document:", error);
+    }
+  };
+
   const onSubmit = async (data, name) => {
     if (name === "next") {
       if (
@@ -329,7 +348,8 @@ function ApplyJob({ navigation, route }) {
       }
     }
   };
-  const onSubmitForm = async () => {
+
+  const onSubmitForm = async (data) => {
     if (apiDatas[0]?.id) {
       try {
         const apiUrl = `https://nodebackend.kavalarnalantn.in:5000/job_fair/updateID/${apiDatas[0]?.id}`;
@@ -342,10 +362,45 @@ function ApplyJob({ navigation, route }) {
         // Handle the error
       }
     } else {
+      console.log(data, "datadatadata12312");
+      const formData = new FormData();
+
+      formData.append("spouseCertificate", {
+        uri: data.spouseCertificate.uri,
+        name: data.spouseCertificate.name,
+        type: "application/jpeg",
+      });
+
+      formData.append("candPhoto", {
+        uri: data.candPhoto.uri,
+        name: data.candPhoto.name,
+        type: "application/jpeg",
+      });
+
+      formData.append("resume", {
+        uri: data.resume.uri,
+        name: data.resume.name,
+        type: "application/pdf",
+      });
+
+      for (const field in data) {
+        if (
+          field !== "spouseCertificate" &&
+          field !== "candPhoto" &&
+          field !== "resume" &&
+          data.hasOwnProperty(field)
+        ) {
+          formData.append(field, data[field]);
+        }
+      }
+
       try {
-        const response = await axios.post(
+        const response = await fetch(
           "https://nodebackend.kavalarnalantn.in:5000/job_fair/createEmployeement",
-          formDtass
+          {
+            method: "POST",
+            body: formData,
+          }
         );
         navigation.navigate("ViewJob", route.params);
       } catch (error) {
@@ -703,39 +758,6 @@ function ApplyJob({ navigation, route }) {
     "Virudhunagar",
   ];
 
-  const pickDocument = async () => {
-    try {
-      const result = await DocumentPicker.getDocumentAsync({
-        type: "application/pdf", // Specify the MIME type or null for all types
-        copyToCacheDirectory: false, // Set to true if you want to copy the file to the app's cache directory
-      });
-
-      if (result.type === "success") {
-        console.log("Selected document:", result.uri);
-        // Handle the selected document
-      }
-    } catch (error) {
-      console.error("Document picking error:", error);
-      // Handle the error
-    }
-  };
-
-  const openImagePickerAsync = async () => {
-    const permissionResult =
-      await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (permissionResult.granted === false) {
-      alert("Permission to access the camera roll is required!");
-      return;
-    }
-
-    const pickerResult = await ImagePicker.launchImageLibraryAsync();
-    if (pickerResult.cancelled === true) {
-      return;
-    }
-    console.log(pickerResult, "pickerResult");
-    setSelectedImage(pickerResult.uri);
-  };
-
   return (
     <View
       style={{
@@ -744,15 +766,6 @@ function ApplyJob({ navigation, route }) {
         backgroundColor: "#212761",
       }}
     >
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Button title="Upload a image" onPress={openImagePickerAsync} />
-        {selectedImage && (
-          <Image
-            source={{ uri: selectedImage }}
-            style={{ width: 300, height: 300, marginTop: 20 }}
-          />
-        )}
-      </View>
       {isLoading ? (
         <ActivityIndicator size="large" color="blue" />
       ) : (
@@ -928,10 +941,14 @@ function ApplyJob({ navigation, route }) {
                     <Text style={{ color: "white", marginBottom: 5 }}>
                       Wards/Spouse Certificate
                     </Text>
-                    <Pressable style={styles.button} onPress={pickDocument}>
+                    <Pressable
+                      style={styles.button}
+                      onPress={() => pickDocument("certificate")}
+                    >
                       <Text style={styles.buttonText}>Select Document</Text>
                     </Pressable>
                   </View>
+
                   <View>
                     {/* Display the selected date */}
                     <View>
@@ -2194,7 +2211,7 @@ function ApplyJob({ navigation, route }) {
                   <Controller
                     control={control}
                     rules={{
-                      required: false,
+                      required: true,
                     }}
                     render={({ field: { onChange, onBlur, value } }) => (
                       <TextInput
@@ -2442,7 +2459,10 @@ function ApplyJob({ navigation, route }) {
                     <Text style={{ color: "white", marginBottom: 5 }}>
                       Upload Profile
                     </Text>
-                    <Pressable style={styles.button} onPress={pickDocument}>
+                    <Pressable
+                      style={styles.button}
+                      onPress={() => pickDocument("profile")}
+                    >
                       <Text style={styles.buttonText}>Select Photo</Text>
                     </Pressable>
                   </View>
@@ -2451,7 +2471,10 @@ function ApplyJob({ navigation, route }) {
                     <Text style={{ color: "white", marginBottom: 5 }}>
                       Upload Resume
                     </Text>
-                    <Pressable style={styles.button} onPress={pickDocument}>
+                    <Pressable
+                      style={styles.button}
+                      onPress={() => pickDocument("resume")}
+                    >
                       <Text style={styles.buttonText}>Select Resume</Text>
                     </Pressable>
                   </View>
@@ -2663,7 +2686,7 @@ function ApplyJob({ navigation, route }) {
                   steps.length /* add other conditions here */ && (
                   <TouchableOpacity
                     style={formStyles.nextStep}
-                    onPress={onSubmitForm}
+                    onPress={handleSubmit((data) => onSubmitForm(data))}
                   >
                     <Text style={formStyles.buttonText}>Submit</Text>
                   </TouchableOpacity>

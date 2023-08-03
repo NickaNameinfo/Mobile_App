@@ -1,17 +1,18 @@
 {
   "expo": {
-    "name": "kavalarnalan",
-    "slug": "kavalarnalan",
-    "version": "1.0.8",
+    "name": "kavalarnalanTN",
+    "slug": "kavalarnalanTN",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "plugins": [
       [
         "expo-document-picker",
@@ -49,14 +50,17 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "kavalarnalan.in"
+      "package": "kavalarnalantn.in",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "7a2bb38b-b4e5-47fc-834a-c5c93b82b87e"
+        "projectId": "a1d2a06e-f65b-487d-b869-db552a1a5fde"
       }
     }
   }

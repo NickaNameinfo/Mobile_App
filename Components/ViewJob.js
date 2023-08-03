@@ -24,7 +24,7 @@ const ViewJob = ({ navigation, route }) => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [Details]);
 
   const fetchData = async () => {
     try {
