@@ -1,9 +1,17 @@
 {
   "expo": {
-    "name": "kavalarnalanTN",
-    "slug": "kavalarnalanTN",
-    "version": "1.0.0",
-    "orientation": "portrait",
+    "useNextNotificationsApi": true,
+    "package": "kavalan.nalan.tn",
+    "versionCode": 1,
+    "config": {
+      "googleSignIn": {
+        "apiKey": "./pc-api-8903297080095412308-666-6423c62bd81f.json"
+      }
+    },
+    "keystore": "./my-release-key.keystore",
+    "keystorePassword": "kavalan",
+    "keyAlias": "my-key-alias",
+    "keyPassword": "kavalan",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
@@ -36,6 +44,8 @@
       }
     },
     "android": {
+      "package": "kavalarnalantamilnadu.in",
+      "versionCode": 1,
       "config": {
         "cleartext": {
           "configurations": {
@@ -50,7 +60,6 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "kavalarnalantn.in",
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ]
@@ -60,7 +69,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "a1d2a06e-f65b-487d-b869-db552a1a5fde"
+        "projectId": "ee45b926-9a50-40fb-9b65-fcd666f570e7"
       }
     }
   }
