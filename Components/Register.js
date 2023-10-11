@@ -34,6 +34,8 @@ function Register({ navigation }) {
       empStatus: "",
       gpfcpd: "",
       ppocps: "",
+      familystatusList : "",
+      CandidateName : "",
       rand: "",
       department: "",
       District: "",
