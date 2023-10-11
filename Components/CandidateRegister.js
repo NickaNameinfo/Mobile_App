@@ -44,7 +44,7 @@ function CandidateRegister({ navigation, route }) {
       let data = {
         number: watchedFields.mobileNo,
       };
-      const response = await axios.get(
+      const response = await axios.post(
         "https://nodebackend.kavalarnalantn.in:5000/user_Register/generateOtp",
         data
       );

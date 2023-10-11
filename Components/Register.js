@@ -34,6 +34,8 @@ function Register({ navigation }) {
       empStatus: "",
       gpfcpd: "",
       ppocps: "",
+      familystatusList : "",
+      CandidateName : "",
       rand: "",
       department: "",
       District: "",
@@ -174,12 +176,15 @@ function Register({ navigation }) {
     "Virudhunagar",
   ];
 
+  console.log(watchedFields, "watchedFieldswatchedFields123");
+
   const onSubmit = async () => {
     try {
       let data = {
         number: watchedFields.mobileNo,
       };
-      const response = await axios.get(
+      console.log(data, "datadata87987");
+      const response = await axios.post(
         "https://nodebackend.kavalarnalantn.in:5000/user_Register/generateOtp",
         data
       );
@@ -192,7 +197,7 @@ function Register({ navigation }) {
   };
 
   const submitOtp = async (data) => {
-    console.log(sentOtp, "opsssssss", otp)
+    console.log(sentOtp, "opsssssss", otp);
     if (sentOtp === Number(otp)) {
       try {
         const response = await axios.post(
