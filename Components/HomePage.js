@@ -34,7 +34,7 @@ function HomePage({ navigation }) {
 
         <View style={styles.homeStyles}>
           <Image
-            source={require("../assets/Banner.png")}
+            source={require("../assets/Banner1.jpeg")}
             style={{ width: "100%", height: 200, borderRadius: 10 }}
           />
           <View style={styles.homeOptions}>
