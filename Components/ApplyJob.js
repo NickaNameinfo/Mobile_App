@@ -25,7 +25,11 @@ function ApplyJob({ navigation, route }) {
   const [currentStep, setCurrentStep] = useState(0);
   const [steps, setSteps] = useState(["", "", "", ""]);
   const [apiDatas, setApiDatas] = useState(null);
-
+  const [prefrence2, setPrefrence2] = useState(null);
+  const [prefrence3, setPrefrence3] = useState(null);
+  const [prefrence4, setPrefrence4] = useState(null);
+  const [workPreference2, setWorkPrefrence2] = useState(null);
+  const [workPreference3, setWorkPrefrence3] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const handleButtonPress = () => {
     // Set isLoading to true to indicate loading
@@ -148,15 +152,62 @@ function ApplyJob({ navigation, route }) {
   const toDate = watch("toDate");
   const formDtass = watch();
 
+  console.log(formDtass, "formDtass12312");
+
   useEffect(() => {
     setIsPickerShow(null);
   }, [dob, dobDate]);
 
   useEffect(() => {
     getInitData();
-    fetchData();
     handleButtonPress();
+  }, []);
+
+  useEffect(() => {
+    if (apiData) {
+      fetchData();
+    }
   }, [apiData]);
+
+  useEffect(() => {
+    let filteredData = perferenceData.filter(
+      (value) => value !== formDtass?.perference1
+    );
+    let filteredData1 = perferenceData.filter(
+      (value) =>
+        value !== formDtass?.preference2 && value !== formDtass?.perference1
+    );
+    let filteredData2 = perferenceData.filter(
+      (value) =>
+        value !== formDtass?.preference2 &&
+        value !== formDtass?.perference1 &&
+        value !== formDtass?.perference3
+    );
+    setPrefrence2(filteredData);
+    setPrefrence3(filteredData1);
+    setPrefrence4(filteredData2);
+    console.log(filteredData, "filteredData", filteredData1);
+  }, [formDtass?.perference1, formDtass?.preference2, formDtass?.preference3]);
+
+  useEffect(() => {
+    let filteredData = perferenceDataLocation.filter(
+      (value) => value !== formDtass?.workPreference1
+    );
+    let filteredData1 = perferenceDataLocation.filter(
+      (value) =>
+        value !== formDtass?.workPreference2 &&
+        value !== formDtass?.workPreference1
+    );
+    setWorkPrefrence2(filteredData);
+    setWorkPrefrence3(filteredData1);
+    console.log(filteredData, "filteredData", filteredData1);
+  }, [
+    formDtass?.workPreference1,
+    formDtass?.workPreference2,
+    formDtass?.otherPreferred,
+  ]);
+
+  console.log(apiDatas, "apiDatas123");
 
   useEffect(() => {
     if (apiDatas) {
@@ -243,7 +294,6 @@ function ApplyJob({ navigation, route }) {
         fromDate: apiDatas[0]?.fromDate,
         toDate: apiDatas[0]?.toDate,
         companyDet: apiDatas[0]?.companyDet,
-        userName: apiDatas[0]?.userName,
       };
       Object.keys(initObj).forEach((fieldName) =>
         setValue(fieldName, initObj[fieldName])
@@ -289,6 +339,7 @@ function ApplyJob({ navigation, route }) {
         email1: response1?.data?.emailId,
         phone1: response1?.data?.mobileNo,
         aadharNumber: response1?.data?.aadhaarNo,
+        userName: response1?.data?.userName,
       };
       Object.keys(initObj).forEach((fieldName) =>
         setValue(fieldName, initObj[fieldName])
@@ -316,10 +367,10 @@ function ApplyJob({ navigation, route }) {
     }));
   };
 
-  const pickDocument = async (name) => {
+  const pickDocument = async (name, type) => {
     try {
       const result = await DocumentPicker.getDocumentAsync({
-        type: "application/pdf", // Specify the file type you want to pick (PDF in this case)
+        type: ["application/pdf", "image/jpeg", "image/png"], // Specify the file type you want to pick (PDF in this case)
       });
 
       if (result.type === "success") {
@@ -408,10 +459,12 @@ function ApplyJob({ navigation, route }) {
       }
     }
   };
+
   const itemsRelation = ["Brother", "Sister", "Spouse", "Son", "Daughter"];
   const itemsStatus = ["Serving", "Retired", "Deceased"];
   const itemsGender = ["Male", "Female", "Transgender"];
   const Employment = ["Fresher", "Working", "Unemployed"];
+
   let perferenceDataLocation = [
     "Choose",
     "Ariyalur",
@@ -455,6 +508,7 @@ function ApplyJob({ navigation, route }) {
     "ANY WHERE",
     "Others",
   ];
+
   let perferenceData = [
     "Choose",
     "Information Technology",
@@ -943,7 +997,7 @@ function ApplyJob({ navigation, route }) {
                     </Text>
                     <Pressable
                       style={styles.button}
-                      onPress={() => pickDocument("certificate")}
+                      onPress={() => pickDocument("certificate", "image")}
                     >
                       <Text style={styles.buttonText}>Select Document</Text>
                     </Pressable>
@@ -2299,7 +2353,7 @@ function ApplyJob({ navigation, route }) {
                       control={control}
                       render={({ field: { onChange, onBlur, value } }) => (
                         <SelectDropdown
-                          data={perferenceData}
+                          data={prefrence2}
                           onSelect={onChange}
                           defaultButtonText="Preference 2"
                           defaultValue={formDtass?.preference2}
@@ -2320,7 +2374,7 @@ function ApplyJob({ navigation, route }) {
                       control={control}
                       render={({ field: { onChange, onBlur, value } }) => (
                         <SelectDropdown
-                          data={perferenceData}
+                          data={prefrence3}
                           onSelect={onChange}
                           defaultButtonText="Preference 3"
                           defaultValue={formDtass?.preference3}
@@ -2346,7 +2400,7 @@ function ApplyJob({ navigation, route }) {
                     }}
                     render={({ field: { onChange, onBlur, value } }) => (
                       <SelectDropdown
-                        data={perferenceData}
+                        data={prefrence4}
                         onSelect={onChange}
                         defaultButtonText="Other Preferred Industry"
                         defaultValue={formDtass?.otherPreferred}
@@ -2397,7 +2451,7 @@ function ApplyJob({ navigation, route }) {
                       control={control}
                       render={({ field: { onChange, onBlur, value } }) => (
                         <SelectDropdown
-                          data={perferenceDataLocation}
+                          data={workPreference2}
                           onSelect={onChange}
                           defaultButtonText="Preference 2"
                           defaultValue={formDtass?.workPreference2}
@@ -2418,7 +2472,7 @@ function ApplyJob({ navigation, route }) {
                       control={control}
                       render={({ field: { onChange, onBlur, value } }) => (
                         <SelectDropdown
-                          data={perferenceDataLocation}
+                          data={workPreference3}
                           onSelect={onChange}
                           defaultButtonText="Preference 3"
                           defaultValue={formDtass?.workPreference3}
@@ -2461,7 +2515,7 @@ function ApplyJob({ navigation, route }) {
                     </Text>
                     <Pressable
                       style={styles.button}
-                      onPress={() => pickDocument("profile")}
+                      onPress={() => pickDocument("profile", "image")}
                     >
                       <Text style={styles.buttonText}>Select Photo</Text>
                     </Pressable>
