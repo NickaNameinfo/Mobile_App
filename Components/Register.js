@@ -34,8 +34,8 @@ function Register({ navigation }) {
       empStatus: "",
       gpfcpd: "",
       ppocps: "",
-      familystatusList : "",
-      CandidateName : "",
+      familystatusList: "",
+      CandidateName: "",
       rand: "",
       department: "",
       District: "",
@@ -68,11 +68,14 @@ function Register({ navigation }) {
   }, [dob, doe, dopr, dod]);
 
   const getCurrentDate = (value) => {
-    const currentDate = value;
+    console.log(value, "valueasd")
+    const currentDate = value ? value : new Date();
     const year = currentDate.getFullYear();
     const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Months are zero-based
     const day = String(currentDate.getDate()).padStart(2, "0");
-    const formattedDate = `${year}-${month}-${day}`;
+
+    const formattedDate = `${day}-${month}-${year}`;
+    console.log(formattedDate, "formattedDate");
     return formattedDate;
   };
 
@@ -296,7 +299,7 @@ function Register({ navigation }) {
                     onSelect={onChange}
                     defaultButtonText="Select Employee Status"
                     buttonStyle={styles.DropDownPicker}
-                    search={true}
+                    
                     renderDropdownIcon={() => (
                       <AntDesign name="down" size={16} color="black" />
                     )}
@@ -350,7 +353,7 @@ function Register({ navigation }) {
                     onSelect={onChange}
                     defaultButtonText="Select Department"
                     buttonStyle={styles.DropDownPicker}
-                    search={true}
+                    
                     renderDropdownIcon={() => (
                       <AntDesign name="down" size={16} color="black" />
                     )}
@@ -376,7 +379,7 @@ function Register({ navigation }) {
                     onSelect={onChange}
                     defaultButtonText="Select Rank"
                     buttonStyle={styles.DropDownPicker}
-                    search={true}
+                    
                     renderDropdownIcon={() => (
                       <AntDesign name="down" size={16} color="black" />
                     )}
@@ -449,7 +452,7 @@ function Register({ navigation }) {
                     onSelect={onChange}
                     defaultButtonText="Select City / District"
                     buttonStyle={styles.DropDownPicker}
-                    search={true}
+                    
                     renderDropdownIcon={() => (
                       <AntDesign name="down" size={16} color="black" />
                     )}
@@ -569,7 +572,7 @@ function Register({ navigation }) {
                     onSelect={onChange}
                     defaultButtonText="Select Gender"
                     buttonStyle={styles.DropDownPicker}
-                    search={true}
+                    
                     renderDropdownIcon={() => (
                       <AntDesign name="down" size={16} color="black" />
                     )}

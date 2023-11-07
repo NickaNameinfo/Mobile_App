@@ -20,10 +20,12 @@ const ViewJob = ({ navigation, route }) => {
   const [steps, setSteps] = useState(["", "", "", ""]);
   const [apiData, setApiData] = useState(null);
 
-  console.log(apiData, "apiDataapiData")
+  console.log(apiData, "apiDataapiData");
 
   useEffect(() => {
-    fetchData();
+    if (Details) {
+      fetchData();
+    }
   }, [Details]);
 
   const fetchData = async () => {
@@ -39,7 +41,7 @@ const ViewJob = ({ navigation, route }) => {
   let keys = {
     empName: "Employee Name",
     empNameInit: "Initial",
-    email:"Email Id",
+    email: "Email Id",
     relEmp: "Relationship to the Employee",
     empStatus: "Status of Employee",
     policePersonnel: "Wards / Spouse of",
@@ -130,11 +132,25 @@ const ViewJob = ({ navigation, route }) => {
         <Image style={styles.image} source={require("../assets/logo.png")} />
         <Text style={styles.titleText}>Applied Job</Text>
       </View>
-      <View style={styles.right}>
-        <Pressable style={styles.button} onPress={() => navigation.navigate("ApplyJob", route.params)}>
-          <Text style={styles.buttonText}>Edit</Text>
-        </Pressable>
+      <View style={formStyles.flexRow}>
+        <View style={styles.left}>
+          <Pressable
+            style={styles.button}
+            onPress={() => navigation.navigate("HomePage")}
+          >
+            <Text style={styles.buttonText}>Log Out</Text>
+          </Pressable>
+        </View>
+        <View style={styles.right}>
+          <Pressable
+            style={styles.button}
+            onPress={() => navigation.navigate("ApplyJob", route.params)}
+          >
+            <Text style={styles.buttonText}>Edit</Text>
+          </Pressable>
+        </View>
       </View>
+
       <ScrollView>
         <View style={styles.card}>
           {apiData?.length > 0 ? (
