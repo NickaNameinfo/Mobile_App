@@ -356,7 +356,7 @@ function ApplyJob({ navigation, route }) {
     const year = currentDate.getFullYear();
     const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Months are zero-based
     const day = String(currentDate.getDate()).padStart(2, "0");
-    const formattedDate = `${year}-${month}-${day}`;
+    const formattedDate = `${day}-${month}-${year}`;
     return formattedDate;
   };
 
@@ -928,7 +928,6 @@ function ApplyJob({ navigation, route }) {
                         defaultValue={formDtass?.relEmp}
                         defaultButtonText="Select Relationship "
                         buttonStyle={styles.DropDownPicker}
-                        search={true}
                         renderDropdownIcon={() => (
                           <AntDesign name="down" size={16} color="black" />
                         )}
@@ -953,7 +952,6 @@ function ApplyJob({ navigation, route }) {
                         defaultValue={formDtass?.empStatus}
                         defaultButtonText="Select Status of Employee"
                         buttonStyle={styles.DropDownPicker}
-                        search={true}
                         renderDropdownIcon={() => (
                           <AntDesign name="down" size={16} color="black" />
                         )}
@@ -978,7 +976,6 @@ function ApplyJob({ navigation, route }) {
                         defaultValue={formDtass?.policePersonnel}
                         defaultButtonText="Wards / Spouse of"
                         buttonStyle={styles.DropDownPicker}
-                        search={true}
                         renderDropdownIcon={() => (
                           <AntDesign name="down" size={16} color="black" />
                         )}
@@ -1037,7 +1034,6 @@ function ApplyJob({ navigation, route }) {
                         defaultValue={formDtass?.ranks}
                         defaultButtonText="Rank "
                         buttonStyle={styles.DropDownPicker}
-                        search={true}
                         renderDropdownIcon={() => (
                           <AntDesign name="down" size={16} color="black" />
                         )}
@@ -1098,7 +1094,6 @@ function ApplyJob({ navigation, route }) {
                         defaultValue={formDtass?.lastDistrict}
                         defaultButtonText="Last Served District  "
                         buttonStyle={styles.DropDownPicker}
-                        search={true}
                         renderDropdownIcon={() => (
                           <AntDesign name="down" size={16} color="black" />
                         )}
@@ -1185,7 +1180,6 @@ function ApplyJob({ navigation, route }) {
                         defaultValue={formDtass?.gender}
                         defaultButtonText="gender"
                         buttonStyle={styles.DropDownPicker}
-                        search={true}
                         renderDropdownIcon={() => (
                           <AntDesign name="down" size={16} color="black" />
                         )}
@@ -1318,7 +1312,6 @@ function ApplyJob({ navigation, route }) {
                         defaultValue={formDtass?.CityDistrict}
                         defaultButtonText="City / District"
                         buttonStyle={styles.DropDownPicker}
-                        search={true}
                         renderDropdownIcon={() => (
                           <AntDesign name="down" size={16} color="black" />
                         )}
@@ -1427,7 +1420,6 @@ function ApplyJob({ navigation, route }) {
                         defaultValue={formDtass?.Qualification}
                         defaultButtonText="Highest Qualification"
                         buttonStyle={styles.DropDownPicker}
-                        search={true}
                         renderDropdownIcon={() => (
                           <AntDesign name="down" size={16} color="black" />
                         )}
@@ -1475,7 +1467,6 @@ function ApplyJob({ navigation, route }) {
                               defaultValue={formDtass?.Board}
                               defaultButtonText="Board"
                               buttonStyle={styles.DropDownPicker}
-                              search={true}
                               renderDropdownIcon={() => (
                                 <AntDesign
                                   name="down"
@@ -1571,7 +1562,6 @@ function ApplyJob({ navigation, route }) {
                                 defaultValue={formDtass?.Board10}
                                 defaultButtonText="Board"
                                 buttonStyle={styles.DropDownPicker}
-                                search={true}
                                 renderDropdownIcon={() => (
                                   <AntDesign
                                     name="down"
@@ -1845,7 +1835,6 @@ function ApplyJob({ navigation, route }) {
                                 defaultValue={formDtass?.GraduationDg}
                                 defaultButtonText="GraduationDg"
                                 buttonStyle={styles.DropDownPicker}
-                                search={true}
                                 renderDropdownIcon={() => (
                                   <AntDesign
                                     name="down"
@@ -1982,7 +1971,6 @@ function ApplyJob({ navigation, route }) {
                                 defaultButtonText="Name of the Degree"
                                 defaultValue={formDtass?.Degreename}
                                 buttonStyle={styles.DropDownPicker}
-                                search={true}
                                 renderDropdownIcon={() => (
                                   <AntDesign
                                     name="down"
@@ -2197,7 +2185,6 @@ function ApplyJob({ navigation, route }) {
                             onSelect={onChange}
                             defaultButtonText="Board"
                             buttonStyle={styles.DropDownPicker}
-                            search={true}
                             renderDropdownIcon={() => (
                               <AntDesign name="down" size={16} color="black" />
                             )}
@@ -2336,7 +2323,6 @@ function ApplyJob({ navigation, route }) {
                           onSelect={onChange}
                           defaultButtonText="Preference 1"
                           buttonStyle={styles.DropDownPicker}
-                          search={true}
                           renderDropdownIcon={() => (
                             <AntDesign name="down" size={16} color="black" />
                           )}
@@ -2358,7 +2344,6 @@ function ApplyJob({ navigation, route }) {
                           defaultButtonText="Preference 2"
                           defaultValue={formDtass?.preference2}
                           buttonStyle={styles.DropDownPicker}
-                          search={true}
                           renderDropdownIcon={() => (
                             <AntDesign name="down" size={16} color="black" />
                           )}
@@ -2379,7 +2364,6 @@ function ApplyJob({ navigation, route }) {
                           defaultButtonText="Preference 3"
                           defaultValue={formDtass?.preference3}
                           buttonStyle={styles.DropDownPicker}
-                          search={true}
                           renderDropdownIcon={() => (
                             <AntDesign name="down" size={16} color="black" />
                           )}
@@ -2405,7 +2389,6 @@ function ApplyJob({ navigation, route }) {
                         defaultButtonText="Other Preferred Industry"
                         defaultValue={formDtass?.otherPreferred}
                         buttonStyle={styles.DropDownPicker}
-                        search={true}
                         renderDropdownIcon={() => (
                           <AntDesign name="down" size={16} color="black" />
                         )}
@@ -2434,7 +2417,6 @@ function ApplyJob({ navigation, route }) {
                           defaultButtonText="Preference 1"
                           defaultValue={formDtass?.workPreference1}
                           buttonStyle={styles.DropDownPicker}
-                          search={true}
                           renderDropdownIcon={() => (
                             <AntDesign name="down" size={16} color="black" />
                           )}
@@ -2456,7 +2438,6 @@ function ApplyJob({ navigation, route }) {
                           defaultButtonText="Preference 2"
                           defaultValue={formDtass?.workPreference2}
                           buttonStyle={styles.DropDownPicker}
-                          search={true}
                           renderDropdownIcon={() => (
                             <AntDesign name="down" size={16} color="black" />
                           )}
@@ -2477,7 +2458,6 @@ function ApplyJob({ navigation, route }) {
                           defaultButtonText="Preference 3"
                           defaultValue={formDtass?.workPreference3}
                           buttonStyle={styles.DropDownPicker}
-                          search={true}
                           renderDropdownIcon={() => (
                             <AntDesign name="down" size={16} color="black" />
                           )}
@@ -2549,7 +2529,6 @@ function ApplyJob({ navigation, route }) {
                         defaultButtonText="Employment Status"
                         defaultValue={formDtass?.Employment}
                         buttonStyle={styles.DropDownPicker}
-                        search={true}
                         renderDropdownIcon={() => (
                           <AntDesign name="down" size={16} color="black" />
                         )}
@@ -2561,150 +2540,168 @@ function ApplyJob({ navigation, route }) {
                   {errors.Employment && (
                     <Text style={styles.errorMessage}>This is required.</Text>
                   )}
-                  <Controller
-                    control={control}
-                    rules={{
-                      required: true,
-                    }}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                      <TextInput
-                        placeholder="Year of experience"
-                        style={styles.inputBox}
-                        mode="outlined"
-                        onBlur={onBlur}
-                        onChangeText={onChange}
-                        value={value}
-                      />
-                    )}
-                    name="experience"
-                  />
-                  {errors.experience && (
-                    <Text style={styles.errorMessage}>This is required.</Text>
-                  )}
-                  <Controller
-                    control={control}
-                    rules={{
-                      required: true,
-                    }}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                      <TextInput
-                        placeholder="Name of the Company"
-                        style={styles.inputBox}
-                        mode="outlined"
-                        onBlur={onBlur}
-                        onChangeText={onChange}
-                        value={value}
-                      />
-                    )}
-                    name="CompanyName"
-                  />
-                  {errors.CompanyName && (
-                    <Text style={styles.errorMessage}>This is required.</Text>
-                  )}
-
-                  <Controller
-                    control={control}
-                    rules={{
-                      required: true,
-                    }}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                      <TextInput
-                        placeholder="Job Designation"
-                        style={styles.inputBox}
-                        mode="outlined"
-                        onBlur={onBlur}
-                        onChangeText={onChange}
-                        value={value}
-                      />
-                    )}
-                    name="Designation"
-                  />
-                  {errors.Designation && (
-                    <Text style={styles.errorMessage}>This is required.</Text>
-                  )}
-
-                  <Controller
-                    control={control}
-                    rules={{
-                      required: true,
-                    }}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                      <TextInput
-                        placeholder="Place of Working"
-                        style={styles.inputBox}
-                        mode="outlined"
-                        onBlur={onBlur}
-                        onChangeText={onChange}
-                        value={value}
-                      />
-                    )}
-                    name="Workingplz"
-                  />
-                  {errors.Workingplz && (
-                    <Text style={styles.errorMessage}>This is required.</Text>
-                  )}
-
-                  <View>
+                  {formDtass?.Employment === "Working" && (
                     <View>
-                      <Text
-                        onPress={() => showPicker("fromDate", true)}
-                        style={styles.inputBox}
-                      >
-                        {fromDate !== "" ? fromDate : "From Date"}
-                      </Text>
-                    </View>
-
-                    <DatePicker
-                      onGetDateValue={(value) =>
-                        setValue("fromDate", getCurrentDate(value))
-                      }
-                      onOpenDatePicker={isPickerShow?.fromDate}
-                    />
-                  </View>
-                  {errors.fromDate && (
-                    <Text style={styles.errorMessage}>This is required.</Text>
-                  )}
-
-                  <View>
-                    <View>
-                      <Text
-                        onPress={() => showPicker("toDate", true)}
-                        style={styles.inputBox}
-                      >
-                        {toDate !== "" ? toDate : "From Date"}
-                      </Text>
-                    </View>
-
-                    <DatePicker
-                      onGetDateValue={(value) =>
-                        setValue("toDate", getCurrentDate(value))
-                      }
-                      onOpenDatePicker={isPickerShow?.toDate}
-                    />
-                  </View>
-                  {errors.toDate && (
-                    <Text style={styles.errorMessage}>This is required.</Text>
-                  )}
-
-                  <Controller
-                    control={control}
-                    rules={{
-                      required: true,
-                    }}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                      <TextInput
-                        placeholder="Other Company"
-                        style={styles.inputBox}
-                        mode="outlined"
-                        onBlur={onBlur}
-                        onChangeText={onChange}
-                        value={value}
+                      <Controller
+                        control={control}
+                        rules={{
+                          required: true,
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                          <TextInput
+                            placeholder="Year of experience"
+                            style={styles.inputBox}
+                            mode="outlined"
+                            onBlur={onBlur}
+                            onChangeText={onChange}
+                            value={value}
+                          />
+                        )}
+                        name="experience"
                       />
-                    )}
-                    name="companyDet"
-                  />
-                  {errors.companyDet && (
-                    <Text style={styles.errorMessage}>This is required.</Text>
+                      {errors.experience && (
+                        <Text style={styles.errorMessage}>
+                          This is required.
+                        </Text>
+                      )}
+                      <Controller
+                        control={control}
+                        rules={{
+                          required: true,
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                          <TextInput
+                            placeholder="Name of the Company"
+                            style={styles.inputBox}
+                            mode="outlined"
+                            onBlur={onBlur}
+                            onChangeText={onChange}
+                            value={value}
+                          />
+                        )}
+                        name="CompanyName"
+                      />
+                      {errors.CompanyName && (
+                        <Text style={styles.errorMessage}>
+                          This is required.
+                        </Text>
+                      )}
+
+                      <Controller
+                        control={control}
+                        rules={{
+                          required: true,
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                          <TextInput
+                            placeholder="Job Designation"
+                            style={styles.inputBox}
+                            mode="outlined"
+                            onBlur={onBlur}
+                            onChangeText={onChange}
+                            value={value}
+                          />
+                        )}
+                        name="Designation"
+                      />
+                      {errors.Designation && (
+                        <Text style={styles.errorMessage}>
+                          This is required.
+                        </Text>
+                      )}
+
+                      <Controller
+                        control={control}
+                        rules={{
+                          required: true,
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                          <TextInput
+                            placeholder="Place of Working"
+                            style={styles.inputBox}
+                            mode="outlined"
+                            onBlur={onBlur}
+                            onChangeText={onChange}
+                            value={value}
+                          />
+                        )}
+                        name="Workingplz"
+                      />
+                      {errors.Workingplz && (
+                        <Text style={styles.errorMessage}>
+                          This is required.
+                        </Text>
+                      )}
+
+                      <View>
+                        <View>
+                          <Text
+                            onPress={() => showPicker("fromDate", true)}
+                            style={styles.inputBox}
+                          >
+                            {fromDate !== "" ? fromDate : "From Date"}
+                          </Text>
+                        </View>
+
+                        <DatePicker
+                          onGetDateValue={(value) =>
+                            setValue("fromDate", getCurrentDate(value))
+                          }
+                          onOpenDatePicker={isPickerShow?.fromDate}
+                        />
+                      </View>
+                      {errors.fromDate && (
+                        <Text style={styles.errorMessage}>
+                          This is required.
+                        </Text>
+                      )}
+
+                      <View>
+                        <View>
+                          <Text
+                            onPress={() => showPicker("toDate", true)}
+                            style={styles.inputBox}
+                          >
+                            {toDate !== "" ? toDate : "From Date"}
+                          </Text>
+                        </View>
+
+                        <DatePicker
+                          onGetDateValue={(value) =>
+                            setValue("toDate", getCurrentDate(value))
+                          }
+                          onOpenDatePicker={isPickerShow?.toDate}
+                        />
+                      </View>
+                      {errors.toDate && (
+                        <Text style={styles.errorMessage}>
+                          This is required.
+                        </Text>
+                      )}
+
+                      <Controller
+                        control={control}
+                        rules={{
+                          required: true,
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                          <TextInput
+                            placeholder="Other Company"
+                            style={styles.inputBox}
+                            mode="outlined"
+                            onBlur={onBlur}
+                            onChangeText={onChange}
+                            value={value}
+                          />
+                        )}
+                        name="companyDet"
+                      />
+                      {errors.companyDet && (
+                        <Text style={styles.errorMessage}>
+                          This is required.
+                        </Text>
+                      )}
+                    </View>
                   )}
                 </View>
               )}

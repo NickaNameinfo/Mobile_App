@@ -86,6 +86,11 @@ export const styles = StyleSheet.create({
     alignItems: "flex-end",
     right: 25,
   },
+  left: {
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    left: 25,
+  },
   backImage: {
     flex: 1,
     justifyContent: "center",
