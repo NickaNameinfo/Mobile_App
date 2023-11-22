@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Text,
   View,
@@ -10,7 +10,9 @@ import {
   Pressable,
   ActivityIndicator,
   Button,
+  // Checkbox,
 } from "react-native";
+import Checkbox from "expo-checkbox";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { formStyles } from ".././assets/style/fromStyle";
 import { styles } from ".././assets/style/style";
@@ -19,6 +21,7 @@ import SelectDropdown from "react-native-select-dropdown";
 import DatePicker from "./DatePicker";
 import axios from "axios";
 import * as DocumentPicker from "expo-document-picker";
+import MultiSelect from "react-native-multiple-select";
 
 function ApplyJob({ navigation, route }) {
   const { apiData, Details } = route.params;
@@ -137,6 +140,34 @@ function ApplyJob({ navigation, route }) {
   });
 
   const [isPickerShow, setIsPickerShow] = useState(null);
+  const [isChecked, setChecked] = useState(null);
+  const [selectedItems1, setSelectedItems1] = useState([]);
+  const [selectedItems2, setSelectedItems2] = useState([]);
+  const [selectedItems3, setSelectedItems3] = useState([]);
+  const [selectedItems4, setSelectedItems4] = useState([]);
+  const [selectedItems5, setSelectedItems5] = useState([]);
+  const [selectedItems6, setSelectedItems6] = useState([]);
+  const [selectedItems7, setSelectedItems7] = useState([]);
+  const [selectedItems8, setSelectedItem8] = useState([]);
+  const [selectedItems9, setSelectedItems9] = useState([]);
+  const multiSelectRef = useRef();
+
+  console.log(selectedItems1, "selectedItems");
+
+  const items = [
+    {
+      id: "1",
+      name: "Read",
+    },
+    {
+      id: "2",
+      name: "Write",
+    },
+    {
+      id: "3",
+      name: "Speak",
+    },
+  ];
 
   const dob = watch("dob");
   const dobDate = watch("dobDate");
@@ -1383,10 +1414,254 @@ function ApplyJob({ navigation, route }) {
                   {errors.aadharNumber && (
                     <Text style={styles.errorMessage}>This is required.</Text>
                   )}
+                  <Text style={styles.cardHeader}>Languages Known</Text>
+                  <View style={{ flex: 1 }}>
+                    <MultiSelect
+                      hideTags
+                      items={items}
+                      uniqueKey="id"
+                      ref={multiSelectRef}
+                      styleTextDropdown={{ paddingLeft: 10 }}
+                      onSelectedItemsChange={(items) => setSelectedItems1(items)}
+                      selectedItems={selectedItems1}
+                      selectText="TAMIL"
+                      tagRemoveIconColor="#CCC"
+                      tagBorderColor="#CCC"
+                      tagTextColor="#CCC"
+                      selectedItemTextColor="#CCC"
+                      selectedItemIconColor="#CCC"
+                      itemTextColor="#000"
+                      displayKey="name"
+                      submitButtonColor="#7C2927"
+                      submitButtonText="Submit"
+                    />
+                    <View>
+                      {multiSelectRef.current &&
+                        multiSelectRef.current.getSelectedItemsExt(
+                          selectedItems1
+                        )}
+                    </View>
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <MultiSelect
+                      hideTags
+                      items={items}
+                      uniqueKey="id"
+                      ref={multiSelectRef}
+                      styleTextDropdown={{ paddingLeft: 10 }}
+                      onSelectedItemsChange={(items) => setSelectedItems2(items)}
+                      selectedItems={selectedItems2}
+                      selectText="ENGLISH"
+                      tagRemoveIconColor="#CCC"
+                      tagBorderColor="#CCC"
+                      tagTextColor="#CCC"
+                      selectedItemTextColor="#CCC"
+                      selectedItemIconColor="#CCC"
+                      itemTextColor="#000"
+                      displayKey="name"
+                      submitButtonColor="#7C2927"
+                      submitButtonText="Submit"
+                    />
+                    <View>
+                      {multiSelectRef.current &&
+                        multiSelectRef.current.getSelectedItemsExt(
+                          selectedItems2
+                        )}
+                    </View>
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <MultiSelect
+                      hideTags
+                      items={items}
+                      uniqueKey="id"
+                      ref={multiSelectRef}
+                      styleTextDropdown={{ paddingLeft: 10 }}
+                      onSelectedItemsChange={(items) => setSelectedItems3(items)}
+                      selectedItems={selectedItems3}
+                      selectText="HINDI"
+                      tagRemoveIconColor="#CCC"
+                      tagBorderColor="#CCC"
+                      tagTextColor="#CCC"
+                      selectedItemTextColor="#CCC"
+                      selectedItemIconColor="#CCC"
+                      itemTextColor="#000"
+                      displayKey="name"
+                      submitButtonColor="#7C2927"
+                      submitButtonText="Submit"
+                    />
+                    <View>
+                      {multiSelectRef.current &&
+                        multiSelectRef.current.getSelectedItemsExt(
+                          selectedItems3
+                        )}
+                    </View>
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <MultiSelect
+                      hideTags
+                      items={items}
+                      uniqueKey="id"
+                      ref={multiSelectRef}
+                      styleTextDropdown={{ paddingLeft: 10 }}
+                      onSelectedItemsChange={(items) => setSelectedItems4(items)}
+                      selectedItems={selectedItems4}
+                      selectText="MALAYALAM"
+                      tagRemoveIconColor="#CCC"
+                      tagBorderColor="#CCC"
+                      tagTextColor="#CCC"
+                      selectedItemTextColor="#CCC"
+                      selectedItemIconColor="#CCC"
+                      itemTextColor="#000"
+                      displayKey="name"
+                      submitButtonColor="#7C2927"
+                      submitButtonText="Submit"
+                    />
+                    <View>
+                      {multiSelectRef.current &&
+                        multiSelectRef.current.getSelectedItemsExt(
+                          selectedItems4
+                        )}
+                    </View>
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <MultiSelect
+                      hideTags
+                      items={items}
+                      uniqueKey="id"
+                      ref={multiSelectRef}
+                      styleTextDropdown={{ paddingLeft: 10 }}
+                      onSelectedItemsChange={(items) => setSelectedItems5(items)}
+                      selectedItems={selectedItems5}
+                      selectText="TELUGU"
+                      tagRemoveIconColor="#CCC"
+                      tagBorderColor="#CCC"
+                      tagTextColor="#CCC"
+                      selectedItemTextColor="#CCC"
+                      selectedItemIconColor="#CCC"
+                      itemTextColor="#000"
+                      displayKey="name"
+                      submitButtonColor="#7C2927"
+                      submitButtonText="Submit"
+                    />
+                    <View>
+                      {multiSelectRef.current &&
+                        multiSelectRef.current.getSelectedItemsExt(
+                          selectedItems5
+                        )}
+                    </View>
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <MultiSelect
+                      hideTags
+                      items={items}
+                      uniqueKey="id"
+                      ref={multiSelectRef}
+                      styleTextDropdown={{ paddingLeft: 10 }}
+                      onSelectedItemsChange={(items) => setSelectedItems6(items)}
+                      selectedItems={selectedItems6}
+                      selectText="KANNADA"
+                      tagRemoveIconColor="#CCC"
+                      tagBorderColor="#CCC"
+                      tagTextColor="#CCC"
+                      selectedItemTextColor="#CCC"
+                      selectedItemIconColor="#CCC"
+                      itemTextColor="#000"
+                      displayKey="name"
+                      submitButtonColor="#7C2927"
+                      submitButtonText="Submit"
+                    />
+                    <View>
+                      {multiSelectRef.current &&
+                        multiSelectRef.current.getSelectedItemsExt(
+                          selectedItems6
+                        )}
+                    </View>
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <MultiSelect
+                      hideTags
+                      items={items}
+                      uniqueKey="id"
+                      ref={multiSelectRef}
+                      styleTextDropdown={{ paddingLeft: 10 }}
+                      onSelectedItemsChange={(items) => setSelectedItems7(items)}
+                      selectedItems={selectedItems7}
+                      selectText="FRENCH"
+                      tagRemoveIconColor="#CCC"
+                      tagBorderColor="#CCC"
+                      tagTextColor="#CCC"
+                      selectedItemTextColor="#CCC"
+                      selectedItemIconColor="#CCC"
+                      itemTextColor="#000"
+                      displayKey="name"
+                      submitButtonColor="#7C2927"
+                      submitButtonText="Submit"
+                    />
+                    <View>
+                      {multiSelectRef.current &&
+                        multiSelectRef.current.getSelectedItemsExt(
+                          selectedItems7
+                        )}
+                    </View>
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <MultiSelect
+                      hideTags
+                      items={items}
+                      uniqueKey="id"
+                      ref={multiSelectRef}
+                      styleTextDropdown={{ paddingLeft: 10 }}
+                      onSelectedItemsChange={(items) => setSelectedItems8(items)}
+                      selectedItems={selectedItems8}
+                      selectText="SANSKRIT"
+                      tagRemoveIconColor="#CCC"
+                      tagBorderColor="#CCC"
+                      tagTextColor="#CCC"
+                      selectedItemTextColor="#CCC"
+                      selectedItemIconColor="#CCC"
+                      itemTextColor="#000"
+                      displayKey="name"
+                      submitButtonColor="#7C2927"
+                      submitButtonText="Submit"
+                    />
+                    <View>
+                      {multiSelectRef.current &&
+                        multiSelectRef.current.getSelectedItemsExt(
+                          selectedItems8
+                        )}
+                    </View>
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <MultiSelect
+                      hideTags
+                      items={items}
+                      uniqueKey="id"
+                      ref={multiSelectRef}
+                      styleTextDropdown={{ paddingLeft: 10 }}
+                      onSelectedItemsChange={(items) => setSelectedItems9(items)}
+                      selectedItems={selectedItems9}
+                      selectText="URDU"
+                      tagRemoveIconColor="#CCC"
+                      tagBorderColor="#CCC"
+                      tagTextColor="#CCC"
+                      selectedItemTextColor="#CCC"
+                      selectedItemIconColor="#CCC"
+                      itemTextColor="#000"
+                      displayKey="name"
+                      submitButtonColor="#7C2927"
+                      submitButtonText="Submit"
+                    />
+                    <View>
+                      {multiSelectRef.current &&
+                        multiSelectRef.current.getSelectedItemsExt(
+                          selectedItems9
+                        )}
+                    </View>
+                  </View>
                   <Controller
                     control={control}
                     rules={{
-                      required: true,
+                      required: false,
                     }}
                     render={({ field: { onChange, onBlur, value } }) => (
                       <TextInput
