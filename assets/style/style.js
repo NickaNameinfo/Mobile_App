@@ -333,4 +333,22 @@ export const styles = StyleSheet.create({
     borderWidth: 4,
     borderColor: "#d7d7d7",
   },
+  label : {
+    fontWeight: "600",
+    fontSize: 20,
+    marginBottom: 19,
+    textAlign: "left",
+    color: "white",
+  },
+  section: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  paragraph: {
+    fontSize: 15,
+    color : "white"
+  },
+  checkbox: {
+    margin: 8,
+  },
 });
