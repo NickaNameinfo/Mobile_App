@@ -45,6 +45,7 @@ function Register({ navigation }) {
       dod: "",
       gender: "",
       mobileNo: "",
+      emailId: "",
       gno: "",
       policePersonnel: "",
       familyMember: "",
@@ -68,7 +69,7 @@ function Register({ navigation }) {
   }, [dob, doe, dopr, dod]);
 
   const getCurrentDate = (value) => {
-    console.log(value, "valueasd")
+    console.log(value, "valueasd");
     const currentDate = value ? value : new Date();
     const year = currentDate.getFullYear();
     const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Months are zero-based
@@ -184,15 +185,15 @@ function Register({ navigation }) {
   const onSubmit = async () => {
     try {
       let data = {
-        number: watchedFields.mobileNo,
+        number: watchedFields.emailId,
       };
       console.log(data, "datadata87987");
       const response = await axios.post(
-        "https://nodebackend.kavalarnalantn.in:5000/user_Register/generateOtp",
+        "https://nodebackend.kavalarnalantn.in:5000/user_Register/generateEmailOtp",
         data
       );
       setSentOtp(response.data);
-      console.log(response, "responseresponse");
+      console.log(response.data, "responseresponse");
       setOtpModal(true);
     } catch (error) {
       console.log("Error:", error);
@@ -299,7 +300,6 @@ function Register({ navigation }) {
                     onSelect={onChange}
                     defaultButtonText="Select Employee Status"
                     buttonStyle={styles.DropDownPicker}
-                    
                     renderDropdownIcon={() => (
                       <AntDesign name="down" size={16} color="black" />
                     )}
@@ -353,7 +353,6 @@ function Register({ navigation }) {
                     onSelect={onChange}
                     defaultButtonText="Select Department"
                     buttonStyle={styles.DropDownPicker}
-                    
                     renderDropdownIcon={() => (
                       <AntDesign name="down" size={16} color="black" />
                     )}
@@ -379,7 +378,6 @@ function Register({ navigation }) {
                     onSelect={onChange}
                     defaultButtonText="Select Rank"
                     buttonStyle={styles.DropDownPicker}
-                    
                     renderDropdownIcon={() => (
                       <AntDesign name="down" size={16} color="black" />
                     )}
@@ -452,7 +450,6 @@ function Register({ navigation }) {
                     onSelect={onChange}
                     defaultButtonText="Select City / District"
                     buttonStyle={styles.DropDownPicker}
-                    
                     renderDropdownIcon={() => (
                       <AntDesign name="down" size={16} color="black" />
                     )}
@@ -572,7 +569,6 @@ function Register({ navigation }) {
                     onSelect={onChange}
                     defaultButtonText="Select Gender"
                     buttonStyle={styles.DropDownPicker}
-                    
                     renderDropdownIcon={() => (
                       <AntDesign name="down" size={16} color="black" />
                     )}
@@ -610,6 +606,29 @@ function Register({ navigation }) {
                 <Text style={styles.errorMessage}>
                   Maximum 10 Number allowed
                 </Text>
+              )}
+
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    label="Email Id"
+                    placeholder="Email ID"
+                    style={styles.inputBox}
+                    underlineColor="transparent"
+                    mode="outlined"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="emailId"
+              />
+              {errors.emailId && (
+                <Text style={styles.errorMessage}>Email Id required</Text>
               )}
 
               <Controller
