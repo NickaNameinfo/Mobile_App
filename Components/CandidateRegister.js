@@ -42,14 +42,14 @@ function CandidateRegister({ navigation, route }) {
   const onSubmit = async () => {
     try {
       let data = {
-        number: watchedFields.mobileNo,
+        number: watchedFields.emailId,
       };
       const response = await axios.post(
-        "https://nodebackend.kavalarnalantn.in:5000/user_Register/generateOtp",
+        "https://nodebackend.kavalarnalantn.in:5000/user_Register/generateEmailOtp",
         data
       );
       setSentOtp(response.data);
-      console.log(response, "responseresponse");
+      console.log(response.data, "responseresponse");
       setOtpModal(true);
     } catch (error) {
       console.log("Error:", error);
