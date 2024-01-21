@@ -45,7 +45,7 @@ function CandidateDetails({ navigation, route }) {
         </View>
       </View>
       <View style={styles.homeOptions}>
-        {apiDatas?.length === 0 && (
+        {/* {apiDatas?.length === 0 && ( */}
           <TouchableOpacity
             onPress={() => navigation.navigate("ApplyJob", route.params)}
           >
@@ -55,7 +55,7 @@ function CandidateDetails({ navigation, route }) {
               </View>
             </View>
           </TouchableOpacity>
-        )}
+        {/* )} */}
 
         <TouchableOpacity
           onPress={() => navigation.navigate("ViewJob", route.params)}
@@ -68,6 +68,7 @@ function CandidateDetails({ navigation, route }) {
             </View>
           </View>
         </TouchableOpacity>
+
         {/* <TouchableOpacity>
           <View style={styles.dashBoradCard}>
             <View>
@@ -78,6 +79,17 @@ function CandidateDetails({ navigation, route }) {
           </View>
         </TouchableOpacity> */}
       </View>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("ViewJob", route.params)}
+      >
+        <View style={styles.dashBoradCard}>
+          <View>
+            <Text variant="displayLarge" style={styles.cardText}>
+              Notifications
+            </Text>
+          </View>
+        </View>
+      </TouchableOpacity>
       {/* </ImageBackground> */}
       <Footer background={"white"} />
     </View>

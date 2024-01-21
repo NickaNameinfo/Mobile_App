@@ -150,7 +150,6 @@ function ApplyJob({ navigation, route }) {
   const [selectedItems7, setSelectedItems7] = useState([]);
   const [selectedItems8, setSelectedItem8] = useState([]);
   const [selectedItems9, setSelectedItems9] = useState([]);
-  const multiSelectRef = useRef();
 
   console.log(selectedItems1, "selectedItems");
 
@@ -492,7 +491,7 @@ function ApplyJob({ navigation, route }) {
   };
 
   const itemsRelation = ["Brother", "Sister", "Spouse", "Son", "Daughter"];
-  const itemsStatus = ["Serving", "Retired", "Deceased"];
+  const itemsStatus = ["Serving", "Retired", "Deceased", "Others"];
   const itemsGender = ["Male", "Female", "Transgender"];
   const Employment = ["Fresher", "Working", "Unemployed"];
 
@@ -794,6 +793,54 @@ function ApplyJob({ navigation, route }) {
     "Gardener",
     "Grade I PC",
     "Grade II PC",
+    "Havildar",
+    "Head Constable",
+    "Imposer / Composer / Machine Minder",
+    "Inspector General of Police",
+    "Inspector of Police",
+    "Junior Assistant",
+    "Junior Reporter",
+    "Lascar",
+    "Lance Naik",
+    "Legal Advisor",
+    "Librarian",
+    "Liner / Mechanic / Reborer",
+    "Manager",
+    "Naik",
+    "Office Assistant",
+    "Painter / Plumber / Carpenter",
+    "Photo Assistant",
+    "Photo Attendant",
+    "Photographer",
+    "Public Relation Officer",
+    "Record Assistant",
+    "Record Clerk",
+    "Sanitary Worker / Scavenger / Scrubber",
+    "Senior Reporter",
+    "Senior Chief Reporter",
+    "Senior Manager",
+    "Senior Administrative Officer",
+    "Shorthand Reporter",
+    "Special Branch Assistant",
+    "Special Sub Inspector of Police",
+    "Statistical Assistant",
+    "Statistical Inspector",
+    "Statistical Officer",
+    "Station Receptionist",
+    "Steno-Typist",
+    "Stenographer",
+    "Storekeeper",
+    "Superintendent of Police",
+    "Superintendent",
+    "Sub-Inspector of Police",
+    "Syrang",
+    "Tailor",
+    "Technical Assistant",
+    "Telephone Operator",
+    "Toolkeeper / Turner / Tyreman",
+    "Typist",
+    "Water Carrier",
+    "Works Manager",
   ];
 
   const itemsCity = [
@@ -842,6 +889,8 @@ function ApplyJob({ navigation, route }) {
     "Viluppuram",
     "Virudhunagar",
   ];
+
+  const multiSelectRef = useRef();
 
   return (
     <View
@@ -1422,7 +1471,9 @@ function ApplyJob({ navigation, route }) {
                       uniqueKey="id"
                       ref={multiSelectRef}
                       styleTextDropdown={{ paddingLeft: 10 }}
-                      onSelectedItemsChange={(items) => setSelectedItems1(items)}
+                      onSelectedItemsChange={(items) =>
+                        setSelectedItems1(items)
+                      }
                       selectedItems={selectedItems1}
                       selectText="TAMIL"
                       tagRemoveIconColor="#CCC"
@@ -1449,7 +1500,9 @@ function ApplyJob({ navigation, route }) {
                       uniqueKey="id"
                       ref={multiSelectRef}
                       styleTextDropdown={{ paddingLeft: 10 }}
-                      onSelectedItemsChange={(items) => setSelectedItems2(items)}
+                      onSelectedItemsChange={(items) =>
+                        setSelectedItems2(items)
+                      }
                       selectedItems={selectedItems2}
                       selectText="ENGLISH"
                       tagRemoveIconColor="#CCC"
@@ -1476,7 +1529,9 @@ function ApplyJob({ navigation, route }) {
                       uniqueKey="id"
                       ref={multiSelectRef}
                       styleTextDropdown={{ paddingLeft: 10 }}
-                      onSelectedItemsChange={(items) => setSelectedItems3(items)}
+                      onSelectedItemsChange={(items) =>
+                        setSelectedItems3(items)
+                      }
                       selectedItems={selectedItems3}
                       selectText="HINDI"
                       tagRemoveIconColor="#CCC"
@@ -1503,7 +1558,9 @@ function ApplyJob({ navigation, route }) {
                       uniqueKey="id"
                       ref={multiSelectRef}
                       styleTextDropdown={{ paddingLeft: 10 }}
-                      onSelectedItemsChange={(items) => setSelectedItems4(items)}
+                      onSelectedItemsChange={(items) =>
+                        setSelectedItems4(items)
+                      }
                       selectedItems={selectedItems4}
                       selectText="MALAYALAM"
                       tagRemoveIconColor="#CCC"
@@ -1530,7 +1587,9 @@ function ApplyJob({ navigation, route }) {
                       uniqueKey="id"
                       ref={multiSelectRef}
                       styleTextDropdown={{ paddingLeft: 10 }}
-                      onSelectedItemsChange={(items) => setSelectedItems5(items)}
+                      onSelectedItemsChange={(items) =>
+                        setSelectedItems5(items)
+                      }
                       selectedItems={selectedItems5}
                       selectText="TELUGU"
                       tagRemoveIconColor="#CCC"
@@ -1557,7 +1616,9 @@ function ApplyJob({ navigation, route }) {
                       uniqueKey="id"
                       ref={multiSelectRef}
                       styleTextDropdown={{ paddingLeft: 10 }}
-                      onSelectedItemsChange={(items) => setSelectedItems6(items)}
+                      onSelectedItemsChange={(items) =>
+                        setSelectedItems6(items)
+                      }
                       selectedItems={selectedItems6}
                       selectText="KANNADA"
                       tagRemoveIconColor="#CCC"
@@ -1584,7 +1645,9 @@ function ApplyJob({ navigation, route }) {
                       uniqueKey="id"
                       ref={multiSelectRef}
                       styleTextDropdown={{ paddingLeft: 10 }}
-                      onSelectedItemsChange={(items) => setSelectedItems7(items)}
+                      onSelectedItemsChange={(items) =>
+                        setSelectedItems7(items)
+                      }
                       selectedItems={selectedItems7}
                       selectText="FRENCH"
                       tagRemoveIconColor="#CCC"
@@ -1611,7 +1674,9 @@ function ApplyJob({ navigation, route }) {
                       uniqueKey="id"
                       ref={multiSelectRef}
                       styleTextDropdown={{ paddingLeft: 10 }}
-                      onSelectedItemsChange={(items) => setSelectedItems8(items)}
+                      onSelectedItemsChange={(items) =>
+                        setSelectedItems8(items)
+                      }
                       selectedItems={selectedItems8}
                       selectText="SANSKRIT"
                       tagRemoveIconColor="#CCC"
@@ -1638,7 +1703,9 @@ function ApplyJob({ navigation, route }) {
                       uniqueKey="id"
                       ref={multiSelectRef}
                       styleTextDropdown={{ paddingLeft: 10 }}
-                      onSelectedItemsChange={(items) => setSelectedItems9(items)}
+                      onSelectedItemsChange={(items) =>
+                        setSelectedItems9(items)
+                      }
                       selectedItems={selectedItems9}
                       selectText="URDU"
                       tagRemoveIconColor="#CCC"
@@ -1984,7 +2051,7 @@ function ApplyJob({ navigation, route }) {
                               field: { onChange, onBlur, value },
                             }) => (
                               <TextInput
-                                placeholder="Percentageiti"
+                                placeholder="Percentage"
                                 style={styles.inputBox}
                                 mode="outlined"
                                 onBlur={onBlur}
@@ -2072,7 +2139,7 @@ function ApplyJob({ navigation, route }) {
                               field: { onChange, onBlur, value },
                             }) => (
                               <TextInput
-                                placeholder="PercentageDip"
+                                placeholder="Percentage"
                                 style={styles.inputBox}
                                 mode="outlined"
                                 onBlur={onBlur}
