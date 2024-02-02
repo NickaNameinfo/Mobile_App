@@ -1,43 +1,37 @@
 import React, { useEffect, useState } from "react";
-import { View, Button, Platform, StyleSheet } from "react-native";
+import { View, Button, Platform, StyleSheet, Text } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 const DatePicker = ({ onGetDateValue, onOpenDatePicker }) => {
-  const [showPicker, setShowPicker] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState("date");
+  const [show, setShow] = useState(false);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow(false);
+    setDate(currentDate);
+  };
+
   useEffect(() => {
     if (onOpenDatePicker) {
-      setShowPicker(true);
+      setShow(true);
     }
   }, [onOpenDatePicker]);
 
   useEffect(() => {
-    onGetDateValue(selectedDate);
-  }, [selectedDate]);
-
-  const closePicker = () => {
-    setShowPicker(false);
-  };
-
-  const handleDateChange = (event, selected) => {
-    if (Platform.OS === "android") {
-      closePicker(); // Close the picker immediately on Android
-    }
-
-    if (selected) {
-      setSelectedDate(selected);
-    }
-  };
+    onGetDateValue(date);
+  }, [date]);
 
   return (
     <View style={styles.container}>
-      {showPicker && onOpenDatePicker && (
+      {show && (
         <DateTimePicker
-          value={selectedDate}
-          mode="date"
-          display="default"
-          onChange={handleDateChange}
+          testID="dateTimePicker"
+          value={date}
+          mode={mode}
+          is24Hour={true}
+          onChange={onChange}
         />
       )}
     </View>
